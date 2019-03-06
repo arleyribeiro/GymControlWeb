@@ -1,18 +1,87 @@
-<mat-card class="example-card">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
-  </mat-card-actions>
-</mat-card>
+<div class="container">
+  <mat-card class="person-card row">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="person-form">
+      <h4>Informações Pessoais</h4>
+      <div>
+        <mat-form-field class="margin-right" fxFlex="70">
+          <input matInput type="text" placeholder="Nome" formControlName="firstName">
+        </mat-form-field>
+        <mat-list fxFlex="30">
+          <label mat-subheader>Sexo</label>
+          <mat-radio-group>
+            <mat-radio-button value="1">Feminino</mat-radio-button>
+            <mat-radio-button value="2">Masculino</mat-radio-button>
+          </mat-radio-group>
+        </mat-list> 
+      </div>
+
+      <div fxLayout="col">
+        <mat-form-field fxFlex="50" class="margin-right">
+          <input matInput type="text" placeholder="CPF" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field fxFlex="50" class="margin-right">
+          <input matInput type="text" placeholder="Identidade" formControlName="lastName">
+        </mat-form-field>
+
+      <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Data de Nascimento">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <mat-divider></mat-divider>
+      <div>
+        <h4>Contatos</h4>
+        <div fxLayout="row">
+          <mat-form-field class="margin-right" fxFlex="50">
+            <input matInput type="number" placeholder="Telefone Fixo" formControlName="firstName">
+          </mat-form-field>
+          <mat-form-field fxFlex="50">
+            <input matInput type="number" placeholder="Celular" formControlName="firstName">
+          </mat-form-field>
+        </div>
+        <mat-form-field class="person-full-width">
+          <input matInput type="email" placeholder="E-mail" formControlName="firstName">
+        </mat-form-field>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div formGroupName="address">
+        <h4>Endereço</h4>
+        <div>
+          <mat-form-field class="margin-right" fxFlex="80">
+            <input matInput type="text" formControlName="street" placeholder="Rua">
+          </mat-form-field>
+
+          <mat-form-field fxFlex="20">
+            <input matInput type="text" formControlName="street" placeholder="Número">
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="margin-right" fxFlex="40">
+            <input matInput type="text" formControlName="street" placeholder="Bairro">
+          </mat-form-field>
+
+          <mat-form-field class="margin-right" fxFlex="30">
+            <input matInput type="text" formControlName="city" placeholder="Cidade">
+          </mat-form-field>
+          
+          <mat-form-field class="margin-right" fxFlex="10">
+            <input matInput type="text" formControlName="state" placeholder="Estado">
+          </mat-form-field>
+        
+          <mat-form-field fxFlex="20">
+            <input matInput type="text" formControlName="zip" placeholder="CEP">
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <mat-card-actions id="btn-save">
+      <button  mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid">Salvar</button>
+      <button  mat-button color="primary">Limpar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

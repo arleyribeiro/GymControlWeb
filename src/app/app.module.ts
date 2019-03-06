@@ -1,3 +1,4 @@
+import { PersonService } from './person/person.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -7,7 +8,10 @@ import { AppComponent } from './app.component';
 import { MatCardModule } from '@angular/material';
 import { PersonComponent } from './person/person.component';
 import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,9 +23,12 @@ import { MaterialModule } from './material.module';
     AppRoutingModule,
 
     MatCardModule,
-    MaterialModule
+    MaterialModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ PersonService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
