@@ -11,4 +11,23 @@ export class PersonService {
     getPersons(){
         return this.http.get<PersonModel[]>(this.API);
     }
+    postPerson(data) {
+        return this.http.post(this.API, data);
+    }
+
+    /*deleteInconsistency(id) {
+    return this.http.delete(this.apiRoot.concat('inconsistency/' + id));
+    }
+
+    deleteSuggestion(id) {
+    return this.http.delete(this.apiRoot.concat('suggestion/' + id));
+    }
+
+    updateInconsistency(id, data) {
+    const httpOptions = {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.put(this.apiRoot.concat('inconsistency/' + id + '/'), data, httpOptions);
+    }*/
+    
 }

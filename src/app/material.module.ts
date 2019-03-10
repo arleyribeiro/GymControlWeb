@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LayoutModule } from '@angular/cdk/layout';
-
+import {NgxMaskModule} from 'ngx-mask'
 import {
   MatButtonModule,
   MatMenuModule,
@@ -14,7 +14,8 @@ import {
   MatNativeDateModule,
   MatDividerModule,
   MatRadioModule,
-  MatListModule
+  MatListModule,
+  MatSelectModule,
 } from '@angular/material';
 
 @NgModule({
@@ -31,7 +32,9 @@ import {
     MatNativeDateModule,
     MatDividerModule,
     MatRadioModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule,
+    NgxMaskModule.forRoot()
   ],
   exports: [
     FlexLayoutModule,
@@ -46,7 +49,9 @@ import {
     MatNativeDateModule,
     MatDividerModule,
     MatRadioModule,
-    MatListModule
+    MatListModule,
+    NgxMaskModule,
+    MatSelectModule
   ]
 })
 export class MaterialModule {}

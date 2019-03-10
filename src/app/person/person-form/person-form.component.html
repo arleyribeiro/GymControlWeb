@@ -4,27 +4,33 @@
       <h4>Informações Pessoais</h4>
       <div>
         <mat-form-field class="margin-right" fxFlex="70">
-          <input matInput type="text" placeholder="Nome" formControlName="firstName">
+          <input matInput type="text" placeholder="Nome" formControlName="name">
         </mat-form-field>
         <mat-list fxFlex="30">
           <label mat-subheader>Sexo</label>
-          <mat-radio-group>
-            <mat-radio-button value="1">Feminino</mat-radio-button>
-            <mat-radio-button value="2">Masculino</mat-radio-button>
+          <mat-radio-group formControlName="gender">
+            <mat-radio-button value="F">Feminino</mat-radio-button>
+            <mat-radio-button value="M">Masculino</mat-radio-button>
           </mat-radio-group>
         </mat-list> 
       </div>
 
       <div fxLayout="col">
-        <mat-form-field fxFlex="50" class="margin-right">
-          <input matInput type="text" placeholder="CPF" formControlName="firstName">
+        <mat-form-field fxFlex="22" class="margin-right">
+          <input matInput type="text" mask="000.000.000-00" placeholder="CPF" formControlName="cpf">
         </mat-form-field>
-        <mat-form-field fxFlex="50" class="margin-right">
-          <input matInput type="text" placeholder="Identidade" formControlName="lastName">
+        <mat-form-field fxFlex="22" class="margin-right">
+          <input matInput type="text" mask="00000000" placeholder="Identidade" formControlName="rg">
         </mat-form-field>
 
-      <mat-form-field>
-          <input matInput [matDatepicker]="picker" placeholder="Data de Nascimento">
+        <mat-form-field fxFlex="22" class="margin-right">
+          <mat-select [(value)]="selected">
+            <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field fxFlex="30">
+          <input matInput [matDatepicker]="picker"  placeholder="Data de Nascimento" formControlName="dateOfBirth">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -35,14 +41,14 @@
         <h4>Contatos</h4>
         <div fxLayout="row">
           <mat-form-field class="margin-right" fxFlex="50">
-            <input matInput type="number" placeholder="Telefone Fixo" formControlName="firstName">
+            <input matInput type="text" mask="(00) 0000-0000" placeholder="Telefone Fixo" formControlName="telephone">
           </mat-form-field>
           <mat-form-field fxFlex="50">
-            <input matInput type="number" placeholder="Celular" formControlName="firstName">
+            <input matInput type="text" mask="(00) 00000-0000" placeholder="Celular" formControlName="cellphone">
           </mat-form-field>
         </div>
         <mat-form-field class="person-full-width">
-          <input matInput type="email" placeholder="E-mail" formControlName="firstName">
+          <input matInput type="email" placeholder="E-mail" formControlName="email">
         </mat-form-field>
       </div>
 
@@ -50,37 +56,40 @@
 
       <div formGroupName="address">
         <h4>Endereço</h4>
+        <div>        
+            <mat-form-field fxFlex="30">
+              <input matInput type="text" formControlName="zip" placeholder="CEP" mask="00.000-000">
+              <mat-icon class="mouse-cursor-pointer"  matSuffix>{{ 'search' }}</mat-icon>
+            </mat-form-field></div>
         <div>
           <mat-form-field class="margin-right" fxFlex="80">
             <input matInput type="text" formControlName="street" placeholder="Rua">
           </mat-form-field>
 
           <mat-form-field fxFlex="20">
-            <input matInput type="text" formControlName="street" placeholder="Número">
+            <input matInput type="text" formControlName="number" placeholder="Número">
           </mat-form-field>
         </div>
 
         <div>
-          <mat-form-field class="margin-right" fxFlex="40">
-            <input matInput type="text" formControlName="street" placeholder="Bairro">
+          <mat-form-field class="margin-right" fxFlex="33">
+            <input matInput type="text" formControlName="neighborhood" placeholder="Bairro">
           </mat-form-field>
 
-          <mat-form-field class="margin-right" fxFlex="30">
+          <mat-form-field class="margin-right" fxFlex="33">
             <input matInput type="text" formControlName="city" placeholder="Cidade">
           </mat-form-field>
           
-          <mat-form-field class="margin-right" fxFlex="10">
-            <input matInput type="text" formControlName="state" placeholder="Estado">
-          </mat-form-field>
-        
-          <mat-form-field fxFlex="20">
-            <input matInput type="text" formControlName="zip" placeholder="CEP">
+          <mat-form-field fxFlex="34">
+            <mat-select [(value)]="state" placeholder="Estado">
+              <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
     </form>
     <mat-card-actions id="btn-save">
-      <button  mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid">Salvar</button>
+      <button  mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!profileForm.valid">Salvar</button>
       <button  mat-button color="primary">Limpar</button>
     </mat-card-actions>
   </mat-card>
