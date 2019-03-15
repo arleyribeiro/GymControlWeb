@@ -12,21 +12,24 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PersonModule } from './person/person.module';
+import { HeaderComponent } from './navigation/header/header.component';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PersonComponent
+    PersonComponent,
+    HeaderComponent,
+    SidenavListComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-
+    BrowserModule,    
     MaterialModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    PersonModule
+    PersonModule,
+    AppRoutingModule
   ],
   providers: [ PersonService ],
   bootstrap: [AppComponent]
