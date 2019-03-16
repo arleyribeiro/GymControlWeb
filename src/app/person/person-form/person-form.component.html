@@ -1,5 +1,7 @@
 <div class="container">
   <mat-card class="person-card row">
+    <mat-card-content>
+      
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="person-form">
       <h4>Informações Pessoais</h4>
       <div>
@@ -59,11 +61,11 @@
         <div>        
             <mat-form-field fxFlex="30">
               <input matInput type="text" formControlName="zip" placeholder="CEP" mask="00.000-000">
-              <mat-icon class="mouse-cursor-pointer"  matSuffix>{{ 'search' }}</mat-icon>
+              <mat-icon class="mouse-cursor-pointer"  matSuffix (click)="getZip()">{{ 'search' }}</mat-icon>
             </mat-form-field></div>
         <div>
           <mat-form-field class="margin-right" fxFlex="80">
-            <input matInput type="text" formControlName="street" placeholder="Rua">
+            <input matInput type="text" formControlName="street" placeholder="Rua" [value]="profileForm.get('address').get('street').value">
           </mat-form-field>
 
           <mat-form-field fxFlex="20">
@@ -73,21 +75,22 @@
 
         <div>
           <mat-form-field class="margin-right" fxFlex="33">
-            <input matInput type="text" formControlName="neighborhood" placeholder="Bairro">
+            <input matInput type="text" formControlName="neighborhood" placeholder="Bairro" [value]="profileForm.get('address').get('neighborhood').value">
           </mat-form-field>
 
           <mat-form-field class="margin-right" fxFlex="33">
-            <input matInput type="text" formControlName="city" placeholder="Cidade">
+            <input matInput type="text" formControlName="city" placeholder="Cidade" [value]="profileForm.get('address').get('city').value">
           </mat-form-field>
           
           <mat-form-field fxFlex="34">
-            <mat-select [(value)]="state" placeholder="Estado">
+            <mat-select [(value)]="profileForm.get('address').get('state').value" placeholder="Estado">
               <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
       </div>
     </form>
+  </mat-card-content>
     <mat-card-actions id="btn-save">
       <button  mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!profileForm.valid">Salvar</button>
       <button  mat-button color="primary">Limpar</button>

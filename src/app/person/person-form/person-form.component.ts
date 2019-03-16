@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, FormGroup, FormControl, FormGroupDirective, NgForm, Validators, AbstractControl } from '@angular/forms';
 import { PersonService } from '../person.service';
+import { UtilService } from './../../shared/util/util.service';
 
 export function ValidateCpf(control: AbstractControl) {
     const cpf = control.value;
@@ -61,8 +62,10 @@ export class PersonFormComponent implements OnInit {
 
   states = [];
   personService: PersonService;
-  constructor(private fb: FormBuilder, private _personService: PersonService) { 
+  utilService: UtilService;
+  constructor(private fb: FormBuilder, private _personService: PersonService, private _utilService: UtilService) { 
     this.personService = _personService;
+    this.utilService = _utilService;
   }
 
   ngOnInit() {
@@ -115,7 +118,27 @@ export class PersonFormComponent implements OnInit {
     }),
   });
   selected = 'option2';
-  
+
+  replaceAll(data) {
+    return data.replace(".", '').replace("-",'').replace("/", '');
+  }
+
+  getZip() {
+    this.personService.getCep(this.profileForm.value.address.zip).subscribe(
+      (data) => {
+        if(data != []) {
+          this.profileForm.get('address').get('zip').setValue(this.replaceAll(data["cep"]));
+          this.profileForm.get('address').get('street').setValue(data["logradouro"]);
+          this.profileForm.get('address').get('neighborhood').setValue(data["bairro"]);
+          this.profileForm.get('address').get('city').setValue(data["localidade"]);
+          this.profileForm.get('address').get('state').setValue(data["uf"]);
+          
+          console.log("teste " + this.replaceAll(data["cep"]))
+        }
+        console.log(data);
+      }, error => {console.log(error.erros)}
+    );
+  }
 
   onSubmit() {
     // TODO: Use EventEmitter with form value

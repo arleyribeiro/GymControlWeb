@@ -11,8 +11,13 @@ export class PersonService {
     getPersons(){
         return this.http.get<PersonModel[]>(this.API);
     }
+
     postPerson(data) {
         return this.http.post(this.API, data);
+    }
+
+    getCep(cep) {
+        return this.http.get("https://viacep.com.br/ws/" + cep + "/json/");
     }
 
     /*deleteInconsistency(id) {
