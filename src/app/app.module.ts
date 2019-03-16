@@ -14,13 +14,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { PersonModule } from './person/person.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
+import { UtilService } from './shared/util/util.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     PersonComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    
   ],
   imports: [
     BrowserModule,    
@@ -31,7 +33,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     PersonModule,
     AppRoutingModule
   ],
-  providers: [ PersonService ],
+  providers: [ PersonService, UtilService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,116 @@
-<div class="container">
-  <mat-card class="person-card row">
+<mat-card class="person-card">
+  <mat-card-content>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="profilePersonalForm">
+        <form [formGroup]="profilePersonalForm">
+          <ng-template matStepLabel>Informações Pessoais</ng-template>
+          <div>
+            <mat-form-field class="margin-right" fxFlex="70">
+              <input matInput type="text" placeholder="Nome" formControlName="name">
+            </mat-form-field>
+            <mat-list fxFlex="30">
+              <label mat-subheader>Sexo</label>
+              <mat-radio-group formControlName="gender">
+                <mat-radio-button value="F" required>Feminino</mat-radio-button>
+                <mat-radio-button value="M" required>Masculino</mat-radio-button>
+              </mat-radio-group>
+            </mat-list> 
+          </div>
+
+          <div fxLayout="col">
+            <mat-form-field fxFlex="22" class="margin-right">
+              <input matInput type="text" mask="000.000.000-00" placeholder="CPF" formControlName="cpf">
+            </mat-form-field>
+            <mat-form-field fxFlex="22" class="margin-right">
+              <input matInput type="text" mask="00000000" placeholder="Identidade" formControlName="rg">
+            </mat-form-field>
+    
+            <mat-form-field fxFlex="22" class="margin-right">
+              <mat-select [(value)]="selected">
+                <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field fxFlex="30">
+              <input matInput [matDatepicker]="picker"  placeholder="Data de Nascimento" formControlName="dateOfBirth">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <mat-card-actions class="btn-save">
+              <button mat-button color="primary" matStepperNext>Próximo</button>
+          </mat-card-actions>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="profileContactForm">
+        <form [formGroup]="profileContactForm">
+          <ng-template matStepLabel>Contatos</ng-template>
+            <div>
+              <div fxLayout="row">
+                <mat-form-field class="margin-right" fxFlex="50">
+                  <input matInput type="text" mask="(00) 0000-0000" placeholder="Telefone Fixo" formControlName="telephone">
+                </mat-form-field>
+                <mat-form-field fxFlex="50">
+                  <input matInput type="text" mask="(00) 00000-0000" placeholder="Celular" formControlName="cellphone">
+                </mat-form-field>
+              </div>
+              <mat-form-field class="person-full-width">
+                <input matInput type="email" placeholder="E-mail" formControlName="email">
+              </mat-form-field>
+            </div>
+          <mat-card-actions class="btn-save">
+              <button mat-button color="primary" matStepperPrevious>Voltar</button>
+              <button mat-button color="primary" matStepperNext>Próximo</button>
+          </mat-card-actions>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="profileAddressForm">
+          <form [formGroup]="profileAddressForm">
+            <ng-template matStepLabel>Endereço</ng-template>
+            <div>
+                <div>        
+                    <mat-form-field fxFlex="30">
+                      <input matInput type="text" formControlName="zip" placeholder="CEP" mask="00.000-000">
+                      <mat-icon class="mouse-cursor-pointer"  matSuffix (click)="getZip()">{{ 'search' }}</mat-icon>
+                    </mat-form-field></div>
+                <div>
+                  <mat-form-field class="margin-right" fxFlex="80">
+                    <input matInput type="text" formControlName="street" placeholder="Rua" [value]="profileAddressForm.get('street').value">
+                  </mat-form-field>
+        
+                  <mat-form-field fxFlex="20">
+                    <input matInput type="text" formControlName="number" placeholder="Número">
+                  </mat-form-field>
+                </div>
+        
+                <div>
+                  <mat-form-field class="margin-right" fxFlex="33">
+                    <input matInput type="text" formControlName="neighborhood" placeholder="Bairro" [value]="profileAddressForm.get('neighborhood').value">
+                  </mat-form-field>
+        
+                  <mat-form-field class="margin-right" fxFlex="33">
+                    <input matInput type="text" formControlName="city" placeholder="Cidade" [value]="profileAddressForm.get('city').value">
+                  </mat-form-field>
+                  
+                  <mat-form-field fxFlex="34">
+                    <mat-select [(value)]="profileAddressForm.get('state').value" placeholder="Estado" formControlName="state">
+                      <mat-option *ngFor="let state of states" [value]="state.initials">{{ state.name }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <mat-card-actions class="btn-save">
+                <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!profileAddressForm.valid">Salvar</button>
+                <button mat-button color="primary" matStepperPrevious>Voltar</button>
+                <button mat-button color="primary" (click)="stepper.reset()">Reiniciar</button>
+              </mat-card-actions>
+          </form>
+        </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</mat-card>
+
+  <!--mat-card class="person-card row">
     <mat-card-content>
       
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="person-form">
@@ -91,9 +202,9 @@
       </div>
     </form>
   </mat-card-content>
-    <mat-card-actions id="btn-save">
+    <mat-card-actions class="btn-save">
       <button  mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!profileForm.valid">Salvar</button>
       <button  mat-button color="primary">Limpar</button>
     </mat-card-actions>
   </mat-card>
-</div>
+</div-->

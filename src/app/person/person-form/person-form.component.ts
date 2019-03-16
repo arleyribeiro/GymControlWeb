@@ -59,8 +59,9 @@ export function ValidateCpf(control: AbstractControl) {
   styleUrls: ['./person-form.component.css']
 })
 export class PersonFormComponent implements OnInit {
-
+  isLinear = true;
   states = [];
+  gender = null;
   personService: PersonService;
   utilService: UtilService;
   constructor(private fb: FormBuilder, private _personService: PersonService, private _utilService: UtilService) { 
@@ -117,6 +118,30 @@ export class PersonFormComponent implements OnInit {
       zip: ['', Validators.required]
     }),
   });
+
+  profilePersonalForm = this.fb.group({
+    name: ['', Validators.required],
+    dateOfBirth: ['', Validators.required],
+    gender: ['', Validators.required],
+    cpf: ['', [Validators.required, ValidateCpf]],
+    rg: ['']
+  });
+
+  profileContactForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    telephone: ['', Validators.required],
+    cellphone: ['', Validators.required],
+    cellphone2: ['']
+  });
+
+  profileAddressForm = this.fb.group({
+      number: ['', Validators.required],
+      street: ['', Validators.required],
+      neighborhood: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      zip: ['', Validators.required]
+  });
   selected = 'option2';
 
   replaceAll(data) {
@@ -124,16 +149,15 @@ export class PersonFormComponent implements OnInit {
   }
 
   getZip() {
-    this.personService.getCep(this.profileForm.value.address.zip).subscribe(
+    this.personService.getCep(this.profileAddressForm.get('zip').value).subscribe(
       (data) => {
-        if(data != []) {
-          this.profileForm.get('address').get('zip').setValue(this.replaceAll(data["cep"]));
-          this.profileForm.get('address').get('street').setValue(data["logradouro"]);
-          this.profileForm.get('address').get('neighborhood').setValue(data["bairro"]);
-          this.profileForm.get('address').get('city').setValue(data["localidade"]);
-          this.profileForm.get('address').get('state').setValue(data["uf"]);
-          
-          console.log("teste " + this.replaceAll(data["cep"]))
+        console.log(data);
+        if(!data["erro"]) {
+          this.profileAddressForm.get('zip').setValue(this.replaceAll(data["cep"]));
+          this.profileAddressForm.get('street').setValue(data["logradouro"]);
+          this.profileAddressForm.get('neighborhood').setValue(data["bairro"]);
+          this.profileAddressForm.get('city').setValue(data["localidade"]);
+          this.profileAddressForm.get('state').setValue(data["uf"]);
         }
         console.log(data);
       }, error => {console.log(error.erros)}
@@ -142,6 +166,22 @@ export class PersonFormComponent implements OnInit {
 
   onSubmit() {
     // TODO: Use EventEmitter with form value
+    
+    this.profileForm.get('name').setValue(this.profilePersonalForm.get('name').value);
+    this.profileForm.get('dateOfBirth').setValue(this.profilePersonalForm.get('dateOfBirth').value);
+    this.profileForm.get('cpf').setValue(this.profilePersonalForm.get('cpf').value);
+    this.profileForm.get('rg').setValue(this.profilePersonalForm.get('rg').value);
+    this.profileForm.get('email').setValue(this.profileContactForm.get('email').value);
+    this.profileForm.get('telephone').setValue(this.profileContactForm.get('telephone').value);
+    this.profileForm.get('cellphone').setValue(this.profileContactForm.get('cellphone').value);
+    this.profileForm.get('cellphone2').setValue(this.profileContactForm.get('cellphone2').value);
+    this.profileForm.get('address').get('number').setValue(this.profileAddressForm.get('number').value);
+    this.profileForm.get('address').get('street').setValue(this.profileAddressForm.get('street').value);
+    this.profileForm.get('address').get('neighborhood').setValue(this.profileAddressForm.get('neighborhood').value);
+    this.profileForm.get('address').get('city').setValue(this.profileAddressForm.get('city').value);
+    this.profileForm.get('address').get('state').setValue(this.profileAddressForm.get('state').value);
+    this.profileForm.get('address').get('zip').setValue(this.profileAddressForm.get('zip').value);
+
     this.personService.postPerson(this.profileForm.value).subscribe(
       (data) => {
         console.log("Criou");

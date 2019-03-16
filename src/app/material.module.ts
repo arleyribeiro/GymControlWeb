@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LayoutModule } from '@angular/cdk/layout';
 import {NgxMaskModule} from 'ngx-mask'
@@ -16,7 +15,8 @@ import {
   MatRadioModule,
   MatListModule,
   MatSelectModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatStepperModule
 } from '@angular/material';
 
 @NgModule({
@@ -36,6 +36,7 @@ import {
     MatListModule,
     MatSelectModule,
     MatSidenavModule,
+    MatStepperModule,
     NgxMaskModule.forRoot()
   ],
   exports: [
@@ -55,6 +56,7 @@ import {
     NgxMaskModule,
     MatSelectModule,
     MatSidenavModule,
+    MatStepperModule
   ]
 })
 export class MaterialModule {}

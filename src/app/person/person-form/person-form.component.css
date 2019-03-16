@@ -1,7 +1,6 @@
-
 .container  {
     display: flex;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     height: 100%;
@@ -13,9 +12,10 @@
 }
 
 .person-card {
-    min-width: 150px;
-    max-width: 700px;
-    width: 100%;
+    margin: 0 auto;
+    padding: 10px 0 0 0;
+    max-width: 800px;
+    min-width: 800px;
 }
 
 .person-form {
@@ -52,7 +52,12 @@ h4 {
     line-height: 16px;
 }
 
-#btn-save {
+.btn-save {
     float: right;
+}
+
+.mat-horizontal-content-container {
+    overflow: hidden;
+    padding: 0 24px 0px 24px;
 }
 
