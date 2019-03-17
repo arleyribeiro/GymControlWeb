@@ -9,3 +9,7 @@ html, body {
 .mouse-cursor-pointer {
     cursor: pointer;
 }
+
+.custom-dialog-container .mat-dialog-container {
+    padding: 0px;
+}

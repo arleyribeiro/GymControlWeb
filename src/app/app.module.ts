@@ -15,6 +15,7 @@ import { PersonModule } from './person/person.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { UtilService } from './shared/util/util.service';
+import { DialogComponent } from './shared/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { UtilService } from './shared/util/util.service';
     PersonComponent,
     HeaderComponent,
     SidenavListComponent,
+    DialogComponent,
     
   ],
   imports: [
@@ -34,6 +36,7 @@ import { UtilService } from './shared/util/util.service';
     AppRoutingModule
   ],
   providers: [ PersonService, UtilService ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ DialogComponent ]
 })
 export class AppModule { }

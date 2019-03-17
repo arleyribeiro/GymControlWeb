@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ErrorStateMatcher } from '@angular/material/core';
-import { FormBuilder, FormGroup, FormControl, FormGroupDirective, NgForm, Validators, AbstractControl } from '@angular/forms';
+import { element } from 'protractor';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { PersonService } from '../person.service';
 import { UtilService } from './../../shared/util/util.service';
+import { MatDialog } from '@angular/material';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
 export function ValidateCpf(control: AbstractControl) {
     const cpf = control.value;
@@ -56,15 +59,23 @@ export function ValidateCpf(control: AbstractControl) {
 @Component({
   selector: 'app-person-form',
   templateUrl: './person-form.component.html',
-  styleUrls: ['./person-form.component.css']
+  styleUrls: ['./person-form.component.css'],
+  providers: [{
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
+  }]
 })
+
 export class PersonFormComponent implements OnInit {
+  @ViewChild('stepper') stepper;
   isLinear = true;
   states = [];
   gender = null;
   personService: PersonService;
   utilService: UtilService;
-  constructor(private fb: FormBuilder, private _personService: PersonService, private _utilService: UtilService) { 
+  constructor(private fb: FormBuilder, 
+    private _personService: PersonService, 
+    private _utilService: UtilService,
+    private dialog: MatDialog) { 
     this.personService = _personService;
     this.utilService = _utilService;
   }
@@ -142,7 +153,6 @@ export class PersonFormComponent implements OnInit {
       state: ['', Validators.required],
       zip: ['', Validators.required]
   });
-  selected = 'option2';
 
   replaceAll(data) {
     return data.replace(".", '').replace("-",'').replace("/", '');
@@ -165,8 +175,7 @@ export class PersonFormComponent implements OnInit {
   }
 
   onSubmit() {
-    // TODO: Use EventEmitter with form value
-    
+
     this.profileForm.get('name').setValue(this.profilePersonalForm.get('name').value);
     this.profileForm.get('dateOfBirth').setValue(this.profilePersonalForm.get('dateOfBirth').value);
     this.profileForm.get('cpf').setValue(this.profilePersonalForm.get('cpf').value);
@@ -185,8 +194,22 @@ export class PersonFormComponent implements OnInit {
     this.personService.postPerson(this.profileForm.value).subscribe(
       (data) => {
         console.log("Criou");
-      }, error => {console.log(error.erros)}
-    );
+        this.stepper.reset();
+        this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', width: '80%', disableClose: true, data: {
+          title: 'Usuário inserido com sucesso!',
+          content: "O usuário foi inserido com sucesso.",
+          buttonCancel: '',
+          buttonConfirm: 'Ok'
+        }});
+      }, error => {
+        console.log(error.erros)
+        this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', width: '80%', disableClose: true, data: {
+          title: 'Falha ao inserir usuário!',
+          content: "O usuário não foi inserido.",
+          buttonCancel: '',
+          buttonConfirm: 'Ok'
+        }});
+      });
     //console.log(this.personService.getPersons().subscribe());
     console.warn(this.profileForm.value);
   }
