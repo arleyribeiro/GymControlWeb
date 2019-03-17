@@ -11,7 +11,7 @@
             <mat-list fxFlex="30">
               <label mat-subheader>Sexo</label>
               <mat-radio-group formControlName="gender">
-                <mat-radio-button value="F" required>Feminino</mat-radio-button>
+                <mat-radio-button value="F" required checked="true">Feminino</mat-radio-button>
                 <mat-radio-button value="M" required>Masculino</mat-radio-button>
               </mat-radio-group>
             </mat-list> 
@@ -26,7 +26,7 @@
             </mat-form-field>
     
             <mat-form-field fxFlex="22" class="margin-right">
-              <mat-select [(value)]="selected">
+              <mat-select>
                 <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
               </mat-select>
             </mat-form-field>
@@ -84,15 +84,15 @@
                 </div>
         
                 <div>
-                  <mat-form-field class="margin-right" fxFlex="33">
+                  <mat-form-field class="margin-right" fxFlex="40">
                     <input matInput type="text" formControlName="neighborhood" placeholder="Bairro" [value]="profileAddressForm.get('neighborhood').value">
                   </mat-form-field>
         
-                  <mat-form-field class="margin-right" fxFlex="33">
+                  <mat-form-field class="margin-right" fxFlex="40">
                     <input matInput type="text" formControlName="city" placeholder="Cidade" [value]="profileAddressForm.get('city').value">
                   </mat-form-field>
                   
-                  <mat-form-field fxFlex="34">
+                  <mat-form-field fxFlex="20">
                     <mat-select [(value)]="profileAddressForm.get('state').value" placeholder="Estado" formControlName="state">
                       <mat-option *ngFor="let state of states" [value]="state.initials">{{ state.name }}</mat-option>
                     </mat-select>

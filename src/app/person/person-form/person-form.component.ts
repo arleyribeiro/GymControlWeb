@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { PersonService } from '../person.service';
@@ -195,22 +194,24 @@ export class PersonFormComponent implements OnInit {
       (data) => {
         console.log("Criou");
         this.stepper.reset();
-        this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', width: '80%', disableClose: true, data: {
-          title: 'Usuário inserido com sucesso!',
-          content: "O usuário foi inserido com sucesso.",
-          buttonCancel: '',
-          buttonConfirm: 'Ok'
-        }});
+        this.callDialog(this.dialog, DialogComponent, 'Usuário inserido com sucesso!', "O usuário foi inserido com sucesso.", 'Ok', null);
       }, error => {
         console.log(error.erros)
-        this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', width: '80%', disableClose: true, data: {
-          title: 'Falha ao inserir usuário!',
-          content: "O usuário não foi inserido.",
-          buttonCancel: '',
-          buttonConfirm: 'Ok'
-        }});
+        this.callDialog(this.dialog, DialogComponent, 'Falha ao inserir usuário!', "O usuário não foi inserido.", 'Ok', null);
       });
-    //console.log(this.personService.getPersons().subscribe());
-    console.warn(this.profileForm.value);
+  }
+
+  callDialog(dialog, component, title, content, buttonConfirm, buttonCancel) {
+      dialog.open(component, 
+        { panelClass: 'custom-dialog-container', 
+          width: '80%', 
+          disableClose: true, 
+          data: {
+            title: title,
+            content: content,
+            buttonCancel: buttonCancel,
+            buttonConfirm: buttonConfirm
+          }
+      });
   }
 }

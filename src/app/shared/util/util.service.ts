@@ -52,5 +52,19 @@ export class UtilService {
           }
       }
       return null;
-    }    
+    }
+
+    callDialog(dialog, component, title, content, buttonConfirm, buttonCancel) {
+      dialog.open(component, 
+        { panelClass: 'custom-dialog-container', 
+          width: '80%', 
+          disableClose: true, 
+          data: {
+            title: title,
+            content: content,
+            buttonCancel: buttonCancel,
+            buttonConfirm: buttonConfirm
+          }
+      });
+    }
 }
