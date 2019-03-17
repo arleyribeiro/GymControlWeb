@@ -7,16 +7,21 @@ import { PersonComponent } from './person.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material.module';
+import { PersonDetailsComponent } from './person-details/person-details.component';
+import { PersonRoutingModule } from './person-routing.module';
 
 
 @NgModule({
-  declarations: [PersonFormComponent],
+  declarations: [
+    PersonComponent,
+    PersonFormComponent, 
+    PersonDetailsComponent],
   imports: [
     CommonModule,
     MaterialModule,
-    BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    PersonRoutingModule
   ],
   providers: [ PersonService ],
   exports: [ PersonFormComponent ]

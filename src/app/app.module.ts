@@ -20,11 +20,9 @@ import { DialogComponent } from './shared/dialog/dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
-    PersonComponent,
     HeaderComponent,
     SidenavListComponent,
-    DialogComponent,
-    
+    DialogComponent,    
   ],
   imports: [
     BrowserModule,    
@@ -32,7 +30,6 @@ import { DialogComponent } from './shared/dialog/dialog.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    PersonModule,
     AppRoutingModule
   ],
   providers: [ PersonService, UtilService ],
