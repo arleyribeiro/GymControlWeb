@@ -1,3 +1,20 @@
 mat-icon:hover {
+    border-radius: 50%;
     background: rgb(219, 217, 217);
+}
+
+.circle-100 {
+    margin: 0 auto;
+    background: yellow; 
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%;  
+}
+
+.item-galery {
+    margin: 5px 2.5px 2.5px 5px; 
+    width: 120px; 
+    max-height: 150px; 
+    display: inline-block; 
+    text-align:center
 }

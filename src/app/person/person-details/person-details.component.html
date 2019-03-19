@@ -6,13 +6,15 @@
   <mat-card-content>
 
     <div style="background: red;">
-        <mat-card style="margin: 5px 2.5px 2.5px 5px; width: 120px; max-height: 150px; display: inline-block" *ngFor="let user of users">
-          <div >
-            <div style="background: yellow; width: 100px; border-radius: 50%;  height: 100px; margin: 0 auto;"></div>   
-            <div style="margin: 0 auto; background: green">
-              <label style="position: relative; margin: 0 auto">{{ user }}</label>
+        <mat-card class="item-galery" *ngFor="let user of users">
+          <div>
+            <div class="circle-100">
+              <img class="circle-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png">
+            </div>   
+            <div id="div-name">
+              <label>{{ user }}</label>
             </div>
-            <div style="text-align:center;">
+            <div>
               <mat-icon class="mouse-cursor-pointer">visibility</mat-icon>
               <mat-icon class="mouse-cursor-pointer">edit</mat-icon>
               <mat-icon class="mouse-cursor-pointer">close</mat-icon>
