@@ -18,3 +18,7 @@ mat-icon:hover {
     display: inline-block; 
     text-align:center
 }
+
+table {
+    width: 100%;
+}

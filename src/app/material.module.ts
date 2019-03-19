@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { LayoutModule } from '@angular/cdk/layout';
-import {NgxMaskModule} from 'ngx-mask'
+import {NgxMaskModule} from 'ngx-mask';
 import {
   MatButtonModule,
   MatMenuModule,
@@ -17,7 +17,11 @@ import {
   MatSelectModule,
   MatSidenavModule,
   MatStepperModule,
-  MatDialogModule
+  MatDialogModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatCheckboxModule,
+  MatSlideToggleModule
 } from '@angular/material';
 
 @NgModule({
@@ -39,6 +43,10 @@ import {
     MatSidenavModule,
     MatStepperModule,
     MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
     NgxMaskModule.forRoot()
   ],
   exports: [
@@ -59,7 +67,11 @@ import {
     MatSelectModule,
     MatSidenavModule,
     MatStepperModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatSlideToggleModule
   ]
 })
 export class MaterialModule {}
