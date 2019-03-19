@@ -54,10 +54,10 @@ export class UtilService {
       return null;
     }
 
-    callDialog(dialog, component, title, content, buttonConfirm, buttonCancel) {
-      dialog.open(component, 
+    callDialog(dialog, component, title, content, buttonConfirm, buttonCancel, width) {
+      return dialog.open(component, 
         { panelClass: 'custom-dialog-container', 
-          width: '80%', 
+          width: width, 
           disableClose: true, 
           data: {
             title: title,
