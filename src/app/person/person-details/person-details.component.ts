@@ -12,4 +12,5 @@ export class PersonDetailsComponent implements OnInit {
   ngOnInit() {
   }
 
+  users = ["Arley", "Ribeiro", "Arley", "Ribeiro", "Ribeiro", "Arley ribeiro", "ribeiro", "ribeiro"]
 }
