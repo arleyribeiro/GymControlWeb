@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { PersonModel } from './person.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class PersonService {
 
     private readonly API = 'https://localhost:5001/api/Person/';
     constructor(private http: HttpClient) { }
 
     getPersons(){
-        return this.http.get<PersonModel[]>(this.API);
+        return this.http.get(this.API);
     }
 
     postPerson(data) {
@@ -20,19 +21,10 @@ export class PersonService {
         return this.http.get("https://viacep.com.br/ws/" + cep + "/json/");
     }
 
-    /*deleteInconsistency(id) {
-    return this.http.delete(this.apiRoot.concat('inconsistency/' + id));
-    }
-
-    deleteSuggestion(id) {
-    return this.http.delete(this.apiRoot.concat('suggestion/' + id));
-    }
-
-    updateInconsistency(id, data) {
-    const httpOptions = {
-        headers: new HttpHeaders({'Content-Type': 'application/json'})
-    }
-    return this.http.put(this.apiRoot.concat('inconsistency/' + id + '/'), data, httpOptions);
-    }*/
-    
+    updatePerson(id, data) {
+        const httpOptions = {
+            headers: new HttpHeaders({'Content-Type': 'application/json'})
+        }
+        return this.http.put(this.API + id + '/', data, httpOptions);
+    }    
 }
