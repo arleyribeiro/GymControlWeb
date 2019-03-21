@@ -1,3 +1,4 @@
+import { PersonUpdateComponent } from './../person-update/person-update.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
 import { UtilService } from 'src/app/shared/util/util.service';
@@ -14,7 +15,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class PersonDetailsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[] = ['select', 'name', 'telephone', 'email', 'dateOfBirth', 'options'];
-  dataSource = null;
+  dataSource: any;
   selection = new SelectionModel<any>(true, []);
   users = null
   selectGalery = false;
@@ -35,7 +36,7 @@ export class PersonDetailsComponent implements OnInit {
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = (this.dataSource != null) ? this.dataSource.data.length : 0;
     return numSelected === numRows;
   }
 
@@ -47,7 +48,7 @@ export class PersonDetailsComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -55,8 +56,21 @@ export class PersonDetailsComponent implements OnInit {
   }
 
   editUser() {
-    this.users[1].name = "teste Macarena 7"
-    this.personService.updatePerson(1,  this.users[1]).subscribe(data => console.log(data))
+    var dialogRef = this.utilService.callDialog(this.dialog, 
+      PersonUpdateComponent, 
+      "Remover um usuário", "Ao realizar essa operação todas as informações referentes à esse usuário serão bloqueadas.", 
+      "Confirmar", 
+      "Cancelar", 
+      "60%");
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        //this.personService.deactivatePerson(1);
+
+        this.users[1].name = "teste Macarena 7"
+        this.personService.updatePerson(1,  this.users[1]).subscribe(data => console.log(data))
+      }
+      console.log(`Dialog result: ${result}`); // Pizza!
+    });
   }
 
   deleteUser() {

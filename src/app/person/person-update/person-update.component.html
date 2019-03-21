@@ -1,0 +1,96 @@
+<div class="person-card ">
+  <mat-card-content>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="person-form">
+    <h4>Informações Pessoais</h4>
+    <div>
+      <mat-form-field class="margin-right" fxFlex="70">
+        <input matInput type="text" placeholder="Nome" formControlName="name">
+      </mat-form-field>
+      <mat-list fxFlex="30">
+        <label mat-subheader>Sexo</label>
+        <mat-radio-group formControlName="gender">
+          <mat-radio-button value="F">Feminino</mat-radio-button>
+          <mat-radio-button value="M">Masculino</mat-radio-button>
+        </mat-radio-group>
+      </mat-list> 
+    </div>
+
+    <div fxLayout="col">
+      <mat-form-field fxFlex="22" class="margin-right">
+        <input matInput type="text" mask="000.000.000-00" placeholder="CPF" formControlName="cpf">
+      </mat-form-field>
+      <mat-form-field fxFlex="22" class="margin-right">
+        <input matInput type="text" mask="00000000" placeholder="Identidade" formControlName="rg">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="22" class="margin-right">
+        <mat-select [(value)]="selected">
+          <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <mat-form-field fxFlex="30">
+        <input matInput [matDatepicker]="picker"  placeholder="Data de Nascimento" formControlName="dateOfBirth">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+    <div>
+      <h4>Contatos</h4>
+      <div fxLayout="row">
+        <mat-form-field class="margin-right" fxFlex="50">
+          <input matInput type="text" mask="(00) 0000-0000" placeholder="Telefone Fixo" formControlName="telephone">
+        </mat-form-field>
+        <mat-form-field fxFlex="50">
+          <input matInput type="text" mask="(00) 00000-0000" placeholder="Celular" formControlName="cellphone">
+        </mat-form-field>
+      </div>
+      <mat-form-field class="person-full-width">
+        <input matInput type="email" placeholder="E-mail" formControlName="email">
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div formGroupName="address">
+      <h4>Endereço</h4>
+      <div>        
+          <mat-form-field fxFlex="30">
+            <input matInput type="text" formControlName="zip" placeholder="CEP" mask="00.000-000">
+            <mat-icon class="mouse-cursor-pointer"  matSuffix (click)="getZip()">{{ 'search' }}</mat-icon>
+          </mat-form-field></div>
+      <div>
+        <mat-form-field class="margin-right" fxFlex="80">
+          <input matInput type="text" formControlName="street" placeholder="Rua" [value]="profileForm.get('address').get('street').value">
+        </mat-form-field>
+
+        <mat-form-field fxFlex="20">
+          <input matInput type="text" formControlName="number" placeholder="Número">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="margin-right" fxFlex="33">
+          <input matInput type="text" formControlName="neighborhood" placeholder="Bairro" [value]="profileForm.get('address').get('neighborhood').value">
+        </mat-form-field>
+
+        <mat-form-field class="margin-right" fxFlex="33">
+          <input matInput type="text" formControlName="city" placeholder="Cidade" [value]="profileForm.get('address').get('city').value">
+        </mat-form-field>
+        
+        <mat-form-field fxFlex="34">
+          <mat-select [(value)]="profileForm.get('address').get('state').value" placeholder="Estado">
+            <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+  <div class="btn-save">
+    <button  mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!profileForm.valid">Salvar</button>
+    <button  mat-button color="primary">Limpar</button>
+  </div>
+</mat-card-content>
+</div>

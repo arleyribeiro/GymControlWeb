@@ -1,0 +1,58 @@
+.container  {
+    display: flex;
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.container .row {
+    margin: 0 auto;
+}
+
+.person-card {
+    margin: 0 auto;
+    padding: 10px 10px 30px 10px;
+}
+
+.person-form {
+    width: 100%;
+}
+
+.person-full-width {
+    width: 100%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+}
+
+h4 {
+    margin-block-start: 10px;
+    margin-block-end: 0px;
+}
+
+.margin-right {
+    margin-right: 10px;
+}
+
+/*override*/
+.mat-subheader {
+    padding: 0px;
+    align-items: center;
+}
+
+.mat-list-base .mat-subheader {
+    height: 25px;
+    line-height: 16px;
+}
+
+.btn-save {
+    float: right;    
+}
+
+.mat-horizontal-content-container {
+    overflow: hidden;
+    padding: 0 24px 0px 24px;
+}

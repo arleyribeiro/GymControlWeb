@@ -9,13 +9,14 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material.module';
 import { PersonDetailsComponent } from './person-details/person-details.component';
 import { PersonRoutingModule } from './person-routing.module';
+import { PersonUpdateComponent } from './person-update/person-update.component';
 
 
 @NgModule({
   declarations: [
     PersonComponent,
     PersonFormComponent, 
-    PersonDetailsComponent],
+    PersonDetailsComponent, PersonUpdateComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -24,6 +25,7 @@ import { PersonRoutingModule } from './person-routing.module';
     PersonRoutingModule
   ],
   providers: [ PersonService ],
-  exports: [ PersonFormComponent ]
+  exports: [ PersonFormComponent, PersonUpdateComponent ],
+  entryComponents: [ PersonUpdateComponent ]
 })
 export class PersonModule { }
