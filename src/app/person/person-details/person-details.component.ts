@@ -18,8 +18,8 @@ export class PersonDetailsComponent implements OnInit {
   dataSource: any;
   selection = new SelectionModel<any>(true, []);
   users = null
-  selectGalery = false;
-
+  selectGalery = 'GALERY';
+  filterargs = {nome: 'a'};
   constructor(private dialog: MatDialog, 
               private utilService: UtilService,
               private personService: PersonService) { }
@@ -31,6 +31,26 @@ export class PersonDetailsComponent implements OnInit {
       this.dataSource = new MatTableDataSource<any>(data);
       this.dataSource.paginator = this.paginator;
     })
+  }
+
+  applyFilter(filterValue: string) {
+    console.log(this.dataSource.filteredData)
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  isMultiSelected() {
+    return (this.selection.selected.length > 1);
+  }
+
+  isOnlyOneSelected(element) {
+    return (this.selection.selected.length == 1 && 
+            element.personId == this.selection.selected[0].personId);
+
+    //return (this.selection.selected.length == 1 && element.id == this.selection.selected[0].id && this.selection.selected[0].user == this.userId) ? false : true;
+  }
+
+  selectUser(user){
+    console.log(this.selection.selected)
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -84,7 +104,7 @@ export class PersonDetailsComponent implements OnInit {
     });
   }
 
-  turnVisualization() {
-    this.selectGalery = !this.selectGalery;
+  turnVisualization(type:string) {
+    this.selectGalery = type;
   }
 }

@@ -1,11 +1,34 @@
 <mat-card class="container-card">
   <mat-card-header>
-    <mat-card-title>title</mat-card-title>
-    <mat-card-subtitle>subtitle</mat-card-subtitle>
+    <mat-card-title>Usuários</mat-card-title>
+    <mat-card-subtitle>usuários cadastrados no sistema.</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
+    <div fxLayout="col" fxLayoutAlign="start center" class="boxButtons">
+      <div fxFlex="100%">
+        <mat-form-field fxFlex="60%">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+          <mat-icon matTooltip="Buscar" class="mouse-cursor-pointer"  matSuffix>{{ 'search' }}</mat-icon>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="turnVisualization('TABLE')">
+              <mat-icon>view_list</mat-icon>
+              <span>Tabela</span>
+            </button>
+            <button mat-menu-item (click)="turnVisualization('GALERY')">
+              <mat-icon>view_module</mat-icon>
+              <span>Galeria</span>
+            </button>
+          </mat-menu>
+      </div>
+    </div>
     
-    <div class="mat-elevation-z8">
+    <div class="mat-elevation-z8" [hidden]="selectGalery != 'TABLE'">
       <table mat-table [dataSource]="dataSource">
          <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
@@ -50,11 +73,14 @@
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="options">
-          <th mat-header-cell *matHeaderCellDef> Options </th>
+          <th mat-header-cell *matHeaderCellDef>
+            <div [hidden]="!isMultiSelected()">
+              <mat-icon class="mouse-cursor-pointer" (click)="deleteUser()">delete</mat-icon>
+            </div>
+          </th>
           <td mat-cell *matCellDef="let element"> 
-              <mat-icon class="mouse-cursor-pointer">visibility</mat-icon>
-              <mat-icon class="mouse-cursor-pointer">edit</mat-icon>
-              <mat-icon class="mouse-cursor-pointer" (click)="deleteUser()">close</mat-icon>
+              <mat-icon class="mouse-cursor-pointer" (click)="editUser()">edit</mat-icon>
+              <mat-icon class="mouse-cursor-pointer" (click)="deleteUser()">delete</mat-icon>
           </td>
         </ng-container>
     
@@ -65,22 +91,37 @@
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
 
-    <div style="background: red;">
-        <mat-card class="item-galery" *ngFor="let user of users">
-          <div>
-            <div class="circle-100">
-              <img class="circle-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png">
-            </div>   
-            <div id="div-name">
-              <label>{{ user.name }}</label>
-            </div>
-            <div>
-              <mat-icon class="mouse-cursor-pointer">visibility</mat-icon>
-              <mat-icon class="mouse-cursor-pointer" (click)="editUser()">edit</mat-icon>
-              <mat-icon class="mouse-cursor-pointer" (click)="deleteUser()">close</mat-icon>
-            </div>
-          </div>            
-        </mat-card>
+    <div style="background: red;" [hidden]="selectGalery != 'GALERY'">
+      <div  fxLayout="row" 
+            fxLayoutAlign="end center" 
+            *ngIf="isMultiSelected()"            
+            >
+        <div fxLayoutAlign="end center" (click)="deleteUser()" id="div-remove-users">
+          <label class="mouse-cursor-pointer">Desativar usuários selecionados.</label>
+          <mat-icon class="mouse-cursor-pointer">delete</mat-icon>
+        </div>
+      </div>
+      <mat-card class="item-galery" *ngFor="let user of dataSource?.filteredData">
+        <div fxLayout="row" fxLayoutAlign="end start">
+          <mat-checkbox (click)="$event.stopPropagation();"
+            (change)="$event ? selection.toggle(user) : null"
+            [checked]="selection.isSelected(user)"
+            [aria-label]="checkboxLabel(user)">
+          </mat-checkbox>
+        </div>
+        <div>
+          <div class="circle-100">
+            <img class="circle-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png">
+          </div>   
+          <div id="div-name">
+            <label>{{ user.name }}</label>
+          </div>
+          <div [style.display]="isOnlyOneSelected(user) ? 'inline-flex' : 'none'">
+            <mat-icon class="mouse-cursor-pointer" (click)="editUser()">edit</mat-icon>
+            <mat-icon class="mouse-cursor-pointer" (click)="deleteUser()">delete</mat-icon>
+          </div>
+        </div>            
+      </mat-card>
     </div>
   </mat-card-content>
 </mat-card>

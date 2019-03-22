@@ -90,7 +90,7 @@
   </form>
   <div class="btn-save">
     <button  mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!profileForm.valid">Salvar</button>
-    <button  mat-button color="primary">Limpar</button>
+    <button  mat-button color="primary" [mat-dialog-close]="false">Cancelar</button>
   </div>
 </mat-card-content>
 </div>

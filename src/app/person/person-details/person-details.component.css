@@ -1,5 +1,11 @@
-mat-icon:hover {
+mat-icon:hover, #div-remove-users:hover {
     border-radius: 50%;
+    background: rgb(219, 217, 217);
+}
+
+#div-remove-users:hover {
+    padding: 2px;
+    border-radius: 5px;
     background: rgb(219, 217, 217);
 }
 
