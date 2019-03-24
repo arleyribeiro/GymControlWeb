@@ -14,7 +14,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 export class PersonDetailsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['select', 'name', 'telephone', 'email', 'dateOfBirth', 'options'];
+  displayedColumns: string[] = ['select', 'name', 'telephone', 'email', 'dateOfBirth', 'active', 'options'];
   dataSource: any;
   selection = new SelectionModel<any>(true, []);
   users = null
@@ -31,7 +31,7 @@ export class PersonDetailsComponent implements OnInit {
 
   getPersonActive(){
     this.selection.clear();
-    this.personService.getPersonsActive().subscribe((data:any)=>{
+    this.personService.getPersons().subscribe((data:any)=>{
       this.users = data;
       console.log(data)
       this.dataSource = new MatTableDataSource<any>(data);
