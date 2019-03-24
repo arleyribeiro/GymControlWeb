@@ -114,10 +114,10 @@ export class PersonUpdateComponent implements OnInit {
     console.log(user)
     this.personService.updatePerson(user.personId, user).subscribe(
         (data) => {
-          this.utilService.callDialogConfirm(this.dialog, DialogComponent, 'Usuário foi atualizado!', "O usuário foi atualizado com sucesso.", 'Ok',null, '60%');
+          this.utilService.callDialogConfirm(this.dialog, DialogComponent, 'Usuário foi atualizado!', "O usuário foi atualizado com sucesso.", 'Ok',null, '40%');
         }, error => {
           console.log(error.erros)
-          this.utilService.callDialogConfirm(this.dialog, DialogComponent, 'Falha ao atualizar usuário!', "O usuário não foi atualizado.", 'Ok',null, '60%');
+          this.utilService.callDialogConfirm(this.dialog, DialogComponent, 'Falha ao atualizar usuário!', "O usuário não foi atualizado.", 'Ok',null, '40%');
         });
     }
 }

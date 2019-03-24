@@ -17,6 +17,11 @@ mat-icon:hover, #div-remove-users:hover {
     border-radius: 50%;  
 }
 
+#div-galery {
+    background: rgb(231, 230, 230);
+    padding-bottom: 2.5px;
+    border-radius: 5px;    
+}
 .item-galery {
     margin: 5px 2.5px 2.5px 5px; 
     width: 120px; 

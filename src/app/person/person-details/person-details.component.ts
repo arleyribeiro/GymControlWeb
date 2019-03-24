@@ -100,6 +100,7 @@ export class PersonDetailsComponent implements OnInit {
                             dialogRef.afterClosed().subscribe(result => {
                               if (result) {
                                 this.getPersonActive();
+                                this.selection.clear();
                                 console.log(`Dialog result pzza: ${result}`); // Pizza!
                               }
                               console.log(`Dialog result: ${result}`); // Pizza!

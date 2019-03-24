@@ -91,17 +91,19 @@
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
     </div>
 
-    <div style="background: red;" [hidden]="selectGalery != 'GALERY'">
+    <div id="div-galery" [hidden]="selectGalery != 'GALERY'">
       <div fxLayout="row" fxLayoutAlign="space-between center" >
           <div  fxLayout="col" 
             fxLayoutAlign="start center" 
-            *ngIf="isMultiSelected()"  >
+            *ngIf="isMultiSelected()"  
+            style="margin-left: 5px;">
             <mat-checkbox (change)="$event ? masterToggle() : null"
               [checked]="selection.hasValue() && isAllSelected()"
               [indeterminate]="selection.hasValue() && !isAllSelected()"
               [aria-label]="checkboxLabel()">
             </mat-checkbox>
-            <label class="mouse-cursor-pointer">{{ selection.selected.length == dataSource?.filteredData?.length ? ' Limpar seleção de usuários.' : ' Selecionar todos os usuários.'}}</label>
+            &nbsp;
+            <label>{{ selection.selected.length == dataSource?.filteredData?.length ? ' Limpar seleção de usuários.' : ' Selecionar todos os usuários.'}}</label>
           </div>
           <div  fxLayout="col" 
                 fxLayoutAlign="end center" 
