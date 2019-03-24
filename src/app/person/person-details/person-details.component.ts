@@ -18,6 +18,7 @@ export class PersonDetailsComponent implements OnInit {
   dataSource: any;
   selection = new SelectionModel<any>(true, []);
   users = null
+  person = null
   selectGalery = 'GALERY';
   filterargs = {nome: 'a'};
   constructor(private dialog: MatDialog, 
@@ -25,7 +26,12 @@ export class PersonDetailsComponent implements OnInit {
               private personService: PersonService) { }
 
   ngOnInit() {
-    this.personService.getPersons().subscribe((data:any)=>{
+    this.getPersonActive();
+  }
+
+  getPersonActive(){
+    this.selection.clear();
+    this.personService.getPersonsActive().subscribe((data:any)=>{
       this.users = data;
       console.log(data)
       this.dataSource = new MatTableDataSource<any>(data);
@@ -76,31 +82,49 @@ export class PersonDetailsComponent implements OnInit {
   }
 
   editUser() {
-    var dialogRef = this.utilService.callDialog(this.dialog, 
-      PersonUpdateComponent, 
-      "Remover um usuário", "Ao realizar essa operação todas as informações referentes à esse usuário serão bloqueadas.", 
-      "Confirmar", 
-      "Cancelar", 
-      "60%");
+
+    var dialogRef = this.utilService.callDialog(this.dialog, DialogComponent, "Atualizar um usuário", "Ao realizar essa operação todas as informações referentes à esse usuário serão bloqueadas.", "Confirmar", "Cancelar", "35%", null);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        //this.personService.deactivatePerson(1);
-
-        this.users[1].name = "teste Macarena 7"
-        this.personService.updatePerson(1,  this.users[1]).subscribe(data => console.log(data))
+        this.personService
+                          .getUser(this.selection.selected[0].personId)
+                          .subscribe(data=> {this.person = data
+                            var dialogRef = this.utilService.callDialog(this.dialog, 
+                              PersonUpdateComponent, 
+                              "",
+                              "", 
+                              "Confirmar", 
+                              "Cancelar", 
+                              "60%",
+                            this.person);
+                            dialogRef.afterClosed().subscribe(result => {
+                              if (result) {
+                                this.getPersonActive();
+                                console.log(`Dialog result pzza: ${result}`); // Pizza!
+                              }
+                              console.log(`Dialog result: ${result}`); // Pizza!
+                            });                          
+                          });
       }
-      console.log(`Dialog result: ${result}`); // Pizza!
     });
+
+
+  
   }
 
-  deleteUser() {
+  disableUsers() {
     //callDialog(dialog, component, title, content, buttonConfirm, buttonCancel)
-    var dialogRef = this.utilService.callDialog(this.dialog, DialogComponent, "Remover um usuário", "Ao realizar essa operação todas as informações referentes à esse usuário serão bloqueadas.", "Confirmar", "Cancelar", "35%");
+
+    var dialogRef = this.utilService.callDialog(this.dialog, DialogComponent, "Remover um usuário", "Ao realizar essa operação todas as informações referentes à esse usuário serão bloqueadas.", "Confirmar", "Cancelar", "35%", null);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        //this.personService.deactivatePerson(1);
+        var listUserId = [];
+        this.selection.selected.forEach(element => {
+          listUserId.push(element.personId);
+        });
+        this.personService.postDisableUser(listUserId).subscribe(data => this.getPersonActive());
+        this.selection.clear()
       }
-      console.log(`Dialog result: ${result}`); // Pizza!
     });
   }
 

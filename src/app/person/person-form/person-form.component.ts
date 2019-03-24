@@ -107,6 +107,7 @@ export class PersonFormComponent implements OnInit {
               { name: "São Paulo", initials: "SP"},
               { name: "Sergipe", initials: "SE"},
               { name: "Tocantins", initials: "TO"}];
+    this.profileForm.get('gender').setValue('F');
   }
 
   profileForm = this.fb.group({

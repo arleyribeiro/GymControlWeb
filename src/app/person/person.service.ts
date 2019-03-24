@@ -13,6 +13,14 @@ export class PersonService {
         return this.http.get(this.API);
     }
 
+    getPersonsActive(){
+        return this.http.get(this.API+"userActive/");
+    }
+
+    getUser(id){
+        return this.http.get(this.API+id);
+    }
+
     postPerson(data) {
         return this.http.post(this.API, data);
     }
@@ -26,5 +34,9 @@ export class PersonService {
             headers: new HttpHeaders({'Content-Type': 'application/json'})
         }
         return this.http.put(this.API + id + '/', data, httpOptions);
-    }    
+    }
+
+    postDisableUser(data) {
+        return this.http.post(this.API + "disableUsers/", data);
+    }
 }

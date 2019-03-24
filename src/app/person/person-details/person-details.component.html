@@ -75,12 +75,12 @@
         <ng-container matColumnDef="options">
           <th mat-header-cell *matHeaderCellDef>
             <div [hidden]="!isMultiSelected()">
-              <mat-icon class="mouse-cursor-pointer" (click)="deleteUser()">delete</mat-icon>
+              <mat-icon class="mouse-cursor-pointer" (click)="disableUsers()">delete</mat-icon>
             </div>
           </th>
           <td mat-cell *matCellDef="let element"> 
               <mat-icon class="mouse-cursor-pointer" (click)="editUser()">edit</mat-icon>
-              <mat-icon class="mouse-cursor-pointer" (click)="deleteUser()">delete</mat-icon>
+              <mat-icon class="mouse-cursor-pointer" (click)="disableUsers()">delete</mat-icon>
           </td>
         </ng-container>
     
@@ -92,14 +92,26 @@
     </div>
 
     <div style="background: red;" [hidden]="selectGalery != 'GALERY'">
-      <div  fxLayout="row" 
-            fxLayoutAlign="end center" 
-            *ngIf="isMultiSelected()"            
-            >
-        <div fxLayoutAlign="end center" (click)="deleteUser()" id="div-remove-users">
-          <label class="mouse-cursor-pointer">Desativar usuários selecionados.</label>
-          <mat-icon class="mouse-cursor-pointer">delete</mat-icon>
-        </div>
+      <div fxLayout="row" fxLayoutAlign="space-between center" >
+          <div  fxLayout="col" 
+            fxLayoutAlign="start center" 
+            *ngIf="isMultiSelected()"  >
+            <mat-checkbox (change)="$event ? masterToggle() : null"
+              [checked]="selection.hasValue() && isAllSelected()"
+              [indeterminate]="selection.hasValue() && !isAllSelected()"
+              [aria-label]="checkboxLabel()">
+            </mat-checkbox>
+            <label class="mouse-cursor-pointer">{{ selection.selected.length == dataSource?.filteredData?.length ? ' Limpar seleção de usuários.' : ' Selecionar todos os usuários.'}}</label>
+          </div>
+          <div  fxLayout="col" 
+                fxLayoutAlign="end center" 
+                *ngIf="isMultiSelected()"            
+                >
+            <div fxLayoutAlign="end center" (click)="disableUsers()" id="div-remove-users">
+              <label class="mouse-cursor-pointer">Desativar usuários selecionados.</label>
+              <mat-icon class="mouse-cursor-pointer">delete</mat-icon>
+            </div>
+          </div>
       </div>
       <mat-card class="item-galery" *ngFor="let user of dataSource?.filteredData">
         <div fxLayout="row" fxLayoutAlign="end start">
@@ -118,7 +130,7 @@
           </div>
           <div [style.display]="isOnlyOneSelected(user) ? 'inline-flex' : 'none'">
             <mat-icon class="mouse-cursor-pointer" (click)="editUser()">edit</mat-icon>
-            <mat-icon class="mouse-cursor-pointer" (click)="deleteUser()">delete</mat-icon>
+            <mat-icon class="mouse-cursor-pointer" (click)="disableUsers()">delete</mat-icon>
           </div>
         </div>            
       </mat-card>

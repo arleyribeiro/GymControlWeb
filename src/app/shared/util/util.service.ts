@@ -55,7 +55,22 @@ export class UtilService {
       return null;
     }
 
-    callDialog(dialog, component, title, content, buttonConfirm, buttonCancel, width) {
+    callDialog(dialog, component, title, content, buttonConfirm, buttonCancel, width, person) {
+      return dialog.open(component, 
+        { panelClass: 'custom-dialog-container', 
+          width: width,
+          disableClose: true, 
+          data: {
+            person: person,
+            title: title,
+            content: content,
+            buttonCancel: buttonCancel,
+            buttonConfirm: buttonConfirm
+          }
+      });
+    }
+
+    callDialogConfirm(dialog, component, title, content, buttonConfirm, buttonCancel, width) {
       return dialog.open(component, 
         { panelClass: 'custom-dialog-container', 
           width: width,
