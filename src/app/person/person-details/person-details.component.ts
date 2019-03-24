@@ -106,13 +106,10 @@ export class PersonDetailsComponent implements OnInit {
                             });                          
                           });
       }
-    });
-
-
-  
+    });  
   }
 
-  disableUsers() {
+  disableUsers(active) {
     //callDialog(dialog, component, title, content, buttonConfirm, buttonCancel)
 
     var dialogRef = this.utilService.callDialog(this.dialog, DialogComponent, "Remover um usuário", "Ao realizar essa operação todas as informações referentes à esse usuário serão bloqueadas.", "Confirmar", "Cancelar", "35%", null);
@@ -120,7 +117,7 @@ export class PersonDetailsComponent implements OnInit {
       if (result) {
         var listUserId = [];
         this.selection.selected.forEach(element => {
-          listUserId.push(element.personId);
+          listUserId.push({active: active, personId: element.personId});
         });
         this.personService.postDisableUser(listUserId).subscribe(data => this.getPersonActive());
         this.selection.clear()
