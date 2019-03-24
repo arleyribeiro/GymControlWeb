@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+
 import { PersonService } from '../person.service';
 import { UtilService } from './../../shared/util/util.service';
-import { MatDialog } from '@angular/material';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
 export function ValidateCpf(control: AbstractControl) {
     const cpf = control.value;

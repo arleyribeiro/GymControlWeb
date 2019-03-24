@@ -1,4 +1,3 @@
-import { PersonUpdateComponent } from './person/person-update/person-update.component';
 import { PersonService } from './person/person.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -29,7 +28,7 @@ import { DialogComponent } from './shared/dialog/dialog.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [ PersonService, UtilService ],
   bootstrap: [AppComponent],
