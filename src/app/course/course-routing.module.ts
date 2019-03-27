@@ -1,11 +1,11 @@
-import { CourseFormComponent } from './course-form/course-form.component';
+import { CourseDashboardComponent } from './course-dashboard/course-dashboard.component';
 import { CourseComponent } from './course.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', component: CourseComponent, children: [
-    { path: 'new', component: CourseFormComponent },
+    { path: 'dashboard', component: CourseDashboardComponent },
   ]},
 ];
 

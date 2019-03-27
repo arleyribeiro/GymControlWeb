@@ -3,6 +3,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { LayoutModule } from '@angular/cdk/layout';
 import {NgxMaskModule} from 'ngx-mask';
 import {
+  MatTooltipModule,
+  MatTabsModule,
   MatButtonModule,
   MatMenuModule,
   MatToolbarModule,
@@ -26,6 +28,8 @@ import {
 
 @NgModule({
   imports: [
+    MatTooltipModule,
+    MatTabsModule,
     FlexLayoutModule,
     LayoutModule,
     MatButtonModule,
@@ -50,6 +54,8 @@ import {
     NgxMaskModule.forRoot()
   ],
   exports: [
+    MatTooltipModule,
+    MatTabsModule,
     FlexLayoutModule,
     LayoutModule,
     MatButtonModule,
