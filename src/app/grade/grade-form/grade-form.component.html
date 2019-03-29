@@ -1,3 +1,46 @@
-<p>
-  grade-form works!
-</p>
+<div class="container-card">
+  <mat-card-content>
+  <form class="example-form">
+      <mat-form-field>
+          <mat-label>Selecione um curso</mat-label>
+          <mat-select >
+            <mat-option value="option1">Option 1</mat-option>
+            <mat-option value="option2">Option 2</mat-option>
+            <mat-option value="option3">Option 3</mat-option>
+          </mat-select>
+        </mat-form-field>  
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Nome da turma" value="Sushi">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Data início">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker2" placeholder="Data fim">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="startHour" placeholder="Hora início">
+      <mat-datepicker-toggle matSuffix [for]="startHour"></mat-datepicker-toggle>
+      <mat-datepicker #startHour></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="endHour" placeholder="Hora fim">
+      <mat-datepicker-toggle matSuffix [for]="endHour"></mat-datepicker-toggle>
+      <mat-datepicker #endHour></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input type="number" min="1" step="1" matInput placeholder="Quantidade de vagas">
+    </mat-form-field>
+  </form>
+  <mat-card-actions>
+    <div class="btn-save">
+      <button  mat-raised-button color="primary" [mat-dialog-close]="true" type="submit" [disabled]="true">Salvar</button>
+      <button  mat-button color="primary" [mat-dialog-close]="false">Cancelar</button>
+    </div>
+  </mat-card-actions>
+</mat-card-content>
+</div>

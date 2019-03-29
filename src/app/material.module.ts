@@ -23,8 +23,10 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatCheckboxModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatAutocompleteModule
 } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -51,6 +53,9 @@ import {
     MatPaginatorModule,
     MatCheckboxModule,
     MatSlideToggleModule,
+    MatAutocompleteModule, 
+    FormsModule, 
+    ReactiveFormsModule,
     NgxMaskModule.forRoot()
   ],
   exports: [
@@ -77,7 +82,10 @@ import {
     MatTableModule,
     MatPaginatorModule,
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule, 
+    FormsModule, 
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ]
 })
 export class MaterialModule {}
