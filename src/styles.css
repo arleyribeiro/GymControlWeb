@@ -35,3 +35,11 @@ table {
 .btn-save {
     float: right;    
 }
+
+.circle-100 {
+    margin: 0 auto;
+    background: yellow; 
+    width: 100px; 
+    height: 100px; 
+    border-radius: 50%;  
+}

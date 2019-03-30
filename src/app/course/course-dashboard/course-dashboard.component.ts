@@ -6,6 +6,7 @@ import { FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/fo
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepperModule} from '@angular/material/stepper';
 import { MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
+import { GradeFormComponent } from 'src/app/grade/grade-form/grade-form.component';
 
 @Component({
   selector: 'app-course-dashboard',
@@ -75,8 +76,8 @@ export class CourseDashboardComponent implements OnInit {
   }
 
   addGrade() {
-    this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
-      width: "30%",
+    this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
+      width: "60%",
       disableClose: true, 
       data: {
         title: "title",

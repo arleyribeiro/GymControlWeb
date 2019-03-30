@@ -1,0 +1,52 @@
+<mat-card class="container-card">
+  <mat-card-header>
+    <mat-card-title>Pagamentos</mat-card-title>
+    <mat-card-subtitle>Realizar pagamentos de mensalidades.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+      <form fxLayout="row" fxFill>
+        <mat-form-field fxFlex="100">
+          <input type="text" placeholder="Buscar aluno" aria-label="Assignee" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>  
+      <div style="margin-bottom: 10px">
+      <mat-card fxFlex="50">
+        <mat-card-header>
+          <mat-card-title>Fatura Atual</mat-card-title>
+        </mat-card-header>
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+          <div fxLayout="col">
+            <div>
+              <div style="word-break: break-all"><label class="label-bold">Aluno: </label>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+              <div><label class="label-bold">Vencimento: </label> 22/12/2018 </div>
+              <div><label class="label-bold">Data de pagamento: </label>22/12/2018 </div>
+              <div><label class="label-bold">Valor total: </label>R$ 100,00 </div>
+            </div>
+            <div class="circle-100">
+              <img class="circle-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png">
+            </div>
+          </div> 
+        </div>
+        <div fxLayout="col" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput placeholder="Valor para pagamento" value="">
+          </mat-form-field>
+          <mat-card-actions>
+            <button mat-raised-button color="primary">Pagar</button>
+          </mat-card-actions>
+        </div>
+      </mat-card>
+      <mat-card fxFlex="50">
+        <mat-card-header>
+          <mat-card-title>Detalhamento</mat-card-title>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  <mat-card>Vencimentos futuros</mat-card>
+  </mat-card-content>
+</mat-card>

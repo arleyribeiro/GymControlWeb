@@ -15,6 +15,6 @@ import { GradeDashboadComponent } from './grade-dashboad/grade-dashboad.componen
   ],
   providers: [ ],
   exports: [ GradeFormComponent ],
-  entryComponents: [ ]
+  entryComponents: [ GradeFormComponent ]
 })
 export class GradeModule { }

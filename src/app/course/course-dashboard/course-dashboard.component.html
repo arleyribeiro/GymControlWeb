@@ -1,11 +1,24 @@
 <mat-card class="container-card">
+    <mat-card-header>
+      <mat-card-title>Cursos</mat-card-title>
+      <mat-card-subtitle>Cursos cadastradas no sistema.</mat-card-subtitle>
+    </mat-card-header>
   <mat-card-content>
+      <div fxLayout="col" fxLayoutAlign="start center" class="boxButtons">
+        <div fxFlex="100%">
+          <mat-form-field fxFlex="60%">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            <mat-icon matTooltip="Buscar" class="mouse-cursor-pointer"  matSuffix>{{ 'search' }}</mat-icon>
+          </mat-form-field>
+        </div>
+          
+        <div fxLayout="row" fxLayoutAlign="end center" style="margin-bottom:5px">
+          <button color="primary" mat-raised-button (click)="addGrade()">Adicionar curso &nbsp;
+            <mat-icon class="mouse-cursor-pointer" matTooltip="Adicionar curso">add_circle_outline</mat-icon>
+          </button>
+        </div>
+        </div>
     <div>
-      <div fxLayout="row" fxLayoutAlign="end center" style="margin-bottom:5px">
-        <button color="primary" mat-raised-button (click)="addGrade()">Adicionar turma &nbsp;
-          <mat-icon class="mouse-cursor-pointer" matTooltip="Adicionar turma">add_circle_outline</mat-icon>
-        </button>
-      </div>
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource">
             <!-- Checkbox Column -->
