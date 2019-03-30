@@ -1,3 +1,5 @@
+import { CourseFormComponent } from './../course-form/course-form.component';
+import { CourseService } from './../course.service';
 import { UtilService } from 'src/app/shared/util/util.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -17,11 +19,13 @@ export class CourseDashboardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[] = ['select', 'name', 'created', 'user', 'status', 'options'];
   dataSource: any;
+  courses: any;
   selection = new SelectionModel<any>(true, []);
 
   constructor(private fb: FormBuilder,
               private dialog: MatDialog,
-              private utilService: UtilService) { }
+              private utilService: UtilService,
+              private courseService: CourseService) { }
   @ViewChild('stepper') stepper;
   isLinear = false;
   courseForm: FormGroup;
@@ -44,7 +48,7 @@ export class CourseDashboardComponent implements OnInit {
 
   isOnlyOneSelected(element) {
     return (this.selection.selected.length == 1 && 
-            element.personId == this.selection.selected[0].personId);
+            element.courseId == this.selection.selected[0].courseId);
 
     //return (this.selection.selected.length == 1 && element.id == this.selection.selected[0].id && this.selection.selected[0].user == this.userId) ? false : true;
   }
@@ -75,42 +79,57 @@ export class CourseDashboardComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
+  addCourse() {
+    var dialogRef = this.dialog.open(CourseFormComponent, 
+      { panelClass: 'header', 
+      width: "30%",
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("result: ", result)
+    });
+  }
+
   addGrade() {
     this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
       width: "60%",
       disableClose: true, 
       data: {
-        title: "title",
-        content: "content",
-        buttonCancel: "Cancelar",
-        buttonConfirm: "Confirmar"
+        courses: this.courses,
+        course: this.selection.selected[0]
       }});
   }
 
   editCourse () {
-    this.utilService.callDialogConfirm(this.dialog, DialogComponent, "title", "content", "Confirmar", "Cancelar", "40%");
+    this.dialog.open(CourseFormComponent, { panelClass: 'custom-dialog-container', 
+      width: "30%",
+      disableClose: true, 
+      data: {
+        editMode: true,
+        course: this.selection.selected[0]
+      }});
   }
 
   deleteCourse () {
-    this.utilService.callDialogConfirm(this.dialog, DialogComponent, "title", "content", "Confirmar", "Cancelar", "40%");
+    var dialogRef = this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Excluir curso", "Após a operação esse curso será excluído.", "Confirmar", "Cancelar", "40%");
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.courseService.delete(this.selection.selected[0].courseId).subscribe(response => {
+          this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Notificação", "O curso foi excluído com sucesso.", "Ok", "", "40%");
+        })
+      }
+      console.log("result: ", result)
+    });
   }
 
   getCourses(){
     this.selection.clear();
     var data = []
-    data.push({name: "teste1", created: "12", status: "ativo", user: "a"})
-    data.push({name: "teste2", created: "12", status: "desativado", user: "a"})
-    data.push({name: "teste3", created: "12", status: "ativo", user: "a"})
-    data.push({name: "teste4", created: "12", status: "ativo", user: "a"})
-    data.push({name: "teste5", created: "12", status: "desativado", user: "a"})
-    this.dataSource = new MatTableDataSource<any>(data);
-    this.dataSource.paginator = this.paginator;
-    /*this.personService.getPersons().subscribe((data:any)=>{
-      this.users = data;
-      console.log(data)
+    this.courseService.get().subscribe((data:any) => { 
+      this.courses = data;    
       this.dataSource = new MatTableDataSource<any>(data);
-      this.dataSource.paginator = this.paginator;
-    })*/
+      this.dataSource.paginator = this.paginator;});
   }
 
 }

@@ -1,0 +1,22 @@
+<mat-card class="header" fxFlex>
+    <mat-card-header>
+      <mat-card-title *ngIf="!editMode">Novo curso</mat-card-title>
+      <mat-card-title *ngIf="editMode">Editar curso</mat-card-title>
+    </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="courseForm" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="80">
+        <mat-form-field fxFill>
+          <input matInput placeholder="Nome" formControlName="name" required>                
+        </mat-form-field>
+      </div>
+      <div fxFlex="20">
+        <mat-checkbox formControlName="active" checked>Ativo</mat-checkbox>
+      </div>
+    </form>
+  </mat-card-content>
+  <mat-card-actions class="btn-save">
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!courseForm.valid">Salvar</button>
+    <button mat-button color="primary" [mat-dialog-close]="false">Cancelar</button>
+  </mat-card-actions>
+</mat-card>

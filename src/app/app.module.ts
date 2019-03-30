@@ -1,3 +1,4 @@
+import { CourseFormComponent } from './course/course-form/course-form.component';
 import { GradeFormComponent } from 'src/app/grade/grade-form/grade-form.component';
 import { PersonService } from './person/person.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,6 +17,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import { UtilService } from './shared/util/util.service';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { GradeModule } from './grade/grade.module';
+import { CourseModule } from './course/course.module';
 
 @NgModule({
   declarations: [
@@ -31,10 +33,11 @@ import { GradeModule } from './grade/grade.module';
     ReactiveFormsModule,
     HttpClientModule,
     GradeModule,
+    CourseModule,
     AppRoutingModule
   ],
   providers: [ PersonService, UtilService ],
   bootstrap: [AppComponent],
-  entryComponents: [ DialogComponent, GradeFormComponent ]
+  entryComponents: [ DialogComponent, GradeFormComponent, CourseFormComponent ]
 })
 export class AppModule { }

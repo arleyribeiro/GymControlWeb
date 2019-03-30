@@ -7,9 +7,11 @@ import { CommonModule } from '@angular/common';
 import { CourseDashboardComponent } from './course-dashboard/course-dashboard.component';
 import { MaterialModule } from '../material.module';
 import { CourseUpdateComponent } from './course-update/course-update.component';
+import { CourseService } from './course.service';
+import { CourseFormComponent } from './course-form/course-form.component';
 
 @NgModule({
-  declarations: [CourseComponent, CourseDashboardComponent, CourseUpdateComponent],
+  declarations: [CourseComponent, CourseDashboardComponent, CourseUpdateComponent, CourseFormComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,8 +20,8 @@ import { CourseUpdateComponent } from './course-update/course-update.component';
     CourseRoutingModule,
     
   ],
-  providers: [ ],
-  exports: [ CourseDashboardComponent ],
-  entryComponents: [ ]
+  providers: [ CourseService ],
+  exports: [ CourseDashboardComponent, CourseFormComponent ],
+  entryComponents: [ CourseFormComponent ]
 })
 export class CourseModule { }
