@@ -2,6 +2,16 @@ import { Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { AutofillMonitor } from '@angular/cdk/text-field';
 
+export enum Day {
+  Monday = 1,
+  Tuesday = 2,
+  Wednesday = 3,
+  Thursday = 4,
+  Friday = 5,
+  Saturday = 6,
+  Sunday = 7,
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -112,5 +122,5 @@ export class UtilService {
               { name: "São Paulo", initials: "SP"},
               { name: "Sergipe", initials: "SE"},
               { name: "Tocantins", initials: "TO"}];
-    }
+    }    
 }

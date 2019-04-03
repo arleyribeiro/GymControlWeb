@@ -21,7 +21,9 @@ export class CourseFormComponent implements OnInit {
   editMode=false
   courseForm = this.fb.group({
     name: ['', Validators.required],
-    active: ['']
+    active: [''],
+    status: [''],
+    user: ['']
   });
   ngOnInit() {
     this.editMode=false
@@ -34,7 +36,10 @@ export class CourseFormComponent implements OnInit {
 
   onSubmit(){
     console.log(this.courseForm.value)
-    this.courseService.post(this.courseForm.value).subscribe(response=>{
+    var course = this.courseForm.value
+    course.user = 1;//id user loggin
+    course.status = true;
+    this.courseService.post(course).subscribe(response=>{
       this.dialog.open(DialogComponent, {panelClass: 'custom-dialog-container', 
         data: {
           

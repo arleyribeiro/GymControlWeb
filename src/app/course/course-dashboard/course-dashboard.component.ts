@@ -17,7 +17,7 @@ import { GradeFormComponent } from 'src/app/grade/grade-form/grade-form.componen
 })
 export class CourseDashboardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['select', 'name', 'created', 'user', 'status', 'options'];
+  displayedColumns: string[] = ['select', 'name', 'createdDate', 'username', 'status', 'options'];
   dataSource: any;
   courses: any;
   selection = new SelectionModel<any>(true, []);
@@ -33,7 +33,8 @@ export class CourseDashboardComponent implements OnInit {
     this.getCourses();
     this.courseForm = this.fb.group({
       Name: [''],
-      startDate: ['']
+      User: [''],
+      Status: ['']
     });
   }
 
