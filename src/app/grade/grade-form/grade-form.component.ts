@@ -16,29 +16,21 @@ export class GradeFormComponent implements OnInit {
   courses = []
   courseId = null
   course = null
-  
+  daysweek = []
+  startHour
+  endHour
   gradeForm = this.fb.group({
     name: [''],
     courseId: [''],
     startDate: [''],
     endDate: [''],
-    startHour: [''],
-    endHour: [''],
     vacancy: [''],
     userId: [''],
-    alldDays: [''],
-    monday: [''],
-    tuesday: [''],
-    wednesday: [''],
-    thursday: [''],
-    friday: [''],
-    saturday: [''],
-    sunday: ['']
+    daysweek: ['']
   })
   ngOnInit() {
     if(this.data.courses != null) {
       this.courses = this.data.courses;
-      this.courseId = this.data.course.courseId;
       this.course = this.data.course;
       console.log("this.data.courses: ",this.data.course);
     }
@@ -46,7 +38,17 @@ export class GradeFormComponent implements OnInit {
   }
 
   onSubmit(){
+    this.gradeForm.get('daysweek').setValue(this.daysweek);
     console.log(this.gradeForm.value)
   }
 
+  addDay(day) {
+    let days = [0,1,2,3,4,5,6,7,8]
+    this.daysweek.push({
+      startHour: "",
+      endHour:"",
+      day: day,
+      gradeId: ""
+    })
+  }
 }

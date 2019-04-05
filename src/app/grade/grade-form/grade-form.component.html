@@ -8,7 +8,7 @@
       <mat-form-field fxFlex>
         <mat-label>Selecione um curso</mat-label>
         <mat-select [(value)]="course"  formControlName="courseId">
-          <mat-option value="{{ course.courseId }}" *ngFor="let course of courses" [value]="course.courseId"> {{ course.name }}</mat-option>
+          <mat-option value="{{ course.courseId }}" *ngFor="let course of courses" > {{ course.name }}</mat-option>
         </mat-select>
       </mat-form-field>  
       <mat-form-field class="example-full-width" fxFlex>
@@ -32,31 +32,31 @@
       </div>
       <div>
         <mat-form-field fxFlex="99">
-          <input matInput type="time" placeholder="Hora início" formControlName="startHour">
+          <input matInput type="time" placeholder="Hora início" [value]="startHour">
         </mat-form-field>
       </div>
       <div>
         <mat-form-field>
-          <input matInput type="time" placeholder="Hora fim" formControlName="endHour">
+          <input matInput type="time" placeholder="Hora fim" [value]="endHour">
         </mat-form-field>
       </div>
     </div>
     <div fxLayout="col" fxLayoutAlign="space-between start" fxLayoutGap="10px">
         <div>
-          <mat-checkbox formControlName="alldDays">Todos</mat-checkbox>
-          <mat-checkbox formControlName="monday">Segunda-feira</mat-checkbox>
+          <mat-checkbox (click)="addDay(8)">Todos</mat-checkbox>
+          <mat-checkbox (click)="addDay(2)">Segunda-feira</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox formControlName="tuesday">Terça-feira</mat-checkbox>
-          <mat-checkbox formControlName="wednesday">Quarta-feira</mat-checkbox>
+          <mat-checkbox (click)="addDay(3)">Terça-feira</mat-checkbox>
+          <mat-checkbox (click)="addDay(4)">Quarta-feira</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox formControlName="thursday">Quinta-feira</mat-checkbox>
-          <mat-checkbox formControlName="friday">Sexta-feira</mat-checkbox>
+          <mat-checkbox (click)="addDay(5)">Quinta-feira</mat-checkbox>
+          <mat-checkbox (click)="addDay(6)">Sexta-feira</mat-checkbox>
         </div>
         <div>
-          <mat-checkbox formControlName="saturday">Sábado</mat-checkbox>
-          <mat-checkbox formControlName="sunday">Domingo</mat-checkbox>
+          <mat-checkbox (click)="addDay(7)">Sábado</mat-checkbox>
+          <mat-checkbox (click)="addDay(1)">Domingo</mat-checkbox>
         </div>
       <div fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="10px">
         <mat-form-field class="example-full-width">

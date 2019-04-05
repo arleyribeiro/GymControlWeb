@@ -8,6 +8,7 @@ import { UtilService } from 'src/app/shared/util/util.service';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { element } from '@angular/core/src/render3';
+import { CourseService } from 'src/app/course/course.service';
 
 export interface User {
   name: string;
@@ -34,9 +35,11 @@ export class GradeDashboadComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialog: MatDialog,
-              private utilService: UtilService) { }
+              private utilService: UtilService,
+              private courseService: CourseService) { }
   @ViewChild('stepper') stepper;
   isLinear = false;
+  courses = []
   courseForm = this.fb.group({
     Name: [''],
     startDate: ['']
@@ -46,8 +49,10 @@ export class GradeDashboadComponent implements OnInit {
       Name: [''],
       startDate: ['']
     });
+
     this.courseForm.get('Name').setValue('Musculacao');
     this.getCourses();
+
     this.filteredOptions = this.courseForm.valueChanges
       .pipe(
         startWith(''),
@@ -107,10 +112,13 @@ export class GradeDashboadComponent implements OnInit {
   }
 
   addGrade() {
+    console.log("this.selection.selected[0]", this.selection.selected[0])
     this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
       width: "60%",
       disableClose: true, 
       data: {
+        courses: this.courses,
+        course: this.selection.selected[0],
         title: "title",
         content: "content",
         buttonCancel: "Cancelar",
@@ -129,12 +137,15 @@ export class GradeDashboadComponent implements OnInit {
   getCourses(){
     console.log("courseForm.name: ", this.courseForm.get('Name').value)
     this.selection.clear();
-    var data = [{course: "musculacao", name: "musc1", created: "12", status: "ativo", user: "a"},
+    /*var data = [{course: "musculacao", name: "musc1", created: "12", status: "ativo", user: "a"},
                 {course: "musculacao", name: "musc2", created: "12", status: "ativo", user: "a"},
                 {course: "jiujitsu", name: "jiu1", created: "12", status: "ativo", user: "a"},
-                {course: "jiujitsu", name: "jiu2", created: "12", status: "ativo", user: "a"}];
-
-    this.dataSource = new MatTableDataSource<any>(data);
-    this.dataSource.paginator = this.paginator;
+                {course: "jiujitsu", name: "jiu2", created: "12", status: "ativo", user: "a"}];*/
+      this.courseService.get().subscribe((data:any) => {
+        this.courses = data;
+        console.log(data);
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+      })
   }
 }
