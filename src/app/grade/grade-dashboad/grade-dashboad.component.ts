@@ -40,6 +40,7 @@ export class GradeDashboadComponent implements OnInit {
   @ViewChild('stepper') stepper;
   isLinear = false;
   courses = []
+  course = []
   courseForm = this.fb.group({
     Name: [''],
     startDate: ['']

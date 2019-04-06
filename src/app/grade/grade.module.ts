@@ -5,6 +5,7 @@ import { GradeComponent } from './grade.component';
 import { GradeFormComponent } from './grade-form/grade-form.component';
 import { GradeRoutingModule } from './grade-routing.module';
 import { GradeDashboadComponent } from './grade-dashboad/grade-dashboad.component';
+import { GradeService } from './grade.service';
 
 @NgModule({
   declarations: [ GradeComponent, GradeFormComponent, GradeDashboadComponent],
@@ -13,7 +14,7 @@ import { GradeDashboadComponent } from './grade-dashboad/grade-dashboad.componen
     MaterialModule,
     GradeRoutingModule
   ],
-  providers: [ ],
+  providers: [ GradeService ],
   exports: [ GradeFormComponent ],
   entryComponents: [ GradeFormComponent ]
 })

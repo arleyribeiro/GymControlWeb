@@ -1,3 +1,4 @@
+import { GradeService } from './../grade.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
@@ -12,7 +13,8 @@ export class GradeFormComponent implements OnInit {
 
   constructor(private matDialogRef: MatDialogRef<GradeFormComponent>, 
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              private gradeService: GradeService) { }
   courses = []
   courseId = null
   course = null
@@ -39,16 +41,23 @@ export class GradeFormComponent implements OnInit {
 
   onSubmit(){
     this.gradeForm.get('daysweek').setValue(this.daysweek);
+    this.gradeService.postGrade(this.gradeForm.value).subscribe(response => {
+      console.log(response)
+    });
     console.log(this.gradeForm.value)
   }
 
   addDay(day) {
-    let days = [0,1,2,3,4,5,6,7,8]
     this.daysweek.push({
-      startHour: "",
-      endHour:"",
+      startHour: this.startHour,
+      endHour: this.endHour,
       day: day,
-      gradeId: ""
+      gradeId: 0
     })
+  }
+
+  test() {
+    console.log(this.startHour)
+    console.log(this.endHour)
   }
 }
