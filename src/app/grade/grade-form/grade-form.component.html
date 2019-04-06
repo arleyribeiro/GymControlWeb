@@ -15,7 +15,7 @@
         <input matInput placeholder="Nome da turma" formControlName="name">
       </mat-form-field>
     </div>
-    <div fxLayout="col" fxLayoutAlign="space-evenly center">
+    <div fxLayout="col" fxLayoutAlign="space-between center">
       <div>
           <mat-form-field>
             <input matInput [matDatepicker]="picker" placeholder="Data início" formControlName="startDate">
@@ -24,42 +24,13 @@
           </mat-form-field>
         </div>
       <div>
-        <mat-form-field fxFlex="99">
+        <mat-form-field >
           <input matInput [matDatepicker]="picker2" placeholder="Data fim" formControlName="endDate">
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
       </div>
-      <div>
-        <mat-form-field fxFlex="99">
-          <input matInput type="time" placeholder="Hora início" [(ngModel)]="startHour" [ngModelOptions]="{standalone: true}"> 
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field>
-          <input matInput type="time" placeholder="Hora fim" [(ngModel)]="endHour" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-      </div>
-    </div>
-    <div fxLayout="col" fxLayoutAlign="space-between start" fxLayoutGap="10px">
-        <div>
-          <mat-checkbox (click)="addDay(8)">Todos</mat-checkbox>
-          <mat-checkbox (click)="addDay(2)">Segunda-feira</mat-checkbox>
-        </div>
-        <div>
-          <mat-checkbox (click)="addDay(3)">Terça-feira</mat-checkbox>
-          <mat-checkbox (click)="addDay(4)">Quarta-feira</mat-checkbox>
-        </div>
-        <div>
-          <mat-checkbox (click)="addDay(5)">Quinta-feira</mat-checkbox>
-          <mat-checkbox (click)="addDay(6)">Sexta-feira</mat-checkbox>
-        </div>
-        <div>
-          <mat-checkbox (click)="addDay(7)">Sábado</mat-checkbox>
-          <mat-checkbox (click)="addDay(1)">Domingo</mat-checkbox>
-        </div>
-      <div fxLayout="row" fxLayoutAlign="space-between end" fxLayoutGap="10px">
-        <mat-form-field class="example-full-width">
+      <mat-form-field >
           <input type="number" min="1" step="1" matInput placeholder="Quantidade de vagas"  formControlName="vacancy">
         </mat-form-field>
         <mat-form-field>
@@ -70,12 +41,36 @@
             <mat-option value="3">Option 3</mat-option>
           </mat-select>
         </mat-form-field> 
+    </div>
+    <div fxLayout="col" fxLayoutAlign="space-between center" fxLayoutGap="5px" style="border: 1px solid gray; padding: 10px; border-radius: 5px">
+      <div fxFlex="50" style="padding-right: 5px">
+        <div fxLayoutAlign="center center" fxLayoutGap="10px" *ngFor="let i of [1,2,3]; let i = index">
+          <label fxFlex="34" style="font-family: monospace">{{ daysweek[i].name }}</label>          
+          <mat-form-field fxFlex="33">
+            <input matInput type="time" placeholder="Hora início" [(ngModel)]="daysweek[i].startHour" [ngModelOptions]="{standalone: true}"> 
+          </mat-form-field>
+          <mat-form-field fxFlex="33">
+            <input matInput type="time" placeholder="Hora fim" [(ngModel)]="daysweek[i].endHour" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>        
       </div>
+      
+      <div fxFlex="50" style="padding-left: 5px">
+        <div fxLayoutAlign="center center" fxLayoutGap="10px" *ngFor="let i of [4,5,6]">
+          <label fxFlex="34" style="font-family: monospace">{{ daysweek[i].name }}</label>
+          <mat-form-field fxFlex="33">
+            <input matInput type="time" placeholder="Hora início" [(ngModel)]="daysweek[i].startHour" [ngModelOptions]="{standalone: true}"> 
+          </mat-form-field>
+          <mat-form-field fxFlex="33">
+            <input matInput type="time" placeholder="Hora fim" [(ngModel)]="daysweek[i].endHour" [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+        </div>
+      </div>   
     </div>
   </form>
   <mat-card-actions>
     <div class="btn-save" style="margin-bottom: 15px">
-      <button  mat-raised-button color="primary" (click)="onSubmit()" [mat-dialog-close]="true" type="submit">Salvar</button>
+      <button  mat-raised-button color="primary" (click)="onSubmit()" [mat-dialog-close]="true" type="submit" [disabled]="gradeForm.invalid">Salvar</button>
       <button  mat-button color="primary" [mat-dialog-close]="false">Cancelar</button>
     </div>
   </mat-card-actions>
