@@ -17,7 +17,7 @@ export class GradeFormComponent implements OnInit {
               private gradeService: GradeService) { }
   courses = []
   courseId = null
-  course = 12
+  course
   daysweek = []
   selectedsDay = []
   startHour
@@ -36,6 +36,7 @@ export class GradeFormComponent implements OnInit {
     if(this.data.courses != null) {
       this.courses = this.data.courses;
       this.course = this.data.course;
+      this.gradeForm.get('courseId').setValue(this.data.course.courseId)
 
       console.log("this.data.course: ",this.data.course);
     }

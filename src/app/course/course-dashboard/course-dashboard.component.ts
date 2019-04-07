@@ -32,13 +32,15 @@ export class CourseDashboardComponent implements OnInit {
   ngOnInit() {
     this.getCourses();
     this.courseForm = this.fb.group({
-      Name: [''],
-      User: [''],
-      Status: ['']
+      name: ['', Validators.required],
+      user: [''],
+      status: ['', Validators.required],
+      modality: ['', Validators.required]
     });
   }
 
   applyFilter(filterValue: string) {
+    //filterValue = filterValue == 'true' ? 'Ativo' : 'Inativo';
     console.log(this.dataSource.filteredData)
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -83,8 +85,11 @@ export class CourseDashboardComponent implements OnInit {
   addCourse() {
     var dialogRef = this.dialog.open(CourseFormComponent, 
       { panelClass: 'header', 
-      width: "30%",
-      disableClose: true
+      width: "40%",
+      disableClose: true,
+      data: {
+        course: null
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -113,10 +118,14 @@ export class CourseDashboardComponent implements OnInit {
   }
 
   deleteCourse () {
+    var courseIds = []
+    this.selection.selected.forEach(element => {
+      courseIds.push(element.courseId)
+    });
     var dialogRef = this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Excluir curso", "Após a operação esse curso será excluído.", "Confirmar", "Cancelar", "40%");
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.courseService.delete(this.selection.selected[0].courseId).subscribe(response => {
+        this.courseService.delete( courseIds ).subscribe(response => {
           this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Notificação", "O curso foi excluído com sucesso.", "Ok", "", "40%");
         })
       }

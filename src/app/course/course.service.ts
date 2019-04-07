@@ -34,6 +34,6 @@ export class CourseService {
   }
 
   delete(data) {
-      return this.http.post(this.API + "disableCourse/", data);
+      return this.http.post(this.API + "disabledCourse/", data);
   }
 }
