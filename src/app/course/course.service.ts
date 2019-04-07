@@ -14,6 +14,10 @@ export class CourseService {
       return this.http.get(this.API+"listCourses");
   }
 
+  getCourseWithGrades() {
+    return this.http.get(this.API+"listCourseGrades");
+  }
+
   getCourse(id){
       return this.http.get(this.API+id);
   }

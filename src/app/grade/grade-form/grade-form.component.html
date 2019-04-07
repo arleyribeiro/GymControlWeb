@@ -8,7 +8,7 @@
       <mat-form-field fxFlex>
         <mat-label>Selecione um curso</mat-label>
         <mat-select [(value)]="course"  formControlName="courseId">
-          <mat-option value="{{ course.courseId }}" *ngFor="let course of courses" > {{ course.name }}</mat-option>
+          <mat-option [value]="course.courseId" *ngFor="let course of courses" > {{ course.name }}</mat-option>
         </mat-select>
       </mat-form-field>  
       <mat-form-field class="example-full-width" fxFlex>

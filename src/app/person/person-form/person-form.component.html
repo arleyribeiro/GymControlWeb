@@ -100,12 +100,62 @@
                 </div>
               </div>
               <mat-card-actions class="btn-save">
-                <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!profileAddressForm.valid">Salvar</button>
-                <button mat-button color="primary" matStepperPrevious>Voltar</button>
-                <button mat-button color="primary" (click)="stepper.reset()">Reiniciar</button>
+                  <button mat-button color="primary" matStepperPrevious>Voltar</button>
+                  <button mat-button color="primary" matStepperNext (click)="getCourseWithGrades()">Próximo</button>
               </mat-card-actions>
           </form>
         </mat-step>
+        <mat-step [stepControl]="plansForm" state="fitness_center">
+            <form [formGroup]="plansForm">
+              <ng-template matStepLabel>Cursos</ng-template>
+              <button mat-raised-button color="primary" (click)="addPlan()" style="margin: 10px 0px 10px 0px">Adcionar outro curso
+              &nbsp;<mat-icon>add_circle_outline</mat-icon>
+              </button>
+                <div formArrayName="plans" *ngFor="let item of plansForm.get('plans').controls; let i = index" >
+                  <div [formGroupName]="i">
+
+                    <div fxLayout="col" fxLayoutAlign="start start" fxLayoutGap="10px">
+                      <mat-list>
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <div mat-subheader>{{ i+1 }} - Plano</div>
+                            <div>
+                              <mat-icon matTooltip="Remover" (click)="removePlan()" style="color: rgba(0,0,0,.54);">highlight_off</mat-icon>
+                            </div>
+                        </div>
+                        <mat-radio-group aria-label="Plano"  formControlName="planId">
+                          <mat-radio-button value="1" required checked="true">Mensalista</mat-radio-button>
+                          <mat-radio-button value="3" required>3 meses</mat-radio-button>
+                          <mat-radio-button value="6" required>6 meses</mat-radio-button>
+                          <mat-radio-button value="12" required>12 meses</mat-radio-button>
+                        </mat-radio-group>
+                      </mat-list> 
+                    </div>
+                    <div fxLayoutAlign="start start" fxLayoutGap="10px" style="margin-top: 10px">
+                        <mat-form-field>
+                            <input matInput type="number" step="1" min="1" max="31" placeholder="Vencimento" formControlName="dueDate">
+                          </mat-form-field>
+                        <mat-form-field>
+                          <mat-label>Escolha um curso</mat-label>
+                          <mat-select formControlName="courseId">
+                            <mat-option [value]="course.courseId" *ngFor="let course of courses" (click)="getGrade(course)">{{ course.name }}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="grades != null">
+                            <mat-label>Escolha uma turma</mat-label>
+                            <mat-select  formControlName="gradeId">
+                              <mat-option [value]="grade.gradeId" *ngFor="let grade of grades"  (click)="addForm()">{{ grade.name }}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <mat-card-actions class="btn-save">
+                  <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!plansForm.valid">Salvar</button>
+                  <button mat-button color="primary" matStepperPrevious>Voltar</button>
+                  <button mat-button color="primary" (click)="stepper.reset(); resetPlans()">Reiniciar</button>
+                </mat-card-actions>
+            </form>
+          </mat-step>
         <!-- Icon overrides. -->
         <ng-template matStepperIcon="phone">
           <mat-icon>call_end</mat-icon>
@@ -118,6 +168,9 @@
         </ng-template>
         <ng-template matStepperIcon="person">
           <mat-icon>person</mat-icon>
+        </ng-template>
+        <ng-template matStepperIcon="fitness_center">
+          <mat-icon>fitness_center</mat-icon>
         </ng-template>
     </mat-horizontal-stepper>
   </mat-card-content>

@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { CourseService } from 'src/app/course/course.service';
+import { Component, OnInit, ViewChild, forwardRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl, FormGroup, FormArray, FormControl } from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
 import { PersonService } from '../person.service';
 import { UtilService } from './../../shared/util/util.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export function ValidateCpf(control: AbstractControl) {
     const cpf = control.value;
@@ -61,26 +63,40 @@ export function ValidateCpf(control: AbstractControl) {
   templateUrl: './person-form.component.html',
   styleUrls: ['./person-form.component.css'],
   providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
+    provide: STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false},
   }]
 })
 
 export class PersonFormComponent implements OnInit {
+  
+
   @ViewChild('stepper') stepper;
-  isLinear = true;
+  isLinear = false;
   states = [];
   gender = null;
+  courses = null;
+  grades = null;
+  items = [];
   personService: PersonService;
   utilService: UtilService;
+
+  plansForm: FormGroup;
+  plans: FormArray;
+
   constructor(private fb: FormBuilder, 
     private _personService: PersonService, 
     private _utilService: UtilService,
-    private dialog: MatDialog) { 
+    private dialog: MatDialog,
+    private courseService: CourseService) { 
     this.personService = _personService;
     this.utilService = _utilService;
   }
 
   ngOnInit() {
+    this.plansForm = this.fb.group({
+      plans: this.fb.array([ this.createItem() ]),
+    })
+
     this.states = [ { name: "Acre", initials: "AC"},
               { name: "Alagoas", initials: "AL"},
               { name: "Amapá", initials: "AP"},
@@ -129,6 +145,7 @@ export class PersonFormComponent implements OnInit {
       state: ['', Validators.required],
       zip: ['', Validators.required]
     }),
+    plans: ['', Validators.required]
   });
 
   profilePersonalForm = this.fb.group({
@@ -155,6 +172,42 @@ export class PersonFormComponent implements OnInit {
       zip: ['', Validators.required]
   });
 
+  addForm() {
+    this.profileForm.get('plans').setValue(this.items);
+  }
+  
+  removePlan(index) {
+    this.plans = this.plansForm.controls.plans as FormArray;
+    if(this.plans.length>0){
+      this.plans.removeAt(index);
+    }
+    if(this.plans.length == 0)
+      this.addForm()
+  }
+
+  resetPlans() {
+    this.grades = null;
+    this.plansForm = this.fb.group({
+      plans: this.fb.array([ this.createItem() ]),
+    })
+  }
+
+  addPlan() {
+    this.plans = this.plansForm.controls.plans as FormArray;
+    this.plans.push( this.createItem() );
+  }
+
+  createItem(): FormGroup {
+     var plan = this.fb.group({
+      planId: ['', Validators.required],
+      dueDate: ['', Validators.required],
+      courseId: ['', Validators.required],
+      gradeId: ['', Validators.required]
+    });
+    plan.get("planId").setValue('1');
+    return plan
+  }
+
   replaceAll(data) {
     return data.replace(".", '').replace("-",'').replace("/", '');
   }
@@ -175,6 +228,20 @@ export class PersonFormComponent implements OnInit {
     );
   }
 
+  getCourseWithGrades() {
+    this.courseService.getCourseWithGrades().subscribe(response => {
+      this.courses = response;
+    });
+  }
+
+  getGrade(course) {
+    this.grades = course.grades;
+  }
+
+  newCourse() {
+    this.items.push(1);
+  }
+
   onSubmit() {
 
     this.profileForm.get('name').setValue(this.profilePersonalForm.get('name').value);
@@ -185,6 +252,7 @@ export class PersonFormComponent implements OnInit {
     this.profileForm.get('telephone').setValue(this.profileContactForm.get('telephone').value);
     this.profileForm.get('cellphone').setValue(this.profileContactForm.get('cellphone').value);
     this.profileForm.get('cellphone2').setValue(this.profileContactForm.get('cellphone2').value);
+    this.profileForm.get('plans').setValue(this.plansForm.get('plans').value);
     this.profileForm.get('address').get('number').setValue(this.profileAddressForm.get('number').value);
     this.profileForm.get('address').get('street').setValue(this.profileAddressForm.get('street').value);
     this.profileForm.get('address').get('neighborhood').setValue(this.profileAddressForm.get('neighborhood').value);
