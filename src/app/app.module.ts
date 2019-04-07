@@ -18,13 +18,16 @@ import { UtilService } from './shared/util/util.service';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import { GradeModule } from './grade/grade.module';
 import { CourseModule } from './course/course.module';
+import { PaymentPlansComponent } from './payment-plans/payment-plans.component';
+import { PaymentPlansModule } from './payment-plans/payment-plans.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     SidenavListComponent,
-    DialogComponent
+    DialogComponent,
+    PaymentPlansComponent
   ],
   imports: [
     BrowserModule,    
@@ -34,7 +37,8 @@ import { CourseModule } from './course/course.module';
     HttpClientModule,
     GradeModule,
     CourseModule,
-    AppRoutingModule
+    PaymentPlansModule,
+    AppRoutingModule,
   ],
   providers: [ PersonService, UtilService ],
   bootstrap: [AppComponent],

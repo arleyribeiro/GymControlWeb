@@ -122,30 +122,33 @@
                               <mat-icon matTooltip="Remover" (click)="removePlan()" style="color: rgba(0,0,0,.54);">highlight_off</mat-icon>
                             </div>
                         </div>
-                        <mat-radio-group aria-label="Plano"  formControlName="planId">
-                          <mat-radio-button value="1" required checked="true">Mensalista</mat-radio-button>
-                          <mat-radio-button value="3" required>3 meses</mat-radio-button>
-                          <mat-radio-button value="6" required>6 meses</mat-radio-button>
-                          <mat-radio-button value="12" required>12 meses</mat-radio-button>
-                        </mat-radio-group>
                       </mat-list> 
                     </div>
                     <div fxLayoutAlign="start start" fxLayoutGap="10px" style="margin-top: 10px">
-                        <mat-form-field>
-                            <input matInput type="number" step="1" min="1" max="31" placeholder="Vencimento" formControlName="dueDate">
-                          </mat-form-field>
-                        <mat-form-field>
-                          <mat-label>Escolha um curso</mat-label>
-                          <mat-select formControlName="courseId">
-                            <mat-option [value]="course.courseId" *ngFor="let course of courses" (click)="getGrade(course)">{{ course.name }}</mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                        <mat-form-field *ngIf="grades != null">
-                            <mat-label>Escolha uma turma</mat-label>
-                            <mat-select  formControlName="gradeId">
-                              <mat-option [value]="grade.gradeId" *ngFor="let grade of grades"  (click)="addForm()">{{ grade.name }}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Escolha um curso</mat-label>
+                        <mat-select formControlName="courseId">
+                          <mat-option [value]="course.courseId" *ngFor="let course of courses" (click)="getGrade(course)">{{ course.name }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field *ngIf="grades != null">
+                        <mat-label>Escolha uma turma</mat-label>
+                        <mat-select  formControlName="gradeId">
+                          <mat-option [value]="grade.gradeId" *ngFor="let grade of grades"  (click)="getPlans(i)">{{ grade.name }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field *ngIf="paymentPlans != null">
+                        <mat-label>Escolha uma turma</mat-label>
+                        <mat-select  formControlName="planId">
+                          <mat-option [value]="plan.planId" *ngFor="let plan of paymentPlans">{{ plan.name }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field fxFlex="10">
+                        <input matInput type="number" disabled="true" placeholder="Valor" formControlName="dueDate">
+                      </mat-form-field>
+                      <mat-form-field fxFlex="10">
+                        <input matInput type="number" step="1" min="1" max="31" placeholder="Vencimento" formControlName="dueDate">
+                      </mat-form-field>
                     </div>
                   </div>
                 </div>

@@ -8,6 +8,7 @@ import { PersonService } from '../person.service';
 import { UtilService } from './../../shared/util/util.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { PaymentPlansService } from 'src/app/payment-plans/payment-plans.service';
 
 export function ValidateCpf(control: AbstractControl) {
     const cpf = control.value;
@@ -77,6 +78,7 @@ export class PersonFormComponent implements OnInit {
   courses = null;
   grades = null;
   items = [];
+  paymentPlans:any;
   personService: PersonService;
   utilService: UtilService;
 
@@ -87,7 +89,8 @@ export class PersonFormComponent implements OnInit {
     private _personService: PersonService, 
     private _utilService: UtilService,
     private dialog: MatDialog,
-    private courseService: CourseService) { 
+    private courseService: CourseService,
+    private paymentPlansService: PaymentPlansService) { 
     this.personService = _personService;
     this.utilService = _utilService;
   }
@@ -199,10 +202,10 @@ export class PersonFormComponent implements OnInit {
 
   createItem(): FormGroup {
      var plan = this.fb.group({
-      planId: ['', Validators.required],
+      planId: [0, Validators.required],
       dueDate: ['', Validators.required],
-      courseId: ['', Validators.required],
-      gradeId: ['', Validators.required]
+      courseId: [0, Validators.required],
+      gradeId: [0, Validators.required]
     });
     plan.get("planId").setValue('1');
     return plan
@@ -283,5 +286,13 @@ export class PersonFormComponent implements OnInit {
             buttonConfirm: buttonConfirm
           }
       });
+  }
+
+  getPlans(index){
+    this.plans = this.plansForm.controls.plans as FormArray;
+    var plan = this.plans.value[index];
+    this.paymentPlansService.getPlansOfCourse(plan.courseId, plan.gradeId).subscribe(response => {
+      this.paymentPlans = response;
+    });
   }
 }
