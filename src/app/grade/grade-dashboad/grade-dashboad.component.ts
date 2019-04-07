@@ -1,6 +1,7 @@
+import { GradeService } from './../grade.service';
 import { GradeFormComponent } from './../grade-form/grade-form.component';
 import { DialogComponent } from './../../shared/dialog/dialog.component';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatPaginator, MatDialog, MatTableDataSource } from '@angular/material';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -21,7 +22,7 @@ export interface User {
 })
 export class GradeDashboadComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['select', 'name', 'created', 'user', 'status', 'options'];
+  displayedColumns: string[] = ['select', 'name', 'courseName', 'created', 'userName', 'vacancy', 'status', 'options'];
   dataSource: any;
   selection = new SelectionModel<any>(true, []);
   selected = null
@@ -36,25 +37,27 @@ export class GradeDashboadComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dialog: MatDialog,
               private utilService: UtilService,
-              private courseService: CourseService) { }
+              private gradeService: GradeService) { }
   @ViewChild('stepper') stepper;
   isLinear = false;
   courses = []
+  grades: any
   course = []
-  courseForm = this.fb.group({
-    Name: [''],
-    startDate: ['']
-  });
+  gradeForm: FormGroup
   ngOnInit() {
-    this.courseForm = this.fb.group({
-      Name: [''],
-      startDate: ['']
+    this.getGrades();
+
+    this.gradeForm = this.fb.group({
+      name: ['', Validators.required],
+      courseId: ['', Validators.required],
+      startDate: ['', Validators.required],
+      endDate: ['', Validators.required],
+      vacancy: ['', Validators.required],
+      userId: ['', Validators.required],
+      daysweek: ['']
     });
 
-    this.courseForm.get('Name').setValue('Musculacao');
-    this.getCourses();
-
-    this.filteredOptions = this.courseForm.valueChanges
+    this.filteredOptions = this.gradeForm.valueChanges
       .pipe(
         startWith(''),
         map(value => typeof value === 'string' ? value : value.name),
@@ -127,26 +130,45 @@ export class GradeDashboadComponent implements OnInit {
       }});
   }
 
-  editCourse () {
-    this.utilService.callDialogConfirm(this.dialog, DialogComponent, "title", "content", "Confirmar", "Cancelar", "40%");
+  addGradeWithCourse() {
+    console.log("this.selection.selected[0]", this.selection.selected[0])
+    this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
+      width: "60%",
+      disableClose: true, 
+      data: {
+        grade: null,
+        title: "title",
+        content: "content",
+        buttonCancel: "Cancelar",
+        buttonConfirm: "Confirmar"
+      }});
+  }
+
+  editGrade () {
+    console.log("this.selection.selected[0]", this.selection.selected[0])
+    this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
+      width: "60%",
+      disableClose: true, 
+      data: {
+        grade: this.selection.selected[0],
+        title: "Editar turma",
+        content: "content",
+        buttonCancel: "Cancelar",
+        buttonConfirm: "Confirmar"
+      }});
   }
 
   deleteCourse () {
     this.utilService.callDialogConfirm(this.dialog, DialogComponent, "title", "content", "Confirmar", "Cancelar", "40%");
   }
 
-  getCourses(){
-    console.log("courseForm.name: ", this.courseForm.get('Name').value)
-    this.selection.clear();
-    /*var data = [{course: "musculacao", name: "musc1", created: "12", status: "ativo", user: "a"},
-                {course: "musculacao", name: "musc2", created: "12", status: "ativo", user: "a"},
-                {course: "jiujitsu", name: "jiu1", created: "12", status: "ativo", user: "a"},
-                {course: "jiujitsu", name: "jiu2", created: "12", status: "ativo", user: "a"}];*/
-      this.courseService.get().subscribe((data:any) => {
-        this.courses = data;
-        console.log(data);
-        this.dataSource = new MatTableDataSource<any>(data);
-        this.dataSource.paginator = this.paginator;
-      })
+  getGrades() {
+    this.gradeService.getGradesWithDaysWeek().subscribe((data:any) => { 
+      console.log(data)
+      this.grades = data;    
+      this.dataSource = new MatTableDataSource<any>(data);
+      this.dataSource.paginator = this.paginator;
+    });
   }
+  
 }

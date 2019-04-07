@@ -16,4 +16,15 @@ export class GradeService {
     postGrade(data) {
         return this.http.post(this.API, data);
     }
+
+    getGradesWithDaysWeek(){
+        return this.http.get(this.API+'grades');
+    }
+
+    update(id, data) {
+        const httpOptions = {
+            headers: new HttpHeaders({'Content-Type': 'application/json'})
+        }
+        return this.http.put(this.API + id + '/', data, httpOptions);
+    }
 }

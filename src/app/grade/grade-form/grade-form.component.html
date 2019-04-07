@@ -35,10 +35,8 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Selecione um instrutor</mat-label>
-          <mat-select formControlName="userId">
-            <mat-option value="1"  >Option 1</mat-option>
-            <mat-option value="2">Option 2</mat-option>
-            <mat-option value="3">Option 3</mat-option>
+          <mat-select formControlName="userId" [(ngModel)]="gradeForm.get('userId').value">
+            <mat-option [value]="item.userId"  *ngFor="let item of instructors">{{ item.name }}</mat-option>
           </mat-select>
         </mat-form-field> 
     </div>
