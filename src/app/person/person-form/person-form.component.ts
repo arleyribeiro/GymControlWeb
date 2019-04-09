@@ -76,9 +76,10 @@ export class PersonFormComponent implements OnInit {
   states = [];
   gender = null;
   courses = null;
-  grades = null;
+  grades = [];
   items = [];
-  paymentPlans:any;
+  paymentPlans:any = [];
+  prices:any = []
   personService: PersonService;
   utilService: UtilService;
 
@@ -180,16 +181,27 @@ export class PersonFormComponent implements OnInit {
   }
   
   removePlan(index) {
+    console.log(index)
     this.plans = this.plansForm.controls.plans as FormArray;
     if(this.plans.length>0){
       this.plans.removeAt(index);
+    }
+    if(this.grades.length>0){
+      this.grades.splice(index,1);
+    }
+    if(this.paymentPlans.length>0){
+      this.paymentPlans.splice(index,1)
+    }
+    if(this.prices.length>0){
+      this.prices.splice(index, 1)
     }
     if(this.plans.length == 0)
       this.addForm()
   }
 
   resetPlans() {
-    this.grades = null;
+    this.grades = [];
+    this.paymentPlans = []
     this.plansForm = this.fb.group({
       plans: this.fb.array([ this.createItem() ]),
     })
@@ -237,8 +249,25 @@ export class PersonFormComponent implements OnInit {
     });
   }
 
-  getGrade(course) {
-    this.grades = course.grades;
+  setGrade(course, index) {
+    console.log(course, index, this.grades)
+    this.grades[index] = course.grades;
+  }
+
+  setPrice(plan, index) {
+    this.prices[index] = plan;
+  }
+
+  getPrice(index){
+    return (this.prices!=null && this.prices.length>0) ? this.prices[index].price : null;
+  }
+
+  setPlans(index){
+    this.plans = this.plansForm.controls.plans as FormArray;
+    var plan = this.plans.value[index];
+    this.paymentPlansService.getPlansOfCourse(plan.courseId, plan.gradeId).subscribe(response => {
+      this.paymentPlans[index] = response;
+    });
   }
 
   newCourse() {
@@ -288,11 +317,4 @@ export class PersonFormComponent implements OnInit {
       });
   }
 
-  getPlans(index){
-    this.plans = this.plansForm.controls.plans as FormArray;
-    var plan = this.plans.value[index];
-    this.paymentPlansService.getPlansOfCourse(plan.courseId, plan.gradeId).subscribe(response => {
-      this.paymentPlans = response;
-    });
-  }
 }

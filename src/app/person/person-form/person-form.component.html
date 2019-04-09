@@ -119,7 +119,7 @@
                         <div fxLayout="row" fxLayoutAlign="start center">
                             <div mat-subheader>{{ i+1 }} - Plano</div>
                             <div>
-                              <mat-icon matTooltip="Remover" (click)="removePlan()" style="color: rgba(0,0,0,.54);">highlight_off</mat-icon>
+                              <mat-icon matTooltip="Remover" (click)="removePlan(i)" style="color: rgba(0,0,0,.54);">highlight_off</mat-icon>
                             </div>
                         </div>
                       </mat-list> 
@@ -128,25 +128,25 @@
                       <mat-form-field>
                         <mat-label>Escolha um curso</mat-label>
                         <mat-select formControlName="courseId">
-                          <mat-option [value]="course.courseId" *ngFor="let course of courses" (click)="getGrade(course)">{{ course.name }}</mat-option>
+                          <mat-option [value]="course.courseId" *ngFor="let course of courses" (click)="setGrade(course, i)">{{ course.name }}</mat-option>
                         </mat-select>
                       </mat-form-field>
-                      <mat-form-field *ngIf="grades != null">
+                      <mat-form-field *ngIf="grades != null && grades[i] != null">
                         <mat-label>Escolha uma turma</mat-label>
                         <mat-select  formControlName="gradeId">
-                          <mat-option [value]="grade.gradeId" *ngFor="let grade of grades"  (click)="getPlans(i)">{{ grade.name }}</mat-option>
+                          <mat-option [value]="grade.gradeId" *ngFor="let grade of grades[i]"  (click)="setPlans(i)">{{ grade.name }}</mat-option>
                         </mat-select>
                       </mat-form-field>
-                      <mat-form-field *ngIf="paymentPlans != null">
-                        <mat-label>Escolha uma turma</mat-label>
+                      <mat-form-field *ngIf="paymentPlans != null && paymentPlans[i] != null">
+                        <mat-label>Escolha um plano de pagamento</mat-label>
                         <mat-select  formControlName="planId">
-                          <mat-option [value]="plan.planId" *ngFor="let plan of paymentPlans">{{ plan.name }}</mat-option>
+                          <mat-option [value]="plan.planId" *ngFor="let plan of paymentPlans[i]" (click)="setPrice(plan, i)">{{ plan.name }}</mat-option>
                         </mat-select>
                       </mat-form-field>
-                      <mat-form-field fxFlex="10">
-                        <input matInput type="number" disabled="true" placeholder="Valor" formControlName="dueDate">
+                      <mat-form-field fxFlex="10" *ngIf="prices != null && prices[i] != null">
+                        <input matInput type="number" placeholder="Valor" [value]=prices[i]?.price>
                       </mat-form-field>
-                      <mat-form-field fxFlex="10">
+                      <mat-form-field fxFlex="10"  *ngIf="prices != null && prices[i] != null">
                         <input matInput type="number" step="1" min="1" max="31" placeholder="Vencimento" formControlName="dueDate">
                       </mat-form-field>
                     </div>
