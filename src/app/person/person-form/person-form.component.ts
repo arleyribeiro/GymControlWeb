@@ -9,6 +9,7 @@ import { UtilService } from './../../shared/util/util.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { PaymentPlansService } from 'src/app/payment-plans/payment-plans.service';
+import { Profile } from 'selenium-webdriver/firefox';
 
 export function ValidateCpf(control: AbstractControl) {
     const cpf = control.value;
@@ -200,8 +201,21 @@ export class PersonFormComponent implements OnInit {
   }
 
   resetPlans() {
-    this.grades = [];
+    this.prices = []
+    this.grades = []
     this.paymentPlans = []
+    this.plansForm.reset()
+    this.profileAddressForm.reset()
+    this.profileContactForm.reset()
+    this.profileForm.reset()
+    this.profilePersonalForm.reset()
+    this.profileForm.get('gender').setValue('F');
+
+    this.payment = this.plansForm.controls.payment as FormArray;
+    for(var i=0; i<this.payment.length;i++){
+      console.log(i)
+      this.removePlan(i)
+    }
     this.plansForm = this.fb.group({
       payment: this.fb.array([ this.createItem() ]),
     })
@@ -214,13 +228,12 @@ export class PersonFormComponent implements OnInit {
 
   createItem(): FormGroup {
      var plan = this.fb.group({
-      planId: [0, Validators.required],
+      planId: [1, Validators.required],
       personId: 0,
       amountToBePaid: 0,
       userId: 0,
       numberOfMonths: 0,
-      price: 0,
-      dueDay: 0,
+      dueDay: 5,
       courseId: [0, Validators.required],
       gradeId: [0, Validators.required],
     });
@@ -259,15 +272,13 @@ export class PersonFormComponent implements OnInit {
     this.grades[index] = course.grades;
   }
 
-  setPrice(plan, index) {
+  setPrice(plan, index, form) {
     this.prices[index] = plan;
     var payments = this.plansForm.controls.payment as FormArray;
-    console.log("teste: ",plan, payments, this.plansForm.controls.payment[index])
-    this.plansForm.get('payment').value[index].numberOfMonths = plan.numberOfMonths;
-    this.plansForm.get('payment').value[index].price = plan.price;
-    this.plansForm.get('payment').value[index].amountToBePaid = plan.price;
-    console.log("teste: ",plan, payments)
-    console.log("PlansForm: ", this.plansForm.get('payment').value[index])
+    payments.get(""+index+"").get('numberOfMonths').setValue(plan.numberOfMonths)
+    payments.get(""+index+"").get('amountToBePaid').setValue(plan.price)
+    /*this.payment.get(""+index+"").get('numberOfMonths').setValue(plan.numberOfMonths);
+    this.payment.get(""+index+"").get('amountToBePaid').setValue(plan.price)*/
   }
 
   getPrice(index){
@@ -287,7 +298,7 @@ export class PersonFormComponent implements OnInit {
   }
 
   onSubmit() {
-
+    console.log( this.profileForm.value)
     this.profileForm.get('name').setValue(this.profilePersonalForm.get('name').value);
     this.profileForm.get('dateOfBirth').setValue(this.profilePersonalForm.get('dateOfBirth').value);
     this.profileForm.get('cpf').setValue(this.profilePersonalForm.get('cpf').value);
@@ -309,6 +320,7 @@ export class PersonFormComponent implements OnInit {
     this.personService.postPerson(this.profileForm.value).subscribe(
       (data) => {
         console.log("Criou");
+        this.resetPlans()
         this.stepper.reset();
         this.callDialog(this.dialog, DialogComponent, 'Usuário inserido com sucesso!', "O usuário foi inserido com sucesso.", 'Ok', null);
       }, error => {

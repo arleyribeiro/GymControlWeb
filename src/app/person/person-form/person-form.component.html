@@ -11,7 +11,7 @@
             <mat-list fxFlex="30">
               <label mat-subheader>Sexo</label>
               <mat-radio-group formControlName="gender">
-                <mat-radio-button value="F" required checked="true">Feminino</mat-radio-button>
+                <mat-radio-button value="F" required>Feminino</mat-radio-button>
                 <mat-radio-button value="M" required>Masculino</mat-radio-button>
               </mat-radio-group>
             </mat-list> 
@@ -22,11 +22,11 @@
               <input matInput type="text" mask="000.000.000-00" placeholder="CPF" formControlName="cpf">
             </mat-form-field>
             <mat-form-field fxFlex="22" class="margin-right">
-              <input matInput type="text" mask="00000000" placeholder="Identidade" formControlName="rg">
+              <input matInput type="text" mask="00000000" placeholder="Identidade" disabled>
             </mat-form-field>
     
-            <mat-form-field fxFlex="22" class="margin-right">
-              <mat-select>
+            <mat-form-field fxFlex="22" class="margin-right"  disabled>
+              <mat-select disabled>
                 <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
               </mat-select>
             </mat-form-field>
@@ -140,11 +140,11 @@
                       <mat-form-field *ngIf="paymentPlans != null && paymentPlans[i] != null">
                         <mat-label>Escolha um plano de pagamento</mat-label>
                         <mat-select  formControlName="planId">
-                          <mat-option [value]="plan.planId" *ngFor="let plan of paymentPlans[i]" (click)="setPrice(plan, i)">{{ plan.name }}</mat-option>
+                          <mat-option [value]="plan.planId" *ngFor="let plan of paymentPlans[i]" (click)="setPrice(plan, i, item)">{{ plan.name }}</mat-option>
                         </mat-select>
                       </mat-form-field>
                       <mat-form-field fxFlex="10" *ngIf="prices != null && prices[i] != null">
-                        <input matInput type="number" placeholder="Valor" [value]=prices[i]?.price formControlName="price">
+                        <input matInput type="number" placeholder="Valor" [value]=prices[i]?.price>
                       </mat-form-field>
                       <mat-form-field fxFlex="10"  *ngIf="prices != null && prices[i] != null">
                         <input matInput type="number" step="1" min="1" max="31" placeholder="Vencimento" formControlName="dueDay">
@@ -155,7 +155,7 @@
                 <mat-card-actions class="btn-save">
                   <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!plansForm.valid">Salvar</button>
                   <button mat-button color="primary" matStepperPrevious>Voltar</button>
-                  <button mat-button color="primary" (click)="stepper.reset(); resetPlans()">Reiniciar</button>
+                  <button mat-button color="primary" (click)=" resetPlans();stepper.reset();">Reiniciar</button>
                 </mat-card-actions>
             </form>
           </mat-step>
