@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class PaymentPlansService {
 
-  private readonly API = 'https://localhost:5001/api/TypePlan/';
+  private readonly API = 'https://localhost:5001/api/PaymentPlan/';
   constructor(private http: HttpClient) { }
 
   getPlans(){
@@ -14,7 +14,7 @@ export class PaymentPlansService {
   }
 
   getPlansOfCourse(courseId, gradeId){
-    return this.http.get(this.API+'getPlan/'+courseId+'/'+gradeId);
+    return this.http.get(this.API+'getPlan?courseId='+courseId+'&gradeId='+gradeId);
   }
 
   getPersonsActive(){

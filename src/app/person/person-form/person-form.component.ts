@@ -84,7 +84,7 @@ export class PersonFormComponent implements OnInit {
   utilService: UtilService;
 
   plansForm: FormGroup;
-  plans: FormArray;
+  payment: FormArray;
 
   constructor(private fb: FormBuilder, 
     private _personService: PersonService, 
@@ -98,7 +98,7 @@ export class PersonFormComponent implements OnInit {
 
   ngOnInit() {
     this.plansForm = this.fb.group({
-      plans: this.fb.array([ this.createItem() ]),
+      payment: this.fb.array([ this.createItem() ]),
     })
 
     this.states = [ { name: "Acre", initials: "AC"},
@@ -149,7 +149,7 @@ export class PersonFormComponent implements OnInit {
       state: ['', Validators.required],
       zip: ['', Validators.required]
     }),
-    plans: ['', Validators.required]
+    payment: ['', Validators.required]
   });
 
   profilePersonalForm = this.fb.group({
@@ -177,14 +177,14 @@ export class PersonFormComponent implements OnInit {
   });
 
   addForm() {
-    this.profileForm.get('plans').setValue(this.items);
+    this.profileForm.get('payment').setValue(this.items);
   }
   
   removePlan(index) {
     console.log(index)
-    this.plans = this.plansForm.controls.plans as FormArray;
-    if(this.plans.length>0){
-      this.plans.removeAt(index);
+    this.payment = this.plansForm.controls.payment as FormArray;
+    if(this.payment.length>0){
+      this.payment.removeAt(index);
     }
     if(this.grades.length>0){
       this.grades.splice(index,1);
@@ -195,7 +195,7 @@ export class PersonFormComponent implements OnInit {
     if(this.prices.length>0){
       this.prices.splice(index, 1)
     }
-    if(this.plans.length == 0)
+    if(this.payment.length == 0)
       this.addForm()
   }
 
@@ -203,21 +203,26 @@ export class PersonFormComponent implements OnInit {
     this.grades = [];
     this.paymentPlans = []
     this.plansForm = this.fb.group({
-      plans: this.fb.array([ this.createItem() ]),
+      payment: this.fb.array([ this.createItem() ]),
     })
   }
 
   addPlan() {
-    this.plans = this.plansForm.controls.plans as FormArray;
-    this.plans.push( this.createItem() );
+    this.payment = this.plansForm.controls.payment as FormArray;
+    this.payment.push( this.createItem() );
   }
 
   createItem(): FormGroup {
      var plan = this.fb.group({
       planId: [0, Validators.required],
-      dueDate: ['', Validators.required],
+      personId: 0,
+      amountToBePaid: 0,
+      userId: 0,
+      numberOfMonths: 0,
+      price: 0,
+      dueDay: 0,
       courseId: [0, Validators.required],
-      gradeId: [0, Validators.required]
+      gradeId: [0, Validators.required],
     });
     plan.get("planId").setValue('1');
     return plan
@@ -256,6 +261,13 @@ export class PersonFormComponent implements OnInit {
 
   setPrice(plan, index) {
     this.prices[index] = plan;
+    var payments = this.plansForm.controls.payment as FormArray;
+    console.log("teste: ",plan, payments, this.plansForm.controls.payment[index])
+    this.plansForm.get('payment').value[index].numberOfMonths = plan.numberOfMonths;
+    this.plansForm.get('payment').value[index].price = plan.price;
+    this.plansForm.get('payment').value[index].amountToBePaid = plan.price;
+    console.log("teste: ",plan, payments)
+    console.log("PlansForm: ", this.plansForm.get('payment').value[index])
   }
 
   getPrice(index){
@@ -263,8 +275,8 @@ export class PersonFormComponent implements OnInit {
   }
 
   setPlans(index){
-    this.plans = this.plansForm.controls.plans as FormArray;
-    var plan = this.plans.value[index];
+    this.payment = this.plansForm.controls.payment as FormArray;
+    var plan = this.payment.value[index];
     this.paymentPlansService.getPlansOfCourse(plan.courseId, plan.gradeId).subscribe(response => {
       this.paymentPlans[index] = response;
     });
@@ -284,13 +296,15 @@ export class PersonFormComponent implements OnInit {
     this.profileForm.get('telephone').setValue(this.profileContactForm.get('telephone').value);
     this.profileForm.get('cellphone').setValue(this.profileContactForm.get('cellphone').value);
     this.profileForm.get('cellphone2').setValue(this.profileContactForm.get('cellphone2').value);
-    this.profileForm.get('plans').setValue(this.plansForm.get('plans').value);
+    this.profileForm.get('payment').setValue(this.plansForm.get('payment').value);
     this.profileForm.get('address').get('number').setValue(this.profileAddressForm.get('number').value);
     this.profileForm.get('address').get('street').setValue(this.profileAddressForm.get('street').value);
     this.profileForm.get('address').get('neighborhood').setValue(this.profileAddressForm.get('neighborhood').value);
     this.profileForm.get('address').get('city').setValue(this.profileAddressForm.get('city').value);
     this.profileForm.get('address').get('state').setValue(this.profileAddressForm.get('state').value);
     this.profileForm.get('address').get('zip').setValue(this.profileAddressForm.get('zip').value);
+
+    console.log(this.profileForm.value)
 
     this.personService.postPerson(this.profileForm.value).subscribe(
       (data) => {

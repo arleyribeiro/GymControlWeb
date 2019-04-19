@@ -111,7 +111,7 @@
               <button mat-raised-button color="primary" (click)="addPlan()" style="margin: 10px 0px 10px 0px">Adcionar outro curso
               &nbsp;<mat-icon>add_circle_outline</mat-icon>
               </button>
-                <div formArrayName="plans" *ngFor="let item of plansForm.get('plans').controls; let i = index" >
+                <div formArrayName="payment" *ngFor="let item of plansForm.get('payment').controls; let i = index" >
                   <div [formGroupName]="i">
 
                     <div fxLayout="col" fxLayoutAlign="start start" fxLayoutGap="10px">
@@ -144,10 +144,10 @@
                         </mat-select>
                       </mat-form-field>
                       <mat-form-field fxFlex="10" *ngIf="prices != null && prices[i] != null">
-                        <input matInput type="number" placeholder="Valor" [value]=prices[i]?.price>
+                        <input matInput type="number" placeholder="Valor" [value]=prices[i]?.price formControlName="price">
                       </mat-form-field>
                       <mat-form-field fxFlex="10"  *ngIf="prices != null && prices[i] != null">
-                        <input matInput type="number" step="1" min="1" max="31" placeholder="Vencimento" formControlName="dueDate">
+                        <input matInput type="number" step="1" min="1" max="31" placeholder="Vencimento" formControlName="dueDay">
                       </mat-form-field>
                     </div>
                   </div>
