@@ -1,3 +1,4 @@
+import { PaymentService } from './../payment.service';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -13,6 +14,9 @@ export interface User {
   styleUrls: ['./payment-dashboard.component.css']
 })
 export class PaymentDashboardComponent implements OnInit {
+
+  constructor(private paymentService: PaymentService){}
+
   myControl = new FormControl();
   options: User[] = [
     {name: 'Mary'},
@@ -20,8 +24,18 @@ export class PaymentDashboardComponent implements OnInit {
     {name: 'Igor'}
   ];
   filteredOptions: Observable<User[]>;
-
+  payments:any
+  payDay = Date.now
+  amountToBePaid:any
   ngOnInit() {
+
+    this.paymentService.getPaymentOfPerson(1).subscribe(response =>{
+      this.payments = response;
+      this.amountToBePaid = this.payments.reduce((ac, element) => {
+        return ac.amountToBePaid + element.amountToBePaid
+      });
+      console.log(response)
+    });
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -40,4 +54,18 @@ export class PaymentDashboardComponent implements OnInit {
     return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  submitPayment(){
+    this.payments.forEach(element => {
+      this.makePayment(element);
+    });
+  }
+  makePayment(payment){
+    this.paymentService.updatePayment(payment.paymentId, {
+      paymentId: payment.paymentId,
+      numberOfMonths: payment.numberOfMonths,
+      amountPaid: payment.amountPaid
+    }).subscribe(response => {
+      console.log("Response: ", response)
+    })
+  }
 }

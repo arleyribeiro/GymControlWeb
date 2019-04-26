@@ -25,7 +25,7 @@
               <div style="word-break: break-all"><label class="label-bold">Aluno: </label>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
               <div><label class="label-bold">Vencimento: </label> 22/12/2018 </div>
               <div><label class="label-bold">Data de pagamento: </label>22/12/2018 </div>
-              <div><label class="label-bold">Valor total: </label>R$ 100,00 </div>
+              <div><label class="label-bold">Valor total: </label>R$ {{ amountToBePaid }} </div>
             </div>
             <div class="circle-100">
               <img class="circle-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png">
@@ -37,7 +37,7 @@
             <input matInput placeholder="Valor para pagamento" value="">
           </mat-form-field>
           <mat-card-actions>
-            <button mat-raised-button color="primary">Pagar</button>
+            <button mat-raised-button color="primary" (click)="submitPayment()">Pagar</button>
           </mat-card-actions>
         </div>
       </mat-card>
@@ -45,6 +45,11 @@
         <mat-card-header>
           <mat-card-title>Detalhamento</mat-card-title>
         </mat-card-header>
+        <mat-card-content>
+          <div *ngFor="let payment of payments">
+            <label>{{ 'Data de vencimento: ' + payment.dueDate + ' Turma: '+ payment.gradeName }}</label>
+          </div>
+        </mat-card-content>          
       </mat-card>
     </div>
   <mat-card>Vencimentos futuros</mat-card>

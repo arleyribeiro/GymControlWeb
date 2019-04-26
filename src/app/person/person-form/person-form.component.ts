@@ -319,7 +319,7 @@ export class PersonFormComponent implements OnInit {
 
     this.personService.postPerson(this.profileForm.value).subscribe(
       (data) => {
-        console.log("Criou");
+        console.log("Criou", this.profileForm.value);
         this.resetPlans()
         this.stepper.reset();
         this.callDialog(this.dialog, DialogComponent, 'Usuário inserido com sucesso!', "O usuário foi inserido com sucesso.", 'Ok', null);
