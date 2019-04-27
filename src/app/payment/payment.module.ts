@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { PaymentComponent } from './payment.component';
 import { PaymentDashboardComponent } from './payment-dashboard/payment-dashboard.component';
 import { PaymentService } from './payment.service';
+import { PersonService } from '../person/person.service';
 
 @NgModule({
   declarations: [ PaymentComponent, PaymentDashboardComponent],
@@ -16,7 +17,7 @@ import { PaymentService } from './payment.service';
     MaterialModule,
     PaymentRoutingModule
   ],
-  providers: [ PaymentService ],
+  providers: [ PaymentService, PersonService ],
   exports: [ ],
   entryComponents: [ ]
 })

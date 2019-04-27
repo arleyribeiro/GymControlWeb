@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class PersonService {
 
-    private readonly API = 'https://localhost:5001/api/Payment/';
+    private readonly API = 'https://localhost:5001/api/Person/';
     constructor(private http: HttpClient) { }
 
     getPersons(){

@@ -1,3 +1,4 @@
+import { PersonService } from './../../person/person.service';
 import { PaymentService } from './../payment.service';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
@@ -15,43 +16,36 @@ export interface User {
 })
 export class PaymentDashboardComponent implements OnInit {
 
-  constructor(private paymentService: PaymentService){}
+  constructor(private paymentService: PaymentService,
+              private personService: PersonService){}
 
   myControl = new FormControl();
-  options: User[] = [
-    {name: 'Mary'},
-    {name: 'Shelley'},
-    {name: 'Igor'}
-  ];
-  filteredOptions: Observable<User[]>;
+  options: any;
+  filteredOptions: Observable<any[]>;
   payments:any
   payDay = Date.now
   amountToBePaid:any
+  persons:any
   ngOnInit() {
-
+    this.getPersons();
     this.paymentService.getPaymentOfPerson(1).subscribe(response =>{
       this.payments = response;
-      this.amountToBePaid = this.payments.reduce((ac, element) => {
-        return ac.amountToBePaid + element.amountToBePaid
-      });
-      console.log(response)
+      console.log("this.payments: ", this.payments)
+      if(this.payments.length>0)
+        this.amountToBePaid = this.payments.reduce((ac, element) => {
+          return ac.amountToBePaid + element.amountToBePaid
+        });
     });
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.options.slice())
-      );
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value.name))
+    );
   }
 
-  displayFn(user?: User): string | undefined {
-    return user ? user.name : undefined;
-  }
+  private _filter(value): any{
+    const filterValue = value.name.toLowerCase();
 
-  private _filter(name: string): User[] {
-    const filterValue = name.toLowerCase();
-
-    return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
   submitPayment(){
@@ -67,5 +61,13 @@ export class PaymentDashboardComponent implements OnInit {
     }).subscribe(response => {
       console.log("Response: ", response)
     })
+  }
+
+  getPersons(){
+    this.personService.getPersons().subscribe(response =>{
+      this.persons = response;
+      this.options = response;
+      console.log(this.persons)
+    });
   }
 }

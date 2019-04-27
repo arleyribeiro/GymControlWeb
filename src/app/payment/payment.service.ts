@@ -17,6 +17,6 @@ export class PaymentService {
     const httpOptions = {
         headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.API + id + '/', data, httpOptions);
-}
+    return this.http.put(this.API+'makePayment/' + id + '/', data, httpOptions);
+  }
 }
