@@ -82,7 +82,7 @@ export class PaymentDashboardComponent implements OnInit {
   options: any;
   filteredOptions: Observable<any>;
   payments:any
-  payDay = Date.now
+  payDay = Date.now()
   amountToBePaid:any
   persons:any
   paymentMethods = [{id: 1, name:'Dinheiro'}, {id:2, name:'Cartão'}]
@@ -90,6 +90,7 @@ export class PaymentDashboardComponent implements OnInit {
   panelOpenState = false;
   person:any
   ngOnInit() {
+    console.log(this.payDay)
     this.paymentMethod = this.paymentMethods[0];
     this.getPersons();
     if(this.options != null){
@@ -123,7 +124,8 @@ export class PaymentDashboardComponent implements OnInit {
     this.paymentService.updatePayment(payment.paymentId, {
       paymentId: payment.paymentId,
       numberOfMonths: payment.numberOfMonths,
-      amountPaid: payment.amountPaid
+      amountPaid: payment.amountPaid,
+      paymentMethodId: this.paymentMethod.id
     }).subscribe(response => {
       console.log("Response: ", response)
     })

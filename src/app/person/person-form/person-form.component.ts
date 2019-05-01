@@ -236,6 +236,7 @@ export class PersonFormComponent implements OnInit {
       dueDay: 5,
       courseId: [0, Validators.required],
       gradeId: [0, Validators.required],
+      price: 0
     });
     plan.get("planId").setValue('1');
     return plan
@@ -277,6 +278,7 @@ export class PersonFormComponent implements OnInit {
     var payments = this.plansForm.controls.payment as FormArray;
     payments.get(""+index+"").get('numberOfMonths').setValue(plan.numberOfMonths)
     payments.get(""+index+"").get('amountToBePaid').setValue(plan.price)
+    payments.get(""+index+"").get('price').setValue(plan.price)
     /*this.payment.get(""+index+"").get('numberOfMonths').setValue(plan.numberOfMonths);
     this.payment.get(""+index+"").get('amountToBePaid').setValue(plan.price)*/
   }
