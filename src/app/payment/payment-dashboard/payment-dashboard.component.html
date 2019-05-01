@@ -7,8 +7,8 @@
       <form fxLayout="row" fxFill>
         <mat-form-field fxFlex="100">
           <input  type="text"
-                  placeholder="Assignee" 
-                  aria-label="Assignee" 
+                  placeholder="Buscar Aluno" 
+                  aria-label="Buscar Aluno" 
                   matInput 
                   [formControl]="myControl" 
                   [matAutocomplete]="auto"
@@ -21,34 +21,67 @@
             </mat-autocomplete>
           </mat-form-field>
       </form>  
-      <div style="margin-bottom: 10px">
-      <mat-card fxFlex="50">
-        <mat-card-header>
-          <mat-card-title>Fatura Atual</mat-card-title>
-        </mat-card-header>
-        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
-          <div fxLayout="col">
-            <div>
-              <div style="word-break: break-all"><label class="label-bold">Aluno: </label>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
-              <div><label class="label-bold">Vencimento: </label> 22/12/2018 </div>
-              <div><label class="label-bold">Data de pagamento: </label>22/12/2018 </div>
-              <div><label class="label-bold">Valor total: </label>R$ {{ amountToBePaid }} </div>
-            </div>
-            <div class="circle-100">
-              <img class="circle-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png">
-            </div>
-          </div> 
-        </div>
-        <div fxLayout="col" fxLayoutAlign="space-between start" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput placeholder="Valor para pagamento" value="">
-          </mat-form-field>
-          <mat-card-actions>
-            <button mat-raised-button color="primary" (click)="submitPayment()">Pagar</button>
-          </mat-card-actions>
-        </div>
-      </mat-card>
-      <mat-card fxFlex="50">
+      <div style="margin-bottom: 10px" *ngIf="payments != null && payments != [] && payments?.length>0">
+        <mat-card fxFlex="100">
+          <mat-card-header>
+            <mat-card-title>Fatura Atual</mat-card-title>
+          </mat-card-header>
+          <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+            <div fxLayout="col" >
+              <div style="margin-bottom: 10px">
+                <div style="word-break: break-all"><label class="label-bold">Aluno: </label>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+                <div><label class="label-bold">Vencimento: </label> 22/12/2018 </div>
+                <div><label class="label-bold">Data de pagamento: </label>22/12/2018 </div>
+                <div><label class="label-bold">Valor total: </label>R$ {{ amountToBePaid }} </div>
+              </div>
+              <!--div class="circle-100">
+                <img class="circle-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png">
+              </div-->
+            </div> 
+          </div>
+          <div fxLayout="col" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+            <mat-form-field fxFlex="{{ paymentMethod.id==2 ? 30 : 50}} ">
+              <mat-label>Pagando com</mat-label>
+              <mat-select [(value)]="paymentMethod">
+                <mat-option *ngFor="let item of paymentMethods" [value]="item">{{ item.name }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field *ngIf="paymentMethod.id==2" fxFlex="{{ paymentMethod.id==2 ? 30 : 50}} ">
+                <input matInput type="number" step="1" min="1" max="12" placeholder="Número de parcelas" value="">
+              </mat-form-field>
+            <mat-form-field fxFlex="{{ paymentMethod.id==2 ? 30 : 50}} ">
+              <input matInput placeholder="Valor para pagamento" value="">
+            </mat-form-field>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" (click)="submitPayment()">Confirmar Pagamento</button>
+            </mat-card-actions>
+          </div>
+        </mat-card>
+        <!--mat-card fxFlex="50">
+          <mat-card-header>
+            <mat-card-title>Detalhamento</mat-card-title>
+          </mat-card-header>
+          <mat-card-content style="background: green"> 
+              <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="10px" style="background: red">
+                <mat-form-field style="width: 100px">
+                  <mat-label>Pagando com</mat-label>
+                  <mat-select [(value)]="paymentMethod" fxFlex="{{ paymentMethod.id==2 ? 30 : 50}} "  style="width: 100px">
+                    <mat-option *ngFor="let item of paymentMethods" [value]="item">{{ item.name }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field *ngIf="paymentMethod.id==2" fxFlex="30">
+                    <input matInput type="number" step="1" min="1" max="12" placeholder="Número de parcelas" value="">
+                  </mat-form-field>
+                <mat-form-field fxFlex="{{ paymentMethod.id==2 ? 30 : 50}}"  style="width: 100px">
+                  <input matInput placeholder="Valor para pagamento" value="">
+                </mat-form-field>
+              </div>
+              <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="submitPayment()">Confirmar Pagamento</button>
+              </mat-card-actions>
+          </mat-card-content>          
+        </mat-card-->
+      <!--mat-card fxFlex="50">
         <mat-card-header>
           <mat-card-title>Detalhamento</mat-card-title>
         </mat-card-header>
@@ -57,8 +90,33 @@
             <label>{{ 'Data de vencimento: ' + payment.dueDate + ' Turma: '+ payment.gradeName }}</label>
           </div>
         </mat-card-content>          
-      </mat-card>
+      </mat-card-->
     </div>
-  <mat-card>Vencimentos futuros</mat-card>
+    <mat-accordion *ngIf="payments != null && payments != [] && payments?.length>0">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Detalhes do pagamento
+          </mat-panel-title>
+          <mat-panel-description>
+            Detalhamento do pagamento atual
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <p>I'm visible because I am open</p>
+      </mat-expansion-panel>
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                            (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Vencimentos futuros
+          </mat-panel-title>
+          <mat-panel-description>
+            Próximos pagamentos de NOME
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>I'm visible because I am open</p>
+      </mat-expansion-panel>
+    </mat-accordion>
   </mat-card-content>
 </mat-card>

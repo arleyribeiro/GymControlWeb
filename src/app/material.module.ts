@@ -24,7 +24,8 @@ import {
   MatPaginatorModule,
   MatCheckboxModule,
   MatSlideToggleModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatExpansionModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -56,6 +57,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatAutocompleteModule, 
     FormsModule, 
     ReactiveFormsModule,
+    MatExpansionModule,
     NgxMaskModule.forRoot()
   ],
   exports: [
@@ -85,7 +87,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSlideToggleModule, 
     FormsModule, 
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule {}

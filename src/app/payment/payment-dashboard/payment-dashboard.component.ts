@@ -26,7 +26,11 @@ export class PaymentDashboardComponent implements OnInit {
   payDay = Date.now
   amountToBePaid:any
   persons:any
+  paymentMethods = [{id: 1, name:'Dinheiro'}, {id:2, name:'Cartão'}]
+  paymentMethod:any 
+  panelOpenState = false;
   ngOnInit() {
+    this.paymentMethod = this.paymentMethods[0];
     this.getPersons();
     if(this.options != null){
       this.filteredOptions = this.myControl.valueChanges
@@ -89,7 +93,9 @@ export class PaymentDashboardComponent implements OnInit {
 
     this.paymentService.getPaymentOfPerson(personId).subscribe(response =>{
       this.payments = response;
+      console.log(this.payments)
       if(this.payments.length>0){
+        console.log(this.payments)
         this.amountToBePaid = this.payments.reduce((accumulator, element) => {
           return accumulator + element.amountToBePaid
         }, 0);
