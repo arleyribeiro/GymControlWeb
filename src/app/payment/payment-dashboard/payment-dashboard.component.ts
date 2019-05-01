@@ -87,14 +87,13 @@ export class PaymentDashboardComponent implements OnInit {
     var personId = 0;
     personId = id ? id : this.myControl.value.personId;
 
-    console.log("getPaymentOfPerson: ", id, personId, this.myControl.value.personId)
     this.paymentService.getPaymentOfPerson(personId).subscribe(response =>{
       this.payments = response;
-      console.log("this.payments: ", this.payments)
-      if(this.payments.length>0)
-        this.amountToBePaid = this.payments.reduce((ac, element) => {
-          return ac.amountToBePaid + element.amountToBePaid
-        });
+      if(this.payments.length>0){
+        this.amountToBePaid = this.payments.reduce((accumulator, element) => {
+          return accumulator + element.amountToBePaid
+        }, 0);
+      }
     });
   }
 }
