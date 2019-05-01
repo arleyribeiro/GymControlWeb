@@ -6,9 +6,16 @@
   <mat-card-content>
       <form fxLayout="row" fxFill>
         <mat-form-field fxFlex="100">
-          <input type="text" placeholder="Assignee" aria-label="Assignee" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <input  type="text"
+                  placeholder="Assignee" 
+                  aria-label="Assignee" 
+                  matInput 
+                  [formControl]="myControl" 
+                  [matAutocomplete]="auto"
+                  (keyup.enter)="getPaymentOfPerson(0)">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option" 
+              (click)="getPaymentOfPerson(option.personId)">
                 {{option.name}}
               </mat-option>
             </mat-autocomplete>

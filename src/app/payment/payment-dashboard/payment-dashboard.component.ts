@@ -28,15 +28,6 @@ export class PaymentDashboardComponent implements OnInit {
   persons:any
   ngOnInit() {
     this.getPersons();
-    this.paymentService.getPaymentOfPerson(1).subscribe(response =>{
-      this.payments = response;
-      console.log("this.payments: ", this.payments)
-      if(this.payments.length>0)
-        this.amountToBePaid = this.payments.reduce((ac, element) => {
-          return ac.amountToBePaid + element.amountToBePaid
-        });
-    });
-
     if(this.options != null){
       this.filteredOptions = this.myControl.valueChanges
       .pipe(
@@ -63,6 +54,7 @@ export class PaymentDashboardComponent implements OnInit {
       this.makePayment(element);
     });
   }
+
   makePayment(payment){
     this.paymentService.updatePayment(payment.paymentId, {
       paymentId: payment.paymentId,
@@ -73,7 +65,7 @@ export class PaymentDashboardComponent implements OnInit {
     })
   }
 
-  getPersons(){
+  getPersons() {
     console.log("Get persons")
     this.personService.getPersons().subscribe(response =>{
       this.persons = response;
@@ -88,6 +80,21 @@ export class PaymentDashboardComponent implements OnInit {
         );
           console.log(this.filteredOptions)
       }
+    });
+  }
+
+  getPaymentOfPerson(id){
+    var personId = 0;
+    personId = id ? id : this.myControl.value.personId;
+
+    console.log("getPaymentOfPerson: ", id, personId, this.myControl.value.personId)
+    this.paymentService.getPaymentOfPerson(personId).subscribe(response =>{
+      this.payments = response;
+      console.log("this.payments: ", this.payments)
+      if(this.payments.length>0)
+        this.amountToBePaid = this.payments.reduce((ac, element) => {
+          return ac.amountToBePaid + element.amountToBePaid
+        });
     });
   }
 }
