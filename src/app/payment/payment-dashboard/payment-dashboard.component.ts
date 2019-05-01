@@ -21,7 +21,7 @@ export class PaymentDashboardComponent implements OnInit {
 
   myControl = new FormControl();
   options: any;
-  filteredOptions: Observable<any[]>;
+  filteredOptions: Observable<any>;
   payments:any
   payDay = Date.now
   amountToBePaid:any
@@ -36,16 +36,26 @@ export class PaymentDashboardComponent implements OnInit {
           return ac.amountToBePaid + element.amountToBePaid
         });
     });
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value.name))
-    );
+
+    if(this.options != null){
+      this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith<string | any>(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.options.slice())
+      );
+        console.log(this.filteredOptions)
+    }
   }
 
-  private _filter(value): any{
-    const filterValue = value.name.toLowerCase();
+  displayFn(user?: User): string | undefined {
+    return user ? user.name : undefined;
+  }
 
-    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  private _filter(name: string): User[] {
+    const filterValue = name.toLowerCase();
+
+    return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
   submitPayment(){
@@ -64,10 +74,20 @@ export class PaymentDashboardComponent implements OnInit {
   }
 
   getPersons(){
+    console.log("Get persons")
     this.personService.getPersons().subscribe(response =>{
       this.persons = response;
-      this.options = response;
+      this.options = response;  
       console.log(this.persons)
+      if(this.options != null){
+        this.filteredOptions = this.myControl.valueChanges
+        .pipe(
+          startWith<string | any>(''),
+          map(value => typeof value === 'string' ? value : value.name),
+          map(name => name ? this._filter(name) : this.options.slice())
+        );
+          console.log(this.filteredOptions)
+      }
     });
   }
 }
