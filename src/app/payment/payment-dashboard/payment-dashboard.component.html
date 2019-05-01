@@ -24,7 +24,7 @@
       <div style="margin-bottom: 10px" *ngIf="payments != null && payments != [] && payments?.length>0">
         <mat-card fxFlex="100">
           <mat-card-header>
-            <mat-card-title>Fatura Atual</mat-card-title>
+            <mat-card-title>Pagamento Atual</mat-card-title>
           </mat-card-header>
           <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
             <div fxLayout="col" >
@@ -92,19 +92,7 @@
         </mat-card-content>          
       </mat-card-->
     </div>
-    <mat-accordion *ngIf="payments != null && payments != [] && payments?.length>0">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Detalhes do pagamento
-          </mat-panel-title>
-          <mat-panel-description>
-            Detalhamento do pagamento atual
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-    
-        <p>I'm visible because I am open</p>
-      </mat-expansion-panel>
+    <!--mat-accordion *ngIf="dataSource!=[] && dataSource!=null" >
       <mat-expansion-panel (opened)="panelOpenState = true"
                             (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
@@ -112,11 +100,82 @@
             Vencimentos futuros
           </mat-panel-title>
           <mat-panel-description>
-            Próximos pagamentos de NOME
+            Mensalidades
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <p>I'm visible because I am open</p>
+        
+        
       </mat-expansion-panel>
-    </mat-accordion>
+    </mat-accordion-->
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+           <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null;AddPayment()"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()"
+                            [aria-label]="checkboxLabel()">
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null;AddPayment()"
+                            [checked]="selection.isSelected(row)"
+                            [aria-label]="checkboxLabel(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="dueDate">
+            <th mat-header-cell *matHeaderCellDef> Data de vencimento </th>
+            <td mat-cell *matCellDef="let element"> {{ element.dueDate | date:'dd-MM-yyy'}} </td>
+          </ng-container>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="gradeName">
+            <th mat-header-cell *matHeaderCellDef> Turma </th>
+            <td mat-cell *matCellDef="let element"> {{element.gradeName}} </td>
+          </ng-container>
+      
+          <!-- Name Column -->
+          <ng-container matColumnDef="planName">
+            <th mat-header-cell *matHeaderCellDef> Plano </th>
+            <td mat-cell *matCellDef="let element"> {{element.planName}} </td>
+          </ng-container>
+      
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="amountToBePaid">
+            <th mat-header-cell *matHeaderCellDef> Valor </th>
+            <td mat-cell *matCellDef="let element"> {{element.amountToBePaid}} </td>
+          </ng-container>
+  
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Status </th>
+            <td mat-cell *matCellDef="let element"> {{element.status == 1 ? 'Aberto' : 'Outros'}} </td>
+          </ng-container>
+  
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef>
+              <div [hidden]="!isMultiSelected()">
+                <mat-icon class="mouse-cursor-pointer" >delete</mat-icon>
+              </div>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="isOnlyOneSelected(element)">
+                <mat-icon class="mouse-cursor-pointer" >edit</mat-icon>
+              </div> 
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
   </mat-card-content>
 </mat-card>

@@ -1,3 +1,4 @@
+import { TableComponent } from './shared/table/table.component';
 import { CourseFormComponent } from './course/course-form/course-form.component';
 import { GradeFormComponent } from 'src/app/grade/grade-form/grade-form.component';
 import { PersonService } from './person/person.service';
@@ -27,7 +28,8 @@ import { PaymentPlansModule } from './payment-plans/payment-plans.module';
     HeaderComponent,
     SidenavListComponent,
     DialogComponent,
-    PaymentPlansComponent
+    PaymentPlansComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,    
@@ -42,6 +44,6 @@ import { PaymentPlansModule } from './payment-plans/payment-plans.module';
   ],
   providers: [ PersonService, UtilService ],
   bootstrap: [AppComponent],
-  entryComponents: [ DialogComponent, GradeFormComponent, CourseFormComponent ]
+  entryComponents: [ TableComponent, DialogComponent, GradeFormComponent, CourseFormComponent ]
 })
 export class AppModule { }
