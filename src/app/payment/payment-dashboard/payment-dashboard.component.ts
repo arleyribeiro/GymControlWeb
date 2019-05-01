@@ -24,7 +24,7 @@ export class PaymentDashboardComponent implements OnInit {
   /*----------------- begin table -------------- */
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['select', 'dueDate', 'gradeName', 'planName', 'amountToBePaid', 'status', 'options'];
+  displayedColumns: string[] = ['select', 'dueDate', 'gradeName', 'planName', 'amountToBePaid', 'status'];
   dataSource: any;
   selection = new SelectionModel<any>(true, []);
   applyFilter(filterValue: string) {
@@ -88,6 +88,7 @@ export class PaymentDashboardComponent implements OnInit {
   paymentMethods = [{id: 1, name:'Dinheiro'}, {id:2, name:'Cartão'}]
   paymentMethod:any 
   panelOpenState = false;
+  person:any
   ngOnInit() {
     this.paymentMethod = this.paymentMethods[0];
     this.getPersons();
@@ -149,7 +150,7 @@ export class PaymentDashboardComponent implements OnInit {
   getPaymentOfPerson(id){
     var personId = 0;
     personId = id ? id : this.myControl.value.personId;
-
+    this.person = this.myControl.value;
     this.paymentService.getPaymentOfPerson(personId).subscribe((response:any) =>{
 
       if(response != [] && response.length>0){

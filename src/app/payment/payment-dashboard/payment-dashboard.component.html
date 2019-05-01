@@ -22,15 +22,14 @@
           </mat-form-field>
       </form>  
       <div style="margin-bottom: 10px" *ngIf="payments != null && payments != [] && payments?.length>0">
-        <mat-card fxFlex="100">
+        <mat-card fxFlex="35">
           <mat-card-header>
             <mat-card-title>Pagamento Atual</mat-card-title>
           </mat-card-header>
           <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
             <div fxLayout="col" >
               <div style="margin-bottom: 10px">
-                <div style="word-break: break-all"><label class="label-bold">Aluno: </label>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
-                <div><label class="label-bold">Vencimento: </label> 22/12/2018 </div>
+                <div style="word-break: break-all"><label class="label-bold">Aluno: </label>{{ person.name }}</div>
                 <div><label class="label-bold">Data de pagamento: </label>22/12/2018 </div>
                 <div><label class="label-bold">Valor total: </label>R$ {{ amountToBePaid }} </div>
               </div>
@@ -39,7 +38,7 @@
               </div-->
             </div> 
           </div>
-          <div fxLayout="col" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+          <!--div fxLayout="col" fxLayoutAlign="space-between start" fxLayoutGap="10px">
             <mat-form-field fxFlex="{{ paymentMethod.id==2 ? 30 : 50}} ">
               <mat-label>Pagando com</mat-label>
               <mat-select [(value)]="paymentMethod">
@@ -55,7 +54,16 @@
             <mat-card-actions>
               <button mat-raised-button color="primary" (click)="submitPayment()">Confirmar Pagamento</button>
             </mat-card-actions>
-          </div>
+          </div-->
+          <mat-form-field>
+            <mat-label>Pagando com</mat-label>
+            <mat-select [(value)]="paymentMethod">
+              <mat-option *ngFor="let item of paymentMethods" [value]="item">{{ item.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="submitPayment()">Confirmar Pagamento</button>
+          </mat-card-actions>
         </mat-card>
         <!--mat-card fxFlex="50">
           <mat-card-header>
@@ -81,16 +89,16 @@
               </mat-card-actions>
           </mat-card-content>          
         </mat-card-->
-      <!--mat-card fxFlex="50">
+      <mat-card fxFlex="65">
         <mat-card-header>
           <mat-card-title>Detalhamento</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div *ngFor="let payment of payments">
-            <label>{{ 'Data de vencimento: ' + payment.dueDate + ' Turma: '+ payment.gradeName }}</label>
+            <label>Data de vencimento: {{ payment.dueDate | date:'dd-MM-yyyy' }} Turma: {{ payment.gradeName }}</label>
           </div>
         </mat-card-content>          
-      </mat-card-->
+      </mat-card>
     </div>
     <!--mat-accordion *ngIf="dataSource!=[] && dataSource!=null" >
       <mat-expansion-panel (opened)="panelOpenState = true"
@@ -155,22 +163,8 @@
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef> Status </th>
             <td mat-cell *matCellDef="let element"> {{element.status == 1 ? 'Aberto' : 'Outros'}} </td>
-          </ng-container>
-  
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="options">
-            <th mat-header-cell *matHeaderCellDef>
-              <div [hidden]="!isMultiSelected()">
-                <mat-icon class="mouse-cursor-pointer" >delete</mat-icon>
-              </div>
-            </th>
-            <td mat-cell *matCellDef="let element">
-              <div *ngIf="isOnlyOneSelected(element)">
-                <mat-icon class="mouse-cursor-pointer" >edit</mat-icon>
-              </div> 
-            </td>
-          </ng-container>
-      
+          </ng-container>  
+     
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
