@@ -1,3 +1,4 @@
+import { GradeNewPersonComponent } from './grade-new-person/grade-new-personcomponent';
 import { MaterialModule } from './../material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,7 +9,7 @@ import { GradeDashboadComponent } from './grade-dashboad/grade-dashboad.componen
 import { GradeService } from './grade.service';
 
 @NgModule({
-  declarations: [ GradeComponent, GradeFormComponent, GradeDashboadComponent],
+  declarations: [ GradeComponent, GradeFormComponent, GradeDashboadComponent, GradeNewPersonComponent],
   imports: [
     CommonModule,
     MaterialModule,

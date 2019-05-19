@@ -1,0 +1,76 @@
+<mat-card class="container-card">
+  <mat-card-header>
+    <mat-card-title>Incluir aluno na turma</mat-card-title>
+    <mat-card-subtitle>Insere um aluno em uma nova turma.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form fxLayout="row" fxFill>
+      <mat-form-field fxFlex="100">
+        <input  type="text"
+                placeholder="Buscar Aluno" 
+                aria-label="Buscar Aluno" 
+                matInput 
+                [formControl]="myControl" 
+                [matAutocomplete]="auto"
+                (keyup.enter)="selectedPerson(0)">
+          <mat-autocomplete 
+                            autoActiveFirstOption
+                            #auto="matAutocomplete" 
+                            [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option" 
+            (click)="selectedPerson(option.personId)">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+    </form>  
+    <form [formGroup]="plansForm">
+      <ng-template matStepLabel>Cursos</ng-template>
+      <button mat-raised-button color="primary" (click)="addPlan()" style="margin: 10px 0px 10px 0px">Adcionar outro curso
+      &nbsp;<mat-icon>add_circle_outline</mat-icon>
+      </button>
+        <div formArrayName="payment" *ngFor="let item of plansForm.get('payment').controls; let i = index" >
+          <div [formGroupName]="i">
+
+            <div fxLayout="col" fxLayoutAlign="start start" fxLayoutGap="10px">
+              <mat-list>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <div mat-subheader>{{ i+1 }} - Plano</div>
+                    <div>
+                      <mat-icon matTooltip="Remover" (click)="removePlan(i)" style="color: rgba(0,0,0,.54);">highlight_off</mat-icon>
+                    </div>
+                </div>
+              </mat-list> 
+            </div>
+            <div fxLayoutAlign="start start" fxLayoutGap="10px" style="margin-top: 10px">
+              <mat-form-field>
+                <mat-label>Escolha um curso</mat-label>
+                <mat-select formControlName="courseId">
+                  <mat-option [value]="course.courseId" *ngFor="let course of courses" (click)="setGrade(course, i)">{{ course.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="grades != null && grades[i] != null">
+                <mat-label>Escolha uma turma</mat-label>
+                <mat-select  formControlName="gradeId">
+                  <mat-option [value]="grade.gradeId" *ngFor="let grade of grades[i]"  (click)="setPlans(i)">{{ grade.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field *ngIf="paymentPlans != null && paymentPlans[i] != null">
+                <mat-label>Escolha um plano de pagamento</mat-label>
+                <mat-select  formControlName="planId">
+                  <mat-option [value]="plan.planId" *ngFor="let plan of paymentPlans[i]" (click)="setPrice(plan, i, item)">{{ plan.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field fxFlex="10" *ngIf="prices != null && prices[i] != null">
+                <input matInput type="number" placeholder="Valor" [value]=prices[i]?.price>
+              </mat-form-field>
+              <mat-form-field fxFlex="10"  *ngIf="prices != null && prices[i] != null">
+                <input matInput type="number" step="1" min="1" max="31" placeholder="Vencimento" formControlName="dueDay">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+    </form>
+    
+  </mat-card-content>
+</mat-card>
