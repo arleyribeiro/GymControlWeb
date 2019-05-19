@@ -10,13 +10,13 @@ import { MaterialModule } from '../material.module';
 import { PersonDetailsComponent } from './person-details/person-details.component';
 import { PersonRoutingModule } from './person-routing.module';
 import { PersonUpdateComponent } from './person-update/person-update.component';
-
+import { DialogAddUserComponent } from './dialog-add-user/dialog-add-user.component';
 
 @NgModule({
   declarations: [
     PersonComponent,
     PersonFormComponent, 
-    PersonDetailsComponent, PersonUpdateComponent],
+    PersonDetailsComponent, PersonUpdateComponent, DialogAddUserComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -25,7 +25,7 @@ import { PersonUpdateComponent } from './person-update/person-update.component';
     PersonRoutingModule
   ],
   providers: [ PersonService ],
-  exports: [ PersonFormComponent, PersonUpdateComponent ],
-  entryComponents: [ PersonUpdateComponent ]
+  exports: [ PersonFormComponent, PersonUpdateComponent, DialogAddUserComponent],
+  entryComponents: [ PersonUpdateComponent, DialogAddUserComponent ]
 })
 export class PersonModule { }
