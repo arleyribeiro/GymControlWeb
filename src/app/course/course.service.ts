@@ -10,8 +10,9 @@ export class CourseService {
   private readonly API = 'https://localhost:5001/api/Course/';
   constructor(private http: HttpClient) { }
 
+
   get(){
-      return this.http.get(this.API+"listCourses");
+    return this.http.get(this.API+"listCourses");
   }
 
   getCourseWithGrades() {

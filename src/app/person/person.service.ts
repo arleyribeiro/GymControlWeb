@@ -9,6 +9,13 @@ export class PersonService {
     private readonly API = 'https://localhost:5001/api/Person/';
     constructor(private http: HttpClient) { }
 
+    getAuthenticate(user) {
+        const httpOptions = {
+            headers: new HttpHeaders({'Content-Type': 'application/json'})
+        }
+        return this.http.post(this.API + "authenticate", user, httpOptions);
+    }
+
     getPersons(){
         return this.http.get(this.API);
     }
