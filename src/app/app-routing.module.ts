@@ -1,12 +1,15 @@
+import { AuthGuard } from './guards/auth-guard.service';
+import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'person'},
-  { path: 'person', loadChildren: './person/person.module#PersonModule'},
-  { path: 'course', loadChildren: './course/course.module#CourseModule'},
-  { path: 'grade', loadChildren: './grade/grade.module#GradeModule'},
-  { path: 'payment', loadChildren: './payment/payment.module#PaymentModule'}
+  { path: '', pathMatch: 'full', redirectTo: 'login'},
+  { path: 'login', pathMatch: 'full', component: LoginComponent},
+  { path: 'person', loadChildren: './person/person.module#PersonModule', canActivate: [AuthGuard]},
+  { path: 'course', loadChildren: './course/course.module#CourseModule', canActivate: [AuthGuard]},
+  { path: 'grade', loadChildren: './grade/grade.module#GradeModule', canActivate: [AuthGuard]},
+  { path: 'payment', loadChildren: './payment/payment.module#PaymentModule', canActivate: [AuthGuard]}
 ];
 
 @NgModule({

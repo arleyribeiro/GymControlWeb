@@ -1,3 +1,4 @@
+import { AuthGuardService, AuthGuard, AuthInterceptor } from './guards/auth-guard.service';
 import { PersonModule } from './person/person.module';
 import { TableComponent } from './shared/table/table.component';
 import { CourseFormComponent } from './course/course-form/course-form.component';
@@ -13,7 +14,7 @@ import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { UtilService } from './shared/util/util.service';
@@ -24,6 +25,7 @@ import { CourseModule } from './course/course.module';
 import { PaymentPlansComponent } from './payment-plans/payment-plans.component';
 import { PaymentPlansModule } from './payment-plans/payment-plans.module';
 import { DialogAddUserComponent } from './person/dialog-add-user/dialog-add-user.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { DialogAddUserComponent } from './person/dialog-add-user/dialog-add-user
     DialogComponent,
     PaymentPlansComponent,
     TableComponent,
-    ChooseGradeAndPaymentComponent
+    ChooseGradeAndPaymentComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,    
@@ -47,7 +50,12 @@ import { DialogAddUserComponent } from './person/dialog-add-user/dialog-add-user
     PaymentPlansModule,
     AppRoutingModule,
   ],
-  providers: [ PersonService, UtilService ],
+  providers: [ PersonService, UtilService, AuthGuardService, AuthGuard, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    }, 
+  ],
   bootstrap: [AppComponent],
   entryComponents: [ TableComponent, DialogComponent, GradeFormComponent, CourseFormComponent, DialogAddUserComponent ]
 })
