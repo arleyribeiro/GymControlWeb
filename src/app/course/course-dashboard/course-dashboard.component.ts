@@ -4,9 +4,7 @@ import { UtilService } from 'src/app/shared/util/util.service';
 import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
-import {MatStepperModule} from '@angular/material/stepper';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { GradeFormComponent } from 'src/app/grade/grade-form/grade-form.component';
 
@@ -52,8 +50,6 @@ export class CourseDashboardComponent implements OnInit {
   isOnlyOneSelected(element) {
     return (this.selection.selected.length == 1 && 
             element.courseId == this.selection.selected[0].courseId);
-
-    //return (this.selection.selected.length == 1 && element.id == this.selection.selected[0].id && this.selection.selected[0].user == this.userId) ? false : true;
   }
 
   selectUser(user){
@@ -94,27 +90,38 @@ export class CourseDashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log("result: ", result)
+      this.getCourses();
     });
   }
 
   addGrade() {
-    this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
+    var dialogRef = this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
       width: "60%",
       disableClose: true, 
       data: {
         courses: this.courses,
         course: this.selection.selected[0]
       }});
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("result: ", result)
+        this.getCourses();
+      });
   }
 
   editCourse () {
-    this.dialog.open(CourseFormComponent, { panelClass: 'custom-dialog-container', 
+    var dialogRef = this.dialog.open(CourseFormComponent, { panelClass: 'custom-dialog-container', 
       width: "30%",
       disableClose: true, 
       data: {
         editMode: true,
         course: this.selection.selected[0]
       }});
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("result: ", result)
+        this.getCourses();
+      });
   }
 
   deleteCourse () {
@@ -126,6 +133,7 @@ export class CourseDashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.courseService.delete( courseIds ).subscribe(response => {
+          this.getCourses();
           this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Notificação", "O curso foi excluído com sucesso.", "Ok", "", "40%");
         })
       }
