@@ -1,10 +1,12 @@
+import { UtilService } from 'src/app/shared/util/util.service';
+import { DialogComponent } from './../../shared/dialog/dialog.component';
 import { PersonService } from './../../person/person.service';
 import { PaymentService } from './../payment.service';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { startWith, map } from 'rxjs/operators';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 
 export interface User {
@@ -19,7 +21,9 @@ export interface User {
 export class PaymentDashboardComponent implements OnInit {
 
   constructor(private paymentService: PaymentService,
-              private personService: PersonService){}
+              private personService: PersonService,
+              private utilService: UtilService,
+              private dialog: MatDialog){}
 
   /*----------------- begin table -------------- */
 
@@ -27,8 +31,8 @@ export class PaymentDashboardComponent implements OnInit {
   displayedColumns: string[] = ['select', 'dueDate', 'gradeName', 'planName', 'amountToBePaid', 'status'];
   dataSource: any;
   selection = new SelectionModel<any>(true, []);
+
   applyFilter(filterValue: string) {
-    console.log(this.dataSource.filteredData)
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -69,14 +73,6 @@ export class PaymentDashboardComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
-  AddPayment() {
-    this.payments = this.selection.selected;
-    console.log(this.payments)
-    this.amountToBePaid = this.payments.reduce((accumulator, element) => {
-      return accumulator + element.amountToBePaid
-    }, 0);
-  }
-
   /*---------------------------End TABLE------------ */
   myControl = new FormControl();
   options: any;
@@ -89,8 +85,9 @@ export class PaymentDashboardComponent implements OnInit {
   paymentMethod:any 
   panelOpenState = false;
   person:any
+  personId:any
+
   ngOnInit() {
-    console.log(this.payDay)
     this.paymentMethod = this.paymentMethods[0];
     this.getPersons();
     if(this.options != null){
@@ -100,7 +97,6 @@ export class PaymentDashboardComponent implements OnInit {
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.options.slice())
       );
-        console.log(this.filteredOptions)
     }
   }
 
@@ -114,29 +110,45 @@ export class PaymentDashboardComponent implements OnInit {
     return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  submitPayment(){
-    this.payments.forEach(element => {
-      this.makePayment(element);
-    });
+  AddPayment() {
+    this.payments = this.selection.selected;
+    console.log(this.payments)
+    this.amountToBePaid = this.payments.reduce((accumulator, element) => {
+      return accumulator + element.amountToBePaid
+    }, 0);
   }
 
-  makePayment(payment){
-    this.paymentService.updatePayment(payment.paymentId, {
-      paymentId: payment.paymentId,
-      numberOfMonths: payment.numberOfMonths,
-      amountPaid: payment.amountPaid,
-      paymentMethodId: this.paymentMethod.id
-    }).subscribe(response => {
-      console.log("Response: ", response)
+  submitPayment(){
+    var data = []
+    this.payments.forEach(element => {
+      data.push({
+        paymentId: element.paymentId,
+        numberOfMonths: element.numberOfMonths,
+        amountPaid: element.amountPaid,
+        paymentMethodId: this.paymentMethod.id
+      })
+    });
+    this.makePayment(data);
+    this.payments = null;
+    this.amountToBePaid = null;
+    this.selection.clear();
+  }
+
+  makePayment(payments){
+    this.paymentService.postPayment(payments).subscribe(response => {
+        this.getPaymentOfPerson(0);
+        if(response)
+          this.utilService.callDialog(this.dialog, DialogComponent, "Pagamento realizado com sucesso", "Pagamento realizado com sucesso!", "Ok", null, "35%", null);
+
+    }, error => {
+      this.utilService.callDialog(this.dialog, DialogComponent, "Pagamento não realizado!", "Ocorreu um erro ao tentar realizar o pagamento. " + error.error, "Ok", null, "35%", null);
     })
   }
 
   getPersons() {
-    console.log("Get persons")
     this.personService.getPersons().subscribe(response =>{
       this.persons = response;
       this.options = response;  
-      console.log(this.persons)
       if(this.options != null){
         this.filteredOptions = this.myControl.valueChanges
         .pipe(
@@ -144,7 +156,6 @@ export class PaymentDashboardComponent implements OnInit {
           map(value => typeof value === 'string' ? value : value.name),
           map(name => name ? this._filter(name) : this.options.slice())
         );
-          console.log(this.filteredOptions)
       }
     });
   }
@@ -154,11 +165,8 @@ export class PaymentDashboardComponent implements OnInit {
     personId = id ? id : this.myControl.value.personId;
     this.person = this.myControl.value;
     this.paymentService.getPaymentOfPerson(personId).subscribe((response:any) =>{
-
-      if(response != [] && response.length>0){
         this.dataSource = new MatTableDataSource<any>(response);
         this.dataSource.paginator = this.paginator;
-      }
     });
   }
 }

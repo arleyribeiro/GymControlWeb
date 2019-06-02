@@ -13,10 +13,10 @@ export class PaymentService {
       return this.http.get(this.API+'getNextPayments/'+id);
   }
 
-  updatePayment(id, data) {
+  postPayment(data) {
     const httpOptions = {
         headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.API+'makePayment/' + id + '/', data, httpOptions);
+    return this.http.post(this.API+'makePayment/', data, httpOptions);
   }
 }
