@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <div ><!--fxHide.gt-xs-->
+  <div *ngIf="getIsLogged()"><!--fxHide.gt-xs-->
       <button mat-icon-button (click)="onToggleSidenav()">
           <mat-icon>menu</mat-icon>
       </button>
@@ -7,13 +7,13 @@
   <div>
       <a routerLink="/person">SCM - Studio Carlos Martins</a>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <div *ngIf="getIsLogged()" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
           <li>
-              <a routerLink="/person">usuario-logado</a>
+              <a routerLink="/person" >{{ user?.username }}</a>
           </li>
           <li>
-              <a routerLink="/person">Sair</a>
+              <a routerLink="/person" (click)="logout()">Sair</a>
           </li>
       </ul>
   </div>

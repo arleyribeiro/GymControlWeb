@@ -39,7 +39,7 @@ import { LoginComponent } from './login/login.component';
     LoginComponent
   ],
   imports: [
-    BrowserModule,    
+    BrowserModule,   
     MaterialModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
@@ -50,11 +50,11 @@ import { LoginComponent } from './login/login.component';
     PaymentPlansModule,
     AppRoutingModule,
   ],
-  providers: [ PersonService, UtilService, AuthGuardService, AuthGuard, {
+  providers: [ AuthGuardService, AuthGuard, {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }, 
+    }, PersonService, UtilService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ TableComponent, DialogComponent, GradeFormComponent, CourseFormComponent, DialogAddUserComponent ]

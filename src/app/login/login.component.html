@@ -1,2 +1,15 @@
-
-<button class="btn btn-lg btn-primary btn-block" type="submit" (click)="login()">Sign in</button>
+<div class="grandParentContaniner">
+    <div class="parentContainer">
+        <mat-card [fxFlex]="100">
+            <form [formGroup]="formUser" fxLayout="column" fxLayoutAlign="space-around" [fxFlex]="100">
+                <mat-form-field [fxFlex]="100">
+                    <input matInput placeholder="Usuário" type="text"  formControlName="username">
+                </mat-form-field>
+                <mat-form-field [fxFlex]="100">
+                    <input matInput placeholder="Senha" type="password" formControlName="password">
+                </mat-form-field>
+                <button mat-raised-button color="primary" (click)="login()">Entrar</button>
+            </form>
+        </mat-card>
+    </div>
+</div>

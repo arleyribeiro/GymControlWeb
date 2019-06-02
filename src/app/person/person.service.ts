@@ -9,6 +9,10 @@ export class PersonService {
     private readonly API = 'https://localhost:5001/api/Person/';
     constructor(private http: HttpClient) { }
 
+    httpOptions = {
+        headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Methods': '*'})
+    }
+
     getAuthenticate(user) {
         const httpOptions = {
             headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -33,7 +37,7 @@ export class PersonService {
     }
 
     getCep(cep) {
-        return this.http.get("https://viacep.com.br/ws/" + cep + "/json/");
+        return this.http.get("https://viacep.com.br/ws/" + cep + "/json/", this.httpOptions);
     }
 
     updatePerson(id, data) {

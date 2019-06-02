@@ -26,12 +26,16 @@ export class AuthGuardService {
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
 
+  getUser() {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
   get token(): string {
     return localStorage.getItem('token');
   }
 
   login(data) {
-    return this.http.post('https://localhost:5001/api/Person/authenticate',
+    return this.http.post('https://localhost:5001/api/User/authenticate',
       data
     ).pipe(
       tap(response => this.setSession(response)),
@@ -42,6 +46,7 @@ export class AuthGuardService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('user');
   }
 
   refreshToken() {
@@ -79,8 +84,11 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = localStorage.getItem('token');
 
     if (token) {
+      var headers = req.headers.set('Authorization', 'Bearer '.concat(token));
+      headers = headers.set('Access-Control-Allow-Methods', '*')
+
       const cloned = req.clone({
-        headers: req.headers.set('Authorization', 'Bearer '.concat(token))
+        headers: headers
       });
 
       return next.handle(cloned);
@@ -98,12 +106,10 @@ export class AuthGuard implements CanActivate {
   canActivate() {
     if (this.authService.isLoggedIn()) {
       this.authService.refreshToken();
-
       return true;
     } else {
       this.authService.logout();
       this.router.navigate(['login']);
-
       return false;
     }
   }

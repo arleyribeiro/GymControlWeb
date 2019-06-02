@@ -1,6 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PersonService } from './person.service';
 import { PersonFormComponent } from './person-form/person-form.component';
 import { PersonComponent } from './person.component';
@@ -19,9 +17,8 @@ import { DialogAddUserComponent } from './dialog-add-user/dialog-add-user.compon
     PersonDetailsComponent, PersonUpdateComponent, DialogAddUserComponent],
   imports: [
     CommonModule,
-    MaterialModule,
     ReactiveFormsModule,
-    HttpClientModule,
+    MaterialModule,
     PersonRoutingModule
   ],
   providers: [ PersonService ],

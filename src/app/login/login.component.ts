@@ -1,6 +1,8 @@
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AuthGuardService } from './../guards/auth-guard.service';
 import { Component, OnInit } from '@angular/core';
 import { PersonService } from '../person/person.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,51 +12,42 @@ import { PersonService } from '../person/person.service';
 
 export class LoginComponent implements OnInit {
 
-  constructor(private personService: PersonService,
-    private authService: AuthGuardService,) { }
+  constructor(
+    private fb: FormBuilder,
+    private personService: PersonService,
+    private authService: AuthGuardService,
+    private router: Router) { }
 
+  formUser = this.fb.group({
+    username: '',
+    password: '',
+    role: 'Admin'
+  });
+
+  user = {}
   ngOnInit() {
   }
 
   login() {
-    var user = {
-      "personId": 0,
-      "name": "Admin",
-      "dateOfBirth": "2019-05-25T19:33:16.929Z",
-      "cpf": "string",
-      "rg": "string",
-      "gender": "string",
-      "telephone": "string",
-      "cellphone": "string",
-      "cellphone2": "string",
-      "email": "string",
-      "address": {
-        "addressId": 0,
-        "number": "string",
-        "street": "string",
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "zip": "string",
-        "personId": 0
-      },
-      "password": "admin",
-      "role": "string",
-      "token": "string",
-      "active": true
-    }
-    this.authService.login(user).subscribe(response => {
-      let token = (<any>response).token;
+    this.authService.login( this.formUser.value ).subscribe((response:any) => {
+      let token = response.token;
+      this.user = response;
       localStorage.setItem("jwt", token);
-      
+      localStorage.setItem("user", JSON.stringify(response));
+      this.router.navigate(['person']);
       console.log("Retorno: ", token)
     }, err => {
       console.log("erro", err);
+      localStorage.removeItem("jwt");
+      localStorage.removeItem('user');
+      this.router.navigate(['login']);
     });
   }
 
   logOut() {
     localStorage.removeItem("jwt");
+    localStorage.removeItem('user');
+    this.router.navigate(['login']);
   }
 
 }
