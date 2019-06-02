@@ -82,7 +82,7 @@ export class GradeDashboadComponent implements OnInit {
 
   isOnlyOneSelected(element) {
     return (this.selection.selected.length == 1 && 
-            element.personId == this.selection.selected[0].personId);
+            element.gradeId == this.selection.selected[0].gradeId);
 
     //return (this.selection.selected.length == 1 && element.id == this.selection.selected[0].id && this.selection.selected[0].user == this.userId) ? false : true;
   }
@@ -115,7 +115,7 @@ export class GradeDashboadComponent implements OnInit {
 
   addGradeWithCourse() {
     console.log("this.selection.selected[0]", this.selection.selected[0])
-    this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
+    var dialogRef = this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
       width: "60%",
       disableClose: true, 
       data: {
@@ -125,11 +125,16 @@ export class GradeDashboadComponent implements OnInit {
         buttonCancel: "Cancelar",
         buttonConfirm: "Confirmar"
       }});
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("result: ", result)
+        this.getGrades();
+      });
   }
 
   editGrade () {
     console.log("this.selection.selected[0]", this.selection.selected[0])
-    this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
+    var dialogRef = this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
       width: "60%",
       disableClose: true, 
       data: {
@@ -139,13 +144,34 @@ export class GradeDashboadComponent implements OnInit {
         buttonCancel: "Cancelar",
         buttonConfirm: "Confirmar"
       }});
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("result: ", result)
+        this.getGrades();
+      });
   }
 
-  deleteCourse () {
-    this.utilService.callDialogConfirm(this.dialog, DialogComponent, "title", "content", "Confirmar", "Cancelar", "40%");
+  deleteGrade () {
+    var gradeIds = []
+    this.selection.selected.forEach(element => {
+      gradeIds.push(element.gradeId)
+    });
+    console.log(gradeIds)
+    var dialogRef = this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Excluir turma", "Após a operação a turma será excluída.", "Confirmar", "Cancelar", "40%");
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.gradeService.delete( gradeIds ).subscribe(response => {
+          this.getGrades();
+          this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Notificação", "A turma foi excluída com sucesso.", "Ok", "", "40%");
+        })
+      }
+      console.log("result: ", result)
+    });
+    this.selection.clear();
   }
 
   getGrades() {
+    this.selection.clear();
     this.gradeService.getGradesWithDaysWeek().subscribe((data:any) => { 
       console.log(data)
       this.grades = data;    

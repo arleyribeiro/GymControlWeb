@@ -27,4 +27,8 @@ export class GradeService {
         }
         return this.http.put(this.API + id + '/', data, httpOptions);
     }
+
+    delete(data) {
+        return this.http.post(this.API + "disabledGrades/", data);
+    }
 }

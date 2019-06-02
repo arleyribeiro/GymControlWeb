@@ -77,14 +77,14 @@
           <ng-container matColumnDef="options">
             <th mat-header-cell *matHeaderCellDef>
               <div [hidden]="!isMultiSelected()">
-                  <mat-icon class="mouse-cursor-pointer" matTooltip="Deletar cursos" (click)="deleteCourse()">delete</mat-icon>
+                  <mat-icon class="mouse-cursor-pointer" matTooltip="Deletar cursos" (click)="deleteGrade()">delete</mat-icon>
                 </div>
             </th>
             <td mat-cell *matCellDef="let element">
               <div *ngIf="isOnlyOneSelected(element)">
                 <!--mat-icon class="mouse-cursor-pointer" matTooltip="Adicionar aluno" (click)="addGrade()">add_circle_outline</mat-icon-->
                 <mat-icon class="mouse-cursor-pointer" matTooltip="Editar turma" (click)="editGrade()">edit</mat-icon>
-                <mat-icon class="mouse-cursor-pointer" matTooltip="Deletar turma" (click)="deleteCourse()">delete</mat-icon>
+                <mat-icon class="mouse-cursor-pointer" matTooltip="Deletar turma" (click)="deleteGrade()">delete</mat-icon>
               </div> 
             </td>
           </ng-container>

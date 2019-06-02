@@ -129,6 +129,7 @@ export class CourseDashboardComponent implements OnInit {
     this.selection.selected.forEach(element => {
       courseIds.push(element.courseId)
     });
+    
     var dialogRef = this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Excluir curso", "Após a operação esse curso será excluído.", "Confirmar", "Cancelar", "40%");
     dialogRef.afterClosed().subscribe(result => {
       if(result){
@@ -143,7 +144,6 @@ export class CourseDashboardComponent implements OnInit {
 
   getCourses(){
     this.selection.clear();
-    var data = []
     this.courseService.get().subscribe((data:any) => { 
       this.courses = data;    
       this.dataSource = new MatTableDataSource<any>(data);
