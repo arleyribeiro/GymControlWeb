@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    var user = this.formUser.value;
+    user.password = this.authService.encrypt(user.password);
     this.authService.login( this.formUser.value ).subscribe((response:any) => {
       let token = response.token;
       this.user = response;

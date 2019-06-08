@@ -8,14 +8,22 @@ import { tap, shareReplay } from 'rxjs/operators';
 import * as jwtDecode from 'jwt-decode';
 import * as moment from 'moment';
 
+import { environment } from '../../environments/environment.prod';
+
+import { JSEncrypt } from '../../../node_modules/jsencrypt/';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardService {
-  private apiRoot = 'http://localhost:4200/';
+  private apiRoot = environment.apiRoot;
+  private $encrypt: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.$encrypt = new JSEncrypt();
+    this.$encrypt.setPublicKey(environment.publicKey);
+  }
 
   private setSession(authResult) {
     const token = authResult.token;
@@ -34,8 +42,12 @@ export class AuthGuardService {
     return localStorage.getItem('token');
   }
 
+  encrypt(password:any){
+    return this.$encrypt.encrypt(password)
+  }
+
   login(data) {
-    return this.http.post('https://localhost:5001/api/User/authenticate',
+    return this.http.post(this.apiRoot + 'User/authenticate',
       data
     ).pipe(
       tap(response => this.setSession(response)),
