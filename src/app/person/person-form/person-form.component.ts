@@ -1,6 +1,6 @@
 import { CourseService } from 'src/app/course/course.service';
 import { Component, OnInit, ViewChild, forwardRef } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatStepper } from '@angular/material';
 import { FormBuilder, Validators, AbstractControl, FormGroup, FormArray, FormControl } from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 
@@ -72,7 +72,7 @@ export function ValidateCpf(control: AbstractControl) {
 export class PersonFormComponent implements OnInit {
   
 
-  @ViewChild('stepper') stepper;
+  @ViewChild('stepper') stepper: MatStepper;
   isLinear = false;
   states = [];
   gender = null;
@@ -83,6 +83,7 @@ export class PersonFormComponent implements OnInit {
   prices:any = []
   personService: PersonService;
   utilService: UtilService;
+  showStepperCourse = false;
 
   plansForm: FormGroup;
   payment: FormArray;
@@ -150,7 +151,7 @@ export class PersonFormComponent implements OnInit {
       state: ['', Validators.required],
       zip: ['', Validators.required]
     }),
-    payment: ['', Validators.required]
+    payment: [null, Validators.required]
   });
 
   profilePersonalForm = this.fb.group({
@@ -334,7 +335,7 @@ export class PersonFormComponent implements OnInit {
   callDialog(dialog, component, title, content, buttonConfirm, buttonCancel) {
       dialog.open(component, 
         { panelClass: 'custom-dialog-container', 
-          width: '80%', 
+          width: '25%', 
           disableClose: true, 
           data: {
             title: title,
@@ -342,6 +343,32 @@ export class PersonFormComponent implements OnInit {
             buttonCancel: buttonCancel,
             buttonConfirm: buttonConfirm
           }
+      });
+  }
+
+  addCourse(stepper: MatStepper, validForm) {
+    console.log("validForm: ", validForm)
+    var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
+      width: "25%",
+      disableClose: true, 
+      data: {
+        grade: null,
+        title: "Adionar curso?",
+        content: "Deseja inserir o usuário em algum curso?",
+        buttonCancel: "Não",
+        buttonConfirm: "Sim"
+      }});
+
+      dialogRef.afterClosed().subscribe(result => {
+        
+        this.showStepperCourse = result;
+        if(result){
+          stepper.next();
+        }else {
+          this.onSubmit()
+        } 
+
+        console.log("result: ", result)
       });
   }
 
