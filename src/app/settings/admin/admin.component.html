@@ -1,0 +1,53 @@
+<mat-card class="container-card">
+    <mat-card-header>
+      <mat-card-title>Adicionar permissões</mat-card-title>
+      <mat-card-subtitle>Adicionar permissões ao usuário do sistema.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form fxLayout="row" fxFill>
+          <mat-form-field fxFlex="100">
+            <input  type="text"
+                    placeholder="Buscar Aluno" 
+                    aria-label="Buscar Aluno" 
+                    matInput 
+                    [formControl]="myControl" 
+                    [matAutocomplete]="auto"
+                    (keyup.enter)="setPersonId(0)">
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option" 
+              (click)="setPersonId(option.personId)">
+                {{option.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>          
+        </form>
+        <form  [formGroup]="userForm" fxLayout="row" fxLayoutAlign="space-between start" fxFill *ngIf="userForm.get('personId').value>0">
+          <mat-form-field>
+            <input matInput placeholder="Nome de usuário" formControlName="username">
+          </mat-form-field>  
+          <form [formGroup]="passwordForm">
+            <mat-form-field>
+              <input matInput placeholder="Senha" formControlName="password">
+              <mat-error *ngIf="passwordForm.hasError('required', 'password')">
+                  Insira uma senha
+              </mat-error>
+            </mat-form-field>       
+            <mat-form-field>
+              <input matInput placeholder="Confirmar senha" formControlName="confirmPassword" [errorStateMatcher]="matcher">
+              <mat-error *ngIf="passwordForm.hasError('notSame')">
+                  As senhas são diferentes
+              </mat-error> 
+            </mat-form-field>
+          </form>
+
+          <mat-form-field>
+          <mat-label>Permissão</mat-label>
+            <mat-select formControlName="role">
+              <mat-option value="Admin">Admin</mat-option>
+              <mat-option value="User">User</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!validateForm()">Salvar</button>            
+        </form>
+    </mat-card-content>
+  </mat-card>

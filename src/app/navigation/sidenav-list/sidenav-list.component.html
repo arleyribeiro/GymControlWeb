@@ -49,4 +49,16 @@
             <span>Realizar Pagamento</span>
         </div>
     </mat-expansion-panel>
+
+    <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-icon>settings</mat-icon><span class="nav-caption">Configuração</span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <div class="item-menu" routerLink="/settings/new-admin" (click)="onSidenavClose()">
+                <span>Adicionar administrador</span>
+            </div>
+        </mat-expansion-panel>
   </mat-nav-list>

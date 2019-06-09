@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'person', loadChildren: './person/person.module#PersonModule', canActivate: [AuthGuard]},
   { path: 'course', loadChildren: './course/course.module#CourseModule', canActivate: [AuthGuard]},
   { path: 'grade', loadChildren: './grade/grade.module#GradeModule', canActivate: [AuthGuard]},
-  { path: 'payment', loadChildren: './payment/payment.module#PaymentModule', canActivate: [AuthGuard]}
+  { path: 'payment', loadChildren: './payment/payment.module#PaymentModule', canActivate: [AuthGuard]},
+  { path: 'settings', loadChildren: './settings/settings.module#SettingsModule', canActivate: [AuthGuard]}
 ];
 
 @NgModule({

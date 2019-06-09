@@ -59,6 +59,7 @@ export class AuthGuardService {
     localStorage.removeItem('token');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('user');
+    localStorage.removeItem('jwt');
   }
 
   refreshToken() {

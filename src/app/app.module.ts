@@ -26,7 +26,7 @@ import { PaymentPlansComponent } from './payment-plans/payment-plans.component';
 import { PaymentPlansModule } from './payment-plans/payment-plans.module';
 import { DialogAddUserComponent } from './person/dialog-add-user/dialog-add-user.component';
 import { LoginComponent } from './login/login.component';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsModule } from './settings/settings.module';
 
 @NgModule({
   declarations: [
@@ -37,8 +37,7 @@ import { SettingsComponent } from './settings/settings.component';
     PaymentPlansComponent,
     TableComponent,
     ChooseGradeAndPaymentComponent,
-    LoginComponent,
-    SettingsComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,   
@@ -50,6 +49,7 @@ import { SettingsComponent } from './settings/settings.component';
     CourseModule,
     PersonModule,
     PaymentPlansModule,
+    SettingsModule,
     AppRoutingModule,
   ],
   providers: [ AuthGuardService, AuthGuard, {
