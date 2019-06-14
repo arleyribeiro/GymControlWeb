@@ -73,7 +73,7 @@ export class PersonFormComponent implements OnInit {
   
 
   @ViewChild('stepper') stepper: MatStepper;
-  isLinear = false;
+  isLinear = true;
   states = [];
   gender = null;
   courses = null;
@@ -351,27 +351,29 @@ export class PersonFormComponent implements OnInit {
   }
 
   addCourse(stepper: MatStepper, validForm) {
-    var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
-      width: "25%",
-      disableClose: true, 
-      data: {
-        grade: null,
-        title: "Adionar curso?",
-        content: "Deseja inserir o usuário em algum curso?",
-        buttonCancel: "Não",
-        buttonConfirm: "Sim"
-      }});
-
-      dialogRef.afterClosed().subscribe(result => {
-        
-        this.showStepperCourse = result;
-        if(result){
-          stepper.next();
-        }else {
-          this.createObjectPost();
-          this.onSubmit()
-        } 
-      });
+    if(validForm) {
+      var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
+        width: "25%",
+        disableClose: true, 
+        data: {
+          grade: null,
+          title: "Adionar curso?",
+          content: "Deseja inserir o usuário em algum curso?",
+          buttonCancel: "Não",
+          buttonConfirm: "Sim"
+        }});
+  
+        dialogRef.afterClosed().subscribe(result => {
+          
+          this.showStepperCourse = result;
+          if(result){
+            stepper.next();
+          }else {
+            this.createObjectPost();
+            this.onSubmit()
+          } 
+        });
+    }
   }
 
   validateForm() {

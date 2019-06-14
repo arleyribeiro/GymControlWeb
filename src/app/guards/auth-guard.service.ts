@@ -95,7 +95,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
-    const viacep = localStorage.getItem('viacep');
+    const viacep = JSON.parse(localStorage.getItem('viacep'));
 
     if (token && !viacep) {
       var headers = req.headers.set('Authorization', 'Bearer '.concat(token));
