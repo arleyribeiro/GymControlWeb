@@ -248,6 +248,7 @@ export class PersonFormComponent implements OnInit {
   }
 
   getZip() {
+    localStorage.setItem("viacep", JSON.stringify(true));
     this.personService.getCep(this.profileAddressForm.get('zip').value).subscribe(
       (data) => {
         console.log(data);
@@ -258,8 +259,12 @@ export class PersonFormComponent implements OnInit {
           this.profileAddressForm.get('city').setValue(data["localidade"]);
           this.profileAddressForm.get('state').setValue(data["uf"]);
         }
+        localStorage.setItem("viacep", JSON.stringify(false));
         console.log(data);
-      }, error => {console.log(error.erros)}
+      }, error => {
+        localStorage.setItem("viacep", JSON.stringify(false));
+        console.log(error.erros)
+      }
     );
   }
 

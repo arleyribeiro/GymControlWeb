@@ -95,8 +95,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
+    const viacep = localStorage.getItem('viacep');
 
-    if (token) {
+    if (token && !viacep) {
       var headers = req.headers.set('Authorization', 'Bearer '.concat(token));
       headers = headers.set('Access-Control-Allow-Methods', '*')
 

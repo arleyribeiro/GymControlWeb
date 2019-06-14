@@ -10,7 +10,7 @@ export class PersonService {
     constructor(private http: HttpClient) { }
 
     httpOptions = {
-        headers: new HttpHeaders({'Content-Type': 'application/json', 'Access-Control-Allow-Methods': '*'})
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
 
     getAuthenticate(user) {
