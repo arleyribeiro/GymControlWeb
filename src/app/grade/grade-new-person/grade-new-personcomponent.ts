@@ -221,14 +221,17 @@ export class GradeNewPersonComponent implements OnInit {
   }
 
   onSubmit() {
-    this.gradeService.addPerson(this.profileForm.value).subscribe((response:any) => {
+    this.profileForm.value.payment.forEach(e => {
+      e.personId = this.myControl.value.personId;
+    });
+    
+    this.gradeService.addPerson(this.profileForm.value.payment).subscribe((response:any) => {
       if(response){
         this.callDialog(this.dialog, DialogComponent, 'O Aluno foi inserido com sucesso!', "O aluno foi inserido na turma.", 'Ok', null);
       }
     }, error => {
       this.callDialog(this.dialog, DialogComponent, 'Notificação do sistema', "Ocorreu um erro ao tentar inserir o aluno.", 'Ok', null);
     });
-    console.log(this.profileForm.value);
     this.resetPlans();
   }
 
@@ -257,7 +260,7 @@ export class GradeNewPersonComponent implements OnInit {
   callDialog(dialog, component, title, content, buttonConfirm, buttonCancel) {
       dialog.open(component, 
         { panelClass: 'custom-dialog-container', 
-          width: '25%', 
+          width: '35%', 
           disableClose: true, 
           data: {
             title: title,
