@@ -73,18 +73,23 @@ export class PersonUpdateComponent implements OnInit {
   }
 
   getZip() {
+    localStorage.setItem("viacep", JSON.stringify(true));
     this.personService.getCep(this.profileForm.get('address').get('zip').value).subscribe(
       (data) => {
         console.log(data);
         if(!data["erro"]) {
-          this.profileForm.get('address').get('zip').setValue(this.replaceAll(data["cep"]));
           this.profileForm.get('address').get('street').setValue(data["logradouro"]);
           this.profileForm.get('address').get('neighborhood').setValue(data["bairro"]);
           this.profileForm.get('address').get('city').setValue(data["localidade"]);
           this.profileForm.get('address').get('state').setValue(data["uf"]);
+          localStorage.setItem("viacep", JSON.stringify(true));
         }
+        localStorage.setItem("viacep", JSON.stringify(true));
         console.log(data);
-      }, error => {console.log(error.erros)}
+      }, error => {
+        localStorage.setItem("viacep", JSON.stringify(true));
+        console.log(error.erros)
+      }
     );
   }
 
