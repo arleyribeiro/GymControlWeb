@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   user = null
   isLogged = false;
   ngOnInit(): void {
+    this.authGuardService.refreshToken();
     this.user = this.authGuardService.getUser();  
     this.isLogged = this.authGuardService.isLoggedIn();
     console.log(this.isLogged)

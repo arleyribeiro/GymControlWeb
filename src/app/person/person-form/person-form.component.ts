@@ -229,7 +229,7 @@ export class PersonFormComponent implements OnInit {
 
   createItem(): FormGroup {
      var plan = this.fb.group({
-      planId: [1, Validators.required],
+      planId: [0, Validators.required],
       personId: 0,
       amountToBePaid: 0,
       userId: 0,
@@ -239,7 +239,6 @@ export class PersonFormComponent implements OnInit {
       gradeId: [0, Validators.required],
       price: 0
     });
-    plan.get("planId").setValue('1');
     return plan
   }
 
@@ -305,7 +304,7 @@ export class PersonFormComponent implements OnInit {
     this.items.push(1);
   }
 
-  onSubmit() {
+  createObjectPost() {
     console.log( this.profileForm.value)
     this.profileForm.get('name').setValue(this.profilePersonalForm.get('name').value);
     this.profileForm.get('dateOfBirth').setValue(this.profilePersonalForm.get('dateOfBirth').value);
@@ -322,9 +321,9 @@ export class PersonFormComponent implements OnInit {
     this.profileForm.get('address').get('city').setValue(this.profileAddressForm.get('city').value);
     this.profileForm.get('address').get('state').setValue(this.profileAddressForm.get('state').value);
     this.profileForm.get('address').get('zip').setValue(this.profileAddressForm.get('zip').value);
+  }
 
-    console.log(this.profileForm.value)
-
+  onSubmit() {
     this.personService.postPerson(this.profileForm.value).subscribe(
       (data) => {
         console.log("Criou", this.profileForm.value);
@@ -352,7 +351,6 @@ export class PersonFormComponent implements OnInit {
   }
 
   addCourse(stepper: MatStepper, validForm) {
-    console.log("validForm: ", validForm)
     var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
       width: "25%",
       disableClose: true, 
@@ -370,11 +368,32 @@ export class PersonFormComponent implements OnInit {
         if(result){
           stepper.next();
         }else {
+          this.createObjectPost();
           this.onSubmit()
         } 
-
-        console.log("result: ", result)
       });
+  }
+
+  validateForm() {
+    var valid = true;
+    this.payment = this.plansForm.controls.payment as FormArray;
+    var plan = this.payment.value;
+
+    if(!plan.length)
+      return false;
+
+    for(let i = 0; i < plan.length; i++) {
+      var p = plan[i];
+      if((p.planId == 0 || p.gradeId == 0 || p.courseId == 0 || (p.dueDay == 0 || p.dueDay > 31))){
+        valid = false;
+        return;
+      }
+    }
+
+    if(valid)
+      this.createObjectPost();
+
+    return valid && this.profileForm.valid;
   }
 
 }

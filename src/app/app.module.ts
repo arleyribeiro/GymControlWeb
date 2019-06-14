@@ -24,7 +24,6 @@ import { GradeModule } from './grade/grade.module';
 import { CourseModule } from './course/course.module';
 import { PaymentPlansComponent } from './payment-plans/payment-plans.component';
 import { PaymentPlansModule } from './payment-plans/payment-plans.module';
-import { DialogAddUserComponent } from './person/dialog-add-user/dialog-add-user.component';
 import { LoginComponent } from './login/login.component';
 import { SettingsModule } from './settings/settings.module';
 
@@ -59,6 +58,6 @@ import { SettingsModule } from './settings/settings.module';
     }, PersonService, UtilService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ TableComponent, DialogComponent, GradeFormComponent, CourseFormComponent, DialogAddUserComponent ]
+  entryComponents: [ TableComponent, DialogComponent, GradeFormComponent, CourseFormComponent]
 })
 export class AppModule { }

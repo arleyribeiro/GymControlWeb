@@ -1,5 +1,4 @@
 import { GradeService } from './../../grade/grade.service';
-import { DialogAddUserComponent } from './../dialog-add-user/dialog-add-user.component';
 import { PersonUpdateComponent } from './../person-update/person-update.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
@@ -132,21 +131,6 @@ export class PersonDetailsComponent implements OnInit {
 
   turnVisualization(type:string) {
     this.selectGalery = type;
-  }
-
-  addGrade() {
-    console.log("this.selection.selected[0]", this.selection.selected[0])
-    this.dialog.open(DialogAddUserComponent, { panelClass: 'custom-dialog-container', 
-      width: "60%",
-      disableClose: true, 
-      data: {
-        courses: [],
-        course: this.selection.selected[0],
-        title: "title",
-        content: "content",
-        buttonCancel: "Cancelar",
-        buttonConfirm: "Confirmar"
-      }});
   }
 
   getGrades() {

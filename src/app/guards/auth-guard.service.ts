@@ -63,7 +63,7 @@ export class AuthGuardService {
   }
 
   refreshToken() {
-    if (moment().isBetween(this.getExpiration().subtract(1, 'days'), this.getExpiration())) {
+    if (moment().isBetween(this.getExpiration().subtract(1, 'minute'), this.getExpiration())) {
       return this.http.post(
         this.apiRoot.concat('refresh-token/'),
         { token: this.token }

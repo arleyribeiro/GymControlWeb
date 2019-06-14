@@ -27,13 +27,13 @@
           </mat-form-field>  
           <form [formGroup]="passwordForm">
             <mat-form-field>
-              <input matInput placeholder="Senha" formControlName="password">
+              <input matInput placeholder="Senha" formControlName="password" type="password">
               <mat-error *ngIf="passwordForm.hasError('required', 'password')">
                   Insira uma senha
               </mat-error>
             </mat-form-field>       
             <mat-form-field>
-              <input matInput placeholder="Confirmar senha" formControlName="confirmPassword" [errorStateMatcher]="matcher">
+              <input matInput placeholder="Confirmar senha" formControlName="confirmPassword" type="password" [errorStateMatcher]="matcher">
               <mat-error *ngIf="passwordForm.hasError('notSame')">
                   As senhas são diferentes
               </mat-error> 

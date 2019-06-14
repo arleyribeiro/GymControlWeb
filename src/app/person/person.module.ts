@@ -8,13 +8,12 @@ import { MaterialModule } from '../material.module';
 import { PersonDetailsComponent } from './person-details/person-details.component';
 import { PersonRoutingModule } from './person-routing.module';
 import { PersonUpdateComponent } from './person-update/person-update.component';
-import { DialogAddUserComponent } from './dialog-add-user/dialog-add-user.component';
 
 @NgModule({
   declarations: [
     PersonComponent,
     PersonFormComponent, 
-    PersonDetailsComponent, PersonUpdateComponent, DialogAddUserComponent],
+    PersonDetailsComponent, PersonUpdateComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -22,7 +21,7 @@ import { DialogAddUserComponent } from './dialog-add-user/dialog-add-user.compon
     PersonRoutingModule
   ],
   providers: [ PersonService ],
-  exports: [ PersonFormComponent, PersonUpdateComponent, DialogAddUserComponent],
-  entryComponents: [ PersonUpdateComponent, DialogAddUserComponent ]
+  exports: [ PersonFormComponent, PersonUpdateComponent],
+  entryComponents: [ PersonUpdateComponent]
 })
 export class PersonModule { }

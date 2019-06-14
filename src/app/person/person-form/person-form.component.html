@@ -153,7 +153,7 @@
                   </div>
                 </div>
                 <mat-card-actions class="btn-save">
-                  <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!plansForm.valid">Salvar</button>
+                  <button mat-raised-button color="primary" type="submit" (click)="onSubmit()" [disabled]="!validateForm()">Salvar</button>
                   <button mat-button color="primary" matStepperPrevious>Voltar</button>
                   <button mat-button color="primary" (click)=" resetPlans();stepper.reset();">Reiniciar</button>
                 </mat-card-actions>

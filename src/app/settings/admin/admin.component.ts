@@ -1,10 +1,11 @@
+import { DialogComponent } from './../../shared/dialog/dialog.component';
 import { SettingsService } from './../settings.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormBuilder, Validators, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PersonService } from 'src/app/person/person.service';
 import { startWith, map } from 'rxjs/operators';
-import { ErrorStateMatcher } from '@angular/material';
+import { ErrorStateMatcher, MatDialog } from '@angular/material';
 
 export interface User {
   name: string;
@@ -34,6 +35,7 @@ export class AdminComponent implements OnInit {
 
   constructor(private personService: PersonService,
     private settingsService: SettingsService,
+    private dialog: MatDialog,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -102,14 +104,41 @@ export class AdminComponent implements OnInit {
   onSubmit() {
     var user = this.userForm.value;
     this.settingsService.postUserAdmin(user).subscribe((response:any) =>{
-      console.log(response)
+      this.showMessage("Usuário criado", "Usuário criado com sucesso", "Ok", null);    
     },
     error=> {
-      console.log(error.error);      
+      this.showMessage("Ocorreu um erro", error.error, "Ok", null)   
     });
   }
 
+  reset(){
+    this.userForm.reset();
+    this.passwordForm.reset();
+    this.myControl.reset();
+    if(this.options != null){
+      this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith<string | any>(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.options.slice())
+      );
+    }
+  }
 
+  showMessage(title, content, buttonConfirm, buttonCancel){
+    var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
+        width: "25%",
+        disableClose: true, 
+        data: {
+          grade: null,
+          title: title,
+          content: content,
+          buttonCancel: buttonCancel,
+          buttonConfirm: buttonConfirm
+        }});
 
-
+    dialogRef.afterClosed().subscribe(result => {
+      this.reset();
+    });
+  }
 }
