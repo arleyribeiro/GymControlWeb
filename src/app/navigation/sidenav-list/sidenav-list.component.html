@@ -32,7 +32,9 @@
                 <mat-icon>class</mat-icon><span class="nav-caption">Turmas</span>
             </mat-panel-title>
         </mat-expansion-panel-header>
-    
+        <div class="item-menu" routerLink="/grade/new-person" (click)="onSidenavClose()">
+            <span>Inserir aluno na turma</span>
+        </div>   
         <div class="item-menu" routerLink="/grade/dashboard" (click)="onSidenavClose()">
             <span>Visualizar Turmas</span>
         </div>      

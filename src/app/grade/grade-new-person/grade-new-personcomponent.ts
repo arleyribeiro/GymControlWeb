@@ -1,3 +1,4 @@
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { PersonService } from './../../person/person.service';
 import { Observable } from 'rxjs';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
@@ -49,7 +50,8 @@ export class GradeNewPersonComponent implements OnInit {
               private personService: PersonService,
               private gradeService: GradeService,
               private courseService: CourseService,
-              private paymentPlansService: PaymentPlansService) { }
+              private paymentPlansService: PaymentPlansService,
+              private dialog: MatDialog) { }
 
 
   ngOnInit() {
@@ -83,6 +85,7 @@ export class GradeNewPersonComponent implements OnInit {
     var personId = 0;
     personId = id ? id : this.myControl.value.personId;
     this.person = this.myControl.value;
+    this.profileForm.get('personId').setValue(personId);
   }
 
   getPersons() {
@@ -104,49 +107,10 @@ export class GradeNewPersonComponent implements OnInit {
   }
 
   profileForm = this.fb.group({
-    name: ['', Validators.required],
-    dateOfBirth: ['', Validators.required],
-    gender: ['', Validators.required],
-    cpf: ['', [Validators.required]],
-    rg: [''],
-    email: ['', [Validators.required, Validators.email]],
-    telephone: ['', Validators.required],
-    cellphone: ['', Validators.required],
-    cellphone2: [''],
-    address: this.fb.group({
-      number: ['', Validators.required],
-      street: ['', Validators.required],
-      neighborhood: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      zip: ['', Validators.required]
-    }),
+    personId: ['', Validators.required],
     payment: ['', Validators.required]
   });
 
-  profilePersonalForm = this.fb.group({
-    name: ['', Validators.required],
-    dateOfBirth: ['', Validators.required],
-    gender: ['', Validators.required],
-    cpf: ['', [Validators.required]],
-    rg: ['']
-  });
-
-  profileContactForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    telephone: ['', Validators.required],
-    cellphone: ['', Validators.required],
-    cellphone2: ['']
-  });
-
-  profileAddressForm = this.fb.group({
-      number: ['', Validators.required],
-      street: ['', Validators.required],
-      neighborhood: ['', Validators.required],
-      city: ['', Validators.required],
-      state: ['', Validators.required],
-      zip: ['', Validators.required]
-  });
 
   addForm() {
     this.profileForm.get('payment').setValue(this.items);
@@ -176,11 +140,7 @@ export class GradeNewPersonComponent implements OnInit {
     this.grades = []
     this.paymentPlans = []
     this.plansForm.reset()
-    this.profileAddressForm.reset()
-    this.profileContactForm.reset()
     this.profileForm.reset()
-    this.profilePersonalForm.reset()
-    this.profileForm.get('gender').setValue('F');
 
     this.payment = this.plansForm.controls.payment as FormArray;
     for(var i=0; i<this.payment.length;i++){
@@ -199,7 +159,7 @@ export class GradeNewPersonComponent implements OnInit {
 
   createItem(): FormGroup {
      var plan = this.fb.group({
-      planId: [1, Validators.required],
+      planId: [0, Validators.required],
       personId: 0,
       amountToBePaid: 0,
       userId: 0,
@@ -209,28 +169,11 @@ export class GradeNewPersonComponent implements OnInit {
       gradeId: [0, Validators.required],
       price: 0
     });
-    plan.get("planId").setValue('1');
     return plan
   }
 
   replaceAll(data) {
     return data.replace(".", '').replace("-",'').replace("/", '');
-  }
-
-  getZip() {
-    this.personService.getCep(this.profileAddressForm.get('zip').value).subscribe(
-      (data) => {
-        console.log(data);
-        if(!data["erro"]) {
-          this.profileAddressForm.get('zip').setValue(this.replaceAll(data["cep"]));
-          this.profileAddressForm.get('street').setValue(data["logradouro"]);
-          this.profileAddressForm.get('neighborhood').setValue(data["bairro"]);
-          this.profileAddressForm.get('city').setValue(data["localidade"]);
-          this.profileAddressForm.get('state').setValue(data["uf"]);
-        }
-        console.log(data);
-      }, error => {console.log(error.erros)}
-    );
   }
 
   getCourseWithGrades() {
@@ -240,9 +183,7 @@ export class GradeNewPersonComponent implements OnInit {
   }
 
   setGrade(course, index) {
-    console.log("course: ", course)
     this.grades[index] = course.grades;
-    console.log("grades: ", this.grades)
   }
 
   showGrade(grade) {
@@ -275,33 +216,48 @@ export class GradeNewPersonComponent implements OnInit {
     this.items.push(1);
   }
 
-  onSubmit() {
-    console.log( this.profileForm.value)
-    this.profileForm.get('name').setValue(this.profilePersonalForm.get('name').value);
-    this.profileForm.get('dateOfBirth').setValue(this.profilePersonalForm.get('dateOfBirth').value);
-    this.profileForm.get('cpf').setValue(this.profilePersonalForm.get('cpf').value);
-    this.profileForm.get('rg').setValue(this.profilePersonalForm.get('rg').value);
-    this.profileForm.get('email').setValue(this.profileContactForm.get('email').value);
-    this.profileForm.get('telephone').setValue(this.profileContactForm.get('telephone').value);
-    this.profileForm.get('cellphone').setValue(this.profileContactForm.get('cellphone').value);
-    this.profileForm.get('cellphone2').setValue(this.profileContactForm.get('cellphone2').value);
+  createObjectPost() {
     this.profileForm.get('payment').setValue(this.plansForm.get('payment').value);
-    this.profileForm.get('address').get('number').setValue(this.profileAddressForm.get('number').value);
-    this.profileForm.get('address').get('street').setValue(this.profileAddressForm.get('street').value);
-    this.profileForm.get('address').get('neighborhood').setValue(this.profileAddressForm.get('neighborhood').value);
-    this.profileForm.get('address').get('city').setValue(this.profileAddressForm.get('city').value);
-    this.profileForm.get('address').get('state').setValue(this.profileAddressForm.get('state').value);
-    this.profileForm.get('address').get('zip').setValue(this.profileAddressForm.get('zip').value);
+  }
 
-    console.log(this.profileForm.value)
+  onSubmit() {
+    this.gradeService.addPerson(this.profileForm.value).subscribe((response:any) => {
+      if(response){
+        this.callDialog(this.dialog, DialogComponent, 'O Aluno foi inserido com sucesso!', "O aluno foi inserido na turma.", 'Ok', null);
+      }
+    }, error => {
+      this.callDialog(this.dialog, DialogComponent, 'Notificação do sistema', "Ocorreu um erro ao tentar inserir o aluno.", 'Ok', null);
+    });
+    console.log(this.profileForm.value);
+    this.resetPlans();
+  }
 
-    
+  validateForm() {
+    var valid = true;
+    this.payment = this.plansForm.controls.payment as FormArray;
+    var plan = this.payment.value;
+
+    if(!plan.length)
+      return false;
+
+    for(let i = 0; i < plan.length; i++) {
+      var p = plan[i];
+      if((p.planId == 0 || p.gradeId == 0 || p.courseId == 0 || (p.dueDay == 0 || p.dueDay > 31))){
+        valid = false;
+        return;
+      }
+    }
+
+    if(valid)
+      this.createObjectPost();
+
+    return valid && this.profileForm.valid;
   }
 
   callDialog(dialog, component, title, content, buttonConfirm, buttonCancel) {
       dialog.open(component, 
         { panelClass: 'custom-dialog-container', 
-          width: '80%', 
+          width: '25%', 
           disableClose: true, 
           data: {
             title: title,

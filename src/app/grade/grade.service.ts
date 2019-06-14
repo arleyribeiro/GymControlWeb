@@ -9,6 +9,10 @@ export class GradeService {
     private readonly API = 'https://localhost:5001/api/Grade/';
     constructor(private http: HttpClient) { }
 
+    addPerson(data){
+        return this.http.post(this.API+'newPerson', data);
+    }
+    
     getGrade(){
         return this.http.get(this.API);
     }
