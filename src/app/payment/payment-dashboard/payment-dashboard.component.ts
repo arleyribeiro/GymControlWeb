@@ -165,6 +165,9 @@ export class PaymentDashboardComponent implements OnInit {
     personId = id ? id : this.myControl.value.personId;
     this.person = this.myControl.value;
     this.paymentService.getPaymentOfPerson(personId).subscribe((response:any) =>{
+      if(response == null || !response.length)
+        this.utilService.callDialog(this.dialog, DialogComponent, "Notificação do sistema", "Não existe pendência de pagamento para o aluno " + this.person.name, "Ok", null, "35%", null);
+
         this.dataSource = new MatTableDataSource<any>(response);
         this.dataSource.paginator = this.paginator;
     });
