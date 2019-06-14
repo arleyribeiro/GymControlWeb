@@ -157,12 +157,12 @@ export class GradeDashboadComponent implements OnInit {
       gradeIds.push(element.gradeId)
     });
     console.log(gradeIds)
-    var dialogRef = this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Excluir turma", "Após a operação a turma será excluída.", "Confirmar", "Cancelar", "40%");
+    var dialogRef = this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Excluir turma", "Após a operação a turma será excluída.", "Confirmar", "Cancelar", "25%");
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         this.gradeService.delete( gradeIds ).subscribe(response => {
           this.getGrades();
-          this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Notificação", "A turma foi excluída com sucesso.", "Ok", "", "40%");
+          this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Notificação", "A turma foi excluída com sucesso.", "Ok", "", "25%");
         })
       }
       console.log("result: ", result)

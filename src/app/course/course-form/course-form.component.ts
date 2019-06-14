@@ -45,7 +45,7 @@ export class CourseFormComponent implements OnInit {
     console.log(this.courseForm.value)
     var course = this.courseForm.value
     course.user = 1;//id user loggin
-    console.log(course)
+
     if(this.editMode)
       this.put(course)
     else
@@ -70,7 +70,6 @@ export class CourseFormComponent implements OnInit {
   }
 
   put(course) {
-    console.log("Atula> ", course)
     this.courseService.update(course.courseId, course).subscribe(response=>{
       this.dialog.open(DialogComponent, {panelClass: 'custom-dialog-container', 
         data: {

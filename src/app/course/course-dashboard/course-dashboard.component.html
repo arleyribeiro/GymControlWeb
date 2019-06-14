@@ -59,7 +59,7 @@
           <!-- Symbol Column -->
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef> Status </th>
-            <td mat-cell *matCellDef="let element"> {{ element.status }} </td>
+            <td mat-cell *matCellDef="let element"> {{ element.status ? 'Ativo' : 'Destativado' }} </td>
           </ng-container>
   
           <!-- Symbol Column -->
