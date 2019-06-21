@@ -93,7 +93,7 @@
                   </mat-form-field>
                   
                   <mat-form-field fxFlex="20">
-                    <mat-select [(value)]="profileAddressForm.get('state').value" placeholder="Estado" formControlName="state">
+                    <mat-select [value]="profileAddressForm.get('state').value" placeholder="Estado" formControlName="state">
                       <mat-option *ngFor="let state of states" [value]="state.initials">{{ state.name }}</mat-option>
                     </mat-select>
                   </mat-form-field>

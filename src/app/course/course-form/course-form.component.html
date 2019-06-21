@@ -13,7 +13,7 @@
             <div fxFlex="50" >
               <mat-form-field fxFill>
                 <mat-label>Escolha uma modalidade</mat-label>
-                <mat-select [(ngModel)]="courseForm.get('courseId').value" formControlName="modality" >
+                <mat-select [ngModel]="courseForm.get('courseId').value" formControlName="modality" >
                   <mat-option [value]="modality.id" *ngFor="let modality of modalities">{{ modality.name }}</mat-option>
                 </mat-select>
               </mat-form-field>

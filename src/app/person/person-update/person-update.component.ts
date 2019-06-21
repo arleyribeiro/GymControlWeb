@@ -23,6 +23,7 @@ export class PersonUpdateComponent implements OnInit {
   profileContactForm: any;
   profileAddressForm: any;
   profilePersonalForm: any;
+  selected:any
   constructor(private fb: FormBuilder, 
     private _personService: PersonService, 
     private _utilService: UtilService,
@@ -112,6 +113,7 @@ export class PersonUpdateComponent implements OnInit {
     this.profileForm.get('address').get('city').setValue(data.address.city);
     this.profileForm.get('address').get('state').setValue(data.address.state);
     this.profileForm.get('address').get('zip').setValue(data.address.zip);
+    this.selected = data.address.state
   }
 
   onSubmit() {

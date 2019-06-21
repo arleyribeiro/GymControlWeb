@@ -24,7 +24,7 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="22" class="margin-right">
-        <mat-select [(value)]="selected">
+        <mat-select [value]="selected">
           <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
         </mat-select>
       </mat-form-field>

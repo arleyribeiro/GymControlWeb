@@ -7,7 +7,7 @@
     <div fxLayout="col" fxLayoutAlign="space-between start" fxLayoutGap="10px">
       <mat-form-field fxFlex>
         <mat-label>Selecione um curso</mat-label>
-        <mat-select [(ngModel)]="gradeForm.get('courseId').value"  formControlName="courseId">
+        <mat-select [ngModel]="gradeForm.get('courseId').value"  formControlName="courseId">
           <mat-option [value]="course.courseId" *ngFor="let course of courses" > {{ course.name }}</mat-option>
         </mat-select>
       </mat-form-field>  
@@ -35,7 +35,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Selecione um instrutor</mat-label>
-          <mat-select formControlName="userId" [(ngModel)]="gradeForm.get('userId').value">
+          <mat-select formControlName="userId" [ngModel]="gradeForm.get('userId').value">
             <mat-option [value]="item.userId"  *ngFor="let item of instructors">{{ item.name }}</mat-option>
           </mat-select>
         </mat-form-field> 
