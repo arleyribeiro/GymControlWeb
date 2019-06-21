@@ -111,7 +111,7 @@
               <button mat-raised-button color="primary" (click)="addPlan()" style="margin: 10px 0px 10px 0px">Adcionar outro curso
               &nbsp;<mat-icon>add_circle_outline</mat-icon>
               </button>
-                <div formArrayName="payment" *ngFor="let item of plansForm.get('payment').controls; let i = index" >
+                <div formArrayName="payment" *ngFor="let item of payments; let i = index" >
                   <div [formGroupName]="i">
 
                     <div fxLayout="col" fxLayoutAlign="start start" fxLayoutGap="10px">

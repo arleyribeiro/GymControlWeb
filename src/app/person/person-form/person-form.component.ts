@@ -87,6 +87,7 @@ export class PersonFormComponent implements OnInit {
 
   plansForm: FormGroup;
   payment: FormArray;
+  payments = []
 
   constructor(private fb: FormBuilder, 
     private _personService: PersonService, 
@@ -102,6 +103,8 @@ export class PersonFormComponent implements OnInit {
     this.plansForm = this.fb.group({
       payment: this.fb.array([ this.createItem() ]),
     })
+    this.payment = this.plansForm.controls.payment as FormArray;
+    this.payments = this.payment.value;
 
     this.states = [ { name: "Acre", initials: "AC"},
               { name: "Alagoas", initials: "AL"},
@@ -199,12 +202,15 @@ export class PersonFormComponent implements OnInit {
     }
     if(this.payment.length == 0)
       this.addForm()
+
+    this.payments = this.payment.value;
   }
 
   resetPlans() {
     this.prices = []
     this.grades = []
     this.paymentPlans = []
+    this.payments = []
     this.plansForm.reset()
     this.profileAddressForm.reset()
     this.profileContactForm.reset()
@@ -225,6 +231,7 @@ export class PersonFormComponent implements OnInit {
   addPlan() {
     this.payment = this.plansForm.controls.payment as FormArray;
     this.payment.push( this.createItem() );
+    this.payments = this.payment.value;
   }
 
   createItem(): FormGroup {
@@ -396,6 +403,11 @@ export class PersonFormComponent implements OnInit {
       this.createObjectPost();
 
     return valid && this.profileForm.valid;
+  }
+
+  getPayment() {
+    var array = this.plansForm.controls.payment as FormArray;
+    return array.value;
   }
 
 }

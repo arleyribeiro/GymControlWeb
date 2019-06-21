@@ -31,7 +31,7 @@
     </form>  
     <form [formGroup]="plansForm">
       <ng-template matStepLabel>Cursos</ng-template>
-        <div formArrayName="payment" *ngFor="let item of plansForm.get('payment').controls; let i = index" >
+        <div formArrayName="payment" *ngFor="let item of payments; let i = index" >
           <div [formGroupName]="i">
             <div fxLayout="col" fxLayoutAlign="start start">
               <mat-list>

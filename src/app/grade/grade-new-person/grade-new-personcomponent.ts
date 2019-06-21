@@ -60,6 +60,9 @@ export class GradeNewPersonComponent implements OnInit {
     this.plansForm = this.fb.group({
       payment: this.fb.array([ this.createItem() ]),
     })
+
+    this.payment = this.plansForm.controls.payment as FormArray;
+    this.payments = this.payment.value;
     if(this.options != null){
       this.filteredOptions = this.myControl.valueChanges
       .pipe(
@@ -133,12 +136,15 @@ export class GradeNewPersonComponent implements OnInit {
     }
     if(this.payment.length == 0)
       this.addForm()
+
+    this.payments = this.payment.value;
   }
 
   resetPlans() {
     this.prices = []
     this.grades = []
     this.paymentPlans = []
+    this.payments = []
     this.plansForm.reset()
     this.profileForm.reset()
 
@@ -155,6 +161,7 @@ export class GradeNewPersonComponent implements OnInit {
   addPlan() {
     this.payment = this.plansForm.controls.payment as FormArray;
     this.payment.push( this.createItem() );
+    this.payments = this.payment.value;
   }
 
   createItem(): FormGroup {
