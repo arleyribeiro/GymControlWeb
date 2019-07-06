@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
       this.user = response;
       localStorage.setItem("jwt", token);
       localStorage.setItem("user", JSON.stringify(response));
-      this.router.navigate(['person']);
+      this.router.navigate(['main']);
       console.log("Retorno: ", token)
     }, err => {
       console.log("erro", err);

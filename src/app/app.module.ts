@@ -26,6 +26,7 @@ import { PaymentPlansComponent } from './payment-plans/payment-plans.component';
 import { PaymentPlansModule } from './payment-plans/payment-plans.module';
 import { LoginComponent } from './login/login.component';
 import { SettingsModule } from './settings/settings.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SettingsModule } from './settings/settings.module';
     PaymentPlansComponent,
     TableComponent,
     ChooseGradeAndPaymentComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,   
