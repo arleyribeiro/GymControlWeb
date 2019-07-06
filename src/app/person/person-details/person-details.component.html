@@ -140,6 +140,7 @@
           </div>
       </div>
       <mat-card class="item-galery" *ngFor="let user of dataSource?.filteredData">
+        <mat-card-content>
         <div fxLayout="row" fxLayoutAlign="end start">
           <mat-checkbox (click)="$event.stopPropagation();"
             (change)="$event ? selection.toggle(user) : null"
@@ -148,8 +149,8 @@
           </mat-checkbox>
         </div>
         <div>
-          <div class="circle-100">
-            <img class="circle-100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Angular_full_color_logo.svg/250px-Angular_full_color_logo.svg.png">
+          <div class="circle-80">
+            <mat-icon class="custom-icon-circle">add_a_photo</mat-icon>
           </div>   
           <div id="div-name">
             <label>{{ user.name }}</label>
@@ -158,7 +159,8 @@
             <mat-icon class="mouse-cursor-pointer" (click)="editUser()">edit</mat-icon>
             <mat-icon class="mouse-cursor-pointer" (click)="disableUsers(false)">delete</mat-icon>
           </div>
-        </div>            
+        </div> 
+      </mat-card-content>        
       </mat-card>
     </div>
   </mat-card-content>
