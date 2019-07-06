@@ -50,4 +50,8 @@ export class PersonService {
     postDisableUser(data) {
         return this.http.post(this.API + "disableUsers/", data);
     }
+
+    getBirthdaysOfMonth(month){
+        return this.http.get(this.API + "dob/" + month);
+    }
 }

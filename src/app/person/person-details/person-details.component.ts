@@ -139,4 +139,21 @@ export class PersonDetailsComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
+
+  getBirthdaysOfMonth() {
+    var currentDate = new Date();
+    var currentMonth = currentDate.getMonth();
+    let persons = this.users.filter(p => {
+        var birthDate = new Date(p.dateOfBirth);
+        if(birthDate.getMonth() == currentMonth)
+          return p;
+      });
+    this.dataSource = new MatTableDataSource<any>(persons);
+    this.dataSource.paginator = this.paginator;
+  }
+
+  getAllUsers() {
+    this.dataSource = new MatTableDataSource<any>(this.users);
+    this.dataSource.paginator = this.paginator;
+  }
 }
