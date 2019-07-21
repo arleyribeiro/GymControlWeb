@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
 
-  private readonly API = 'https://localhost:5001/api/Payment/';
+  private readonly API = environment.apiRoot + 'Payment/';
   constructor(private http: HttpClient) { }
 
   getPaymentOfPerson(id){

@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
 
-
-  private readonly API = 'https://localhost:5001/api/Course/';
+  private readonly API = environment.apiRoot + 'Course/';
   constructor(private http: HttpClient) { }
 
 
