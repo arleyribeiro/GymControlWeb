@@ -5,7 +5,7 @@ import { CourseFormComponent } from './course/course-form/course-form.component'
 import { GradeFormComponent } from 'src/app/grade/grade-form/grade-form.component';
 import { PersonService } from './person/person.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +27,10 @@ import { PaymentPlansModule } from './payment-plans/payment-plans.module';
 import { LoginComponent } from './login/login.component';
 import { SettingsModule } from './settings/settings.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { registerLocaleData } from '@angular/common';
+import ptBr from '@angular/common/locales/pt';
+registerLocaleData(ptBr)
 
 @NgModule({
   declarations: [
@@ -53,11 +57,20 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     SettingsModule,
     AppRoutingModule,
   ],
-  providers: [ AuthGuardService, AuthGuard, {
+  providers: [ 
+    AuthGuardService, 
+    AuthGuard, 
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }, PersonService, UtilService
+    }, 
+    PersonService, 
+    UtilService,
+    { 
+      provide: LOCALE_ID, 
+      useValue: 'pt' 
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [ TableComponent, DialogComponent, GradeFormComponent, CourseFormComponent]
