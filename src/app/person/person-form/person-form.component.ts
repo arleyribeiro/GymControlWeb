@@ -312,7 +312,6 @@ export class PersonFormComponent implements OnInit {
   }
 
   createObjectPost() {
-    console.log( this.profileForm.value)
     this.profileForm.get('name').setValue(this.profilePersonalForm.get('name').value);
     this.profileForm.get('dateOfBirth').setValue(this.profilePersonalForm.get('dateOfBirth').value);
     this.profileForm.get('cpf').setValue(this.profilePersonalForm.get('cpf').value);

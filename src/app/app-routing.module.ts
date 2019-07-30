@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'login'},
+  { path: '', pathMatch: 'full', redirectTo: '/login'},
   { path: 'login', pathMatch: 'full', component: LoginComponent},
   { path: 'main', pathMatch: 'full', component: DashboardComponent, canActivate: [AuthGuard]},
   { path: 'person', loadChildren: './person/person.module#PersonModule', canActivate: [AuthGuard]},
