@@ -311,7 +311,10 @@ export class PersonFormComponent implements OnInit {
     this.items.push(1);
   }
 
-  createObjectPost() {
+  createObjectPost(isPayment) {
+    if(isPayment)
+      this.profileForm.get('payment').setValue(this.plansForm.get('payment').value);
+      
     this.profileForm.get('name').setValue(this.profilePersonalForm.get('name').value);
     this.profileForm.get('dateOfBirth').setValue(this.profilePersonalForm.get('dateOfBirth').value);
     this.profileForm.get('cpf').setValue(this.profilePersonalForm.get('cpf').value);
@@ -320,7 +323,6 @@ export class PersonFormComponent implements OnInit {
     this.profileForm.get('telephone').setValue(this.profileContactForm.get('telephone').value);
     this.profileForm.get('cellphone').setValue(this.profileContactForm.get('cellphone').value);
     this.profileForm.get('cellphone2').setValue(this.profileContactForm.get('cellphone2').value);
-    this.profileForm.get('payment').setValue(this.plansForm.get('payment').value);
     this.profileForm.get('address').get('number').setValue(this.profileAddressForm.get('number').value);
     this.profileForm.get('address').get('street').setValue(this.profileAddressForm.get('street').value);
     this.profileForm.get('address').get('neighborhood').setValue(this.profileAddressForm.get('neighborhood').value);
@@ -375,7 +377,7 @@ export class PersonFormComponent implements OnInit {
           if(result){
             stepper.next();
           }else {
-            this.createObjectPost();
+            this.createObjectPost(false);
             this.onSubmit()
           } 
         });
@@ -399,7 +401,7 @@ export class PersonFormComponent implements OnInit {
     }
 
     if(valid)
-      this.createObjectPost();
+      this.createObjectPost(valid);
 
     return valid && this.profileForm.valid;
   }
