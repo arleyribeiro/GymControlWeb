@@ -11,7 +11,7 @@ export class PersonService {
     constructor(private http: HttpClient) { }
 
     httpOptions = {
-        headers: new HttpHeaders({'Content-Type': 'application/json'})
+        headers: new HttpHeaders({'Content-Type': 'application/json, application/text'})
     }
 
     getAuthenticate(user) {
@@ -54,5 +54,9 @@ export class PersonService {
 
     getBirthdaysOfMonth(month){
         return this.http.get(this.API + "dob/" + month);
+    }
+
+    checkCpf(cpf) {
+        return this.http.get(this.API + "checkCpf/" + cpf);
     }
 }

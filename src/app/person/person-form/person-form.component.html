@@ -32,13 +32,16 @@
             </mat-form-field>
             
             <mat-form-field fxFlex="30">
-              <input matInput [matDatepicker]="picker"  placeholder="Data de Nascimento" formControlName="dateOfBirth">
+              <input  matInput 
+                      [matDatepicker]="picker"  
+                      placeholder="Data de Nascimento" 
+                      formControlName="dateOfBirth">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
           <mat-card-actions class="btn-save">
-              <button mat-button color="primary" matStepperNext>Próximo</button>
+              <button mat-button color="primary" matStepperNext (click)="checkCpf(stepper)">Próximo</button>
           </mat-card-actions>
         </form>
       </mat-step>

@@ -84,6 +84,7 @@ export class PersonFormComponent implements OnInit {
   personService: PersonService;
   utilService: UtilService;
   showStepperCourse = false;
+  validCpf = true;
 
   plansForm: FormGroup;
   payment: FormArray;
@@ -180,6 +181,30 @@ export class PersonFormComponent implements OnInit {
       state: ['', Validators.required],
       zip: ['', Validators.required]
   });
+
+  checkCpf(stepper: MatStepper) {
+    let cpf = this.profilePersonalForm.get('cpf').value;
+    if(cpf != "")
+      this._personService.checkCpf(cpf).subscribe((response:any) => {
+        if(response) {
+          stepper.previous();
+          var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
+                                            width: "25%",
+                                            disableClose: true, 
+                                            data: {
+                                              grade: null,
+                                              title: "CPF cadastrado",
+                                              content: "Já existe um usuário cadastrado com esse cpf!",
+                                              buttonCancel: null,
+                                              buttonConfirm: "Ok"
+                                            }});
+          
+          dialogRef.afterClosed().subscribe(result => {
+            stepper.previous();
+          });
+        }        
+      });
+  }
 
   addForm() {
     this.profileForm.get('payment').setValue(this.items);
