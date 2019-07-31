@@ -1,3 +1,5 @@
+import { DialogComponent } from './../shared/dialog/dialog.component';
+import { MatDialog } from '@angular/material';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AuthGuardService } from './../guards/auth-guard.service';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +18,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private personService: PersonService,
     private authService: AuthGuardService,
-    private router: Router) { }
+    private router: Router,
+    private dialog: MatDialog) { }
 
   formUser = this.fb.group({
     username: '',
@@ -37,12 +40,11 @@ export class LoginComponent implements OnInit {
       localStorage.setItem("jwt", token);
       localStorage.setItem("user", JSON.stringify(response));
       this.router.navigate(['main']);
-      console.log("Retorno: ", token)
-    }, err => {
-      console.log("erro", err);
+    }, err => {      
       localStorage.removeItem("jwt");
       localStorage.removeItem('user');
       this.router.navigate(['login']);
+      this.erroLogin();
     });
   }
 
@@ -50,6 +52,24 @@ export class LoginComponent implements OnInit {
     localStorage.removeItem("jwt");
     localStorage.removeItem('user');
     this.router.navigate(['login']);
+  }
+
+  erroLogin() {
+    var dialogRef = this.dialog.open(DialogComponent,
+          { panelClass: 'custom-dialog-container', 
+            width: "25%",
+            disableClose: true, 
+            data: {
+              grade: null,
+              title: "Erro ao Realizar login",
+              content: "Ocorreu um erro ao tentar realizar login, por favor tente novamente!",
+              buttonCancel: null,
+              buttonConfirm: "Ok"
+            }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      location.reload();
+    });
   }
 
 }
