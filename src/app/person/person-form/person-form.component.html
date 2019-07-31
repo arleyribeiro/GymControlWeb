@@ -5,23 +5,31 @@
         <form [formGroup]="profilePersonalForm">
           <ng-template matStepLabel>Informações Pessoais</ng-template>
           <div>
-            <mat-form-field class="margin-right" fxFlex="70">
+            <mat-form-field class="margin-right" fxFlex="100">
               <input matInput type="text" placeholder="Nome" formControlName="name">
             </mat-form-field>
-            <mat-list fxFlex="30">
+            <!--mat-list fxFlex="30">
+              <label mat-subheader>Sexo</label>
+              <mat-radio-group formControlName="gender">
+                <mat-radio-button value="F" required>Feminino</mat-radio-button>
+                <mat-radio-button value="M" required>Masculino</mat-radio-button>
+              </mat-radio-group>
+            </mat-list--> 
+          </div>
+
+          <div fxLayout="col">
+            <mat-list fxFlex="35">
               <label mat-subheader>Sexo</label>
               <mat-radio-group formControlName="gender">
                 <mat-radio-button value="F" required>Feminino</mat-radio-button>
                 <mat-radio-button value="M" required>Masculino</mat-radio-button>
               </mat-radio-group>
             </mat-list> 
-          </div>
 
-          <div fxLayout="col">
-            <mat-form-field fxFlex="22" class="margin-right">
+            <mat-form-field fxFlex="35" class="margin-right">
               <input matInput type="text" mask="000.000.000-00" placeholder="CPF" formControlName="cpf">
             </mat-form-field>
-            <mat-form-field fxFlex="22" class="margin-right">
+            <!--mat-form-field fxFlex="22" class="margin-right">
               <input matInput type="text" mask="00000000" placeholder="Identidade" disabled>
             </mat-form-field>
     
@@ -29,7 +37,7 @@
               <mat-select disabled>
                 <mat-option *ngFor="let state of states" value="{{ state.initials }}">{{ state.name }}</mat-option>
               </mat-select>
-            </mat-form-field>
+            </mat-form-field-->
             
             <mat-form-field fxFlex="30">
               <input  matInput 
