@@ -73,7 +73,7 @@ export class PersonFormComponent implements OnInit {
   
 
   @ViewChild('stepper') stepper: MatStepper;
-  isLinear = true;
+  isLinear = false;
   states = [];
   gender = null;
   courses = null;
