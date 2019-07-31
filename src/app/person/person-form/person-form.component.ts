@@ -187,21 +187,21 @@ export class PersonFormComponent implements OnInit {
     if(cpf != "")
       this._personService.checkCpf(cpf).subscribe((response:any) => {
         if(response) {
-          stepper.previous();
-          var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
-                                            width: "25%",
-                                            disableClose: true, 
-                                            data: {
-                                              grade: null,
-                                              title: "CPF cadastrado",
-                                              content: "Já existe um usuário cadastrado com esse cpf!",
-                                              buttonCancel: null,
-                                              buttonConfirm: "Ok"
-                                            }});
-          
-          dialogRef.afterClosed().subscribe(result => {
-            stepper.previous();
+          this.dialog.open(DialogComponent,
+                          { panelClass: 'custom-dialog-container', 
+                            width: "25%",
+                            disableClose: true, 
+                            data: {
+                              grade: null,
+                              title: "CPF cadastrado",
+                              content: "Já existe um usuário cadastrado com esse cpf!",
+                              buttonCancel: null,
+                              buttonConfirm: "Ok"
+                            }
           });
+        }
+        else {
+          stepper.next();
         }        
       });
   }
