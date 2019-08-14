@@ -243,6 +243,12 @@ export class PersonFormComponent implements OnInit {
     this.profilePersonalForm.reset()
     this.profileForm.get('gender').setValue('F');
 
+    this.plansForm.clearValidators()
+    this.profileAddressForm.clearValidators()
+    this.profileContactForm.clearValidators()
+    this.profileForm.clearValidators()
+    this.profilePersonalForm.clearValidators()
+
     this.payment = this.plansForm.controls.payment as FormArray;
     for(var i=0; i<this.payment.length;i++){
       console.log(i)
