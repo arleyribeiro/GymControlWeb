@@ -10,6 +10,7 @@ import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { PaymentPlansService } from 'src/app/payment-plans/payment-plans.service';
 import { Profile } from 'selenium-webdriver/firefox';
+import { Router } from '@angular/router';
 
 export function ValidateCpf(control: AbstractControl) {
     const cpf = control.value;
@@ -95,6 +96,7 @@ export class PersonFormComponent implements OnInit {
     private _utilService: UtilService,
     private dialog: MatDialog,
     private courseService: CourseService,
+    private router: Router,
     private paymentPlansService: PaymentPlansService) { 
     this.personService = _personService;
     this.utilService = _utilService;
@@ -189,7 +191,7 @@ export class PersonFormComponent implements OnInit {
         if(response) {
           this.dialog.open(DialogComponent,
                           { panelClass: 'custom-dialog-container', 
-                            width: "25%",
+                            width: "30%",
                             disableClose: true, 
                             data: {
                               grade: null,
@@ -211,7 +213,6 @@ export class PersonFormComponent implements OnInit {
   }
   
   removePlan(index) {
-    console.log(index)
     this.payment = this.plansForm.controls.payment as FormArray;
     if(this.payment.length>0){
       this.payment.removeAt(index);
@@ -284,7 +285,6 @@ export class PersonFormComponent implements OnInit {
     localStorage.setItem("viacep", JSON.stringify(true));
     this.personService.getCep(this.profileAddressForm.get('zip').value).subscribe(
       (data) => {
-        console.log(data);
         if(!data["erro"]) {
           this.profileAddressForm.get('zip').setValue(this.replaceAll(data["cep"]));
           this.profileAddressForm.get('street').setValue(data["logradouro"]);
@@ -293,10 +293,8 @@ export class PersonFormComponent implements OnInit {
           this.profileAddressForm.get('state').setValue(data["uf"]);
         }
         localStorage.setItem("viacep", JSON.stringify(false));
-        console.log(data);
       }, error => {
         localStorage.setItem("viacep", JSON.stringify(false));
-        console.log(error.erros)
       }
     );
   }
@@ -308,7 +306,6 @@ export class PersonFormComponent implements OnInit {
   }
 
   setGrade(course, index) {
-    console.log(course, index, this.grades)
     this.grades[index] = course.grades;
   }
 
@@ -361,20 +358,25 @@ export class PersonFormComponent implements OnInit {
   onSubmit() {
     this.personService.postPerson(this.profileForm.value).subscribe(
       (data) => {
-        console.log("Criou", this.profileForm.value);
         this.resetPlans()
-        this.stepper.reset();
-        this.callDialog(this.dialog, DialogComponent, 'Usuário inserido com sucesso!', "O usuário foi inserido com sucesso.", 'Ok', null);
+        var dialogRef = this.callDialog(this.dialog, DialogComponent, 'Usuário inserido com sucesso!', "O usuário foi inserido com sucesso.", 'Adicionar usuário', 'Visualizar usuários');
+        dialogRef.afterClosed().subscribe(result => {
+          if(result) {
+            this.stepper.reset();
+          }
+          else {
+            this.router.navigate(['person/person-details']);
+          }
+        });
       }, error => {
-        console.log(error.erros)
         this.callDialog(this.dialog, DialogComponent, 'Falha ao inserir usuário!', "O usuário não foi inserido.", 'Ok', null);
       });
   }
 
   callDialog(dialog, component, title, content, buttonConfirm, buttonCancel) {
-      dialog.open(component, 
+     return dialog.open(component, 
         { panelClass: 'custom-dialog-container', 
-          width: '25%', 
+          width: '30%', 
           disableClose: true, 
           data: {
             title: title,
@@ -388,7 +390,7 @@ export class PersonFormComponent implements OnInit {
   addCourse(stepper: MatStepper, validForm) {
     if(validForm) {
       var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
-        width: "25%",
+        width: "30%",
         disableClose: true, 
         data: {
           grade: null,

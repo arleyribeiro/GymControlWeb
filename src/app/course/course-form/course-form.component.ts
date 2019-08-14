@@ -42,7 +42,6 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.courseForm.value)
     var course = this.courseForm.value
     course.user = 1;//id user loggin
 
@@ -63,7 +62,6 @@ export class CourseFormComponent implements OnInit {
           buttonConfirm: 'Ok'
         }});
       this.teste = true;
-      console.log(response)
       this.closeModal();
     },
     error=>{console.log(error.error)});
@@ -80,7 +78,6 @@ export class CourseFormComponent implements OnInit {
           buttonConfirm: 'Ok'
         }});
         this.teste = true;
-        console.log(response)
         this.closeModal();
       },
       error=>{console.log(error.error)});

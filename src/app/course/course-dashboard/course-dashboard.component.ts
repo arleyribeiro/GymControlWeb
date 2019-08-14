@@ -39,7 +39,6 @@ export class CourseDashboardComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     //filterValue = filterValue == 'true' ? 'Ativo' : 'Inativo';
-    console.log(this.dataSource.filteredData)
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -53,7 +52,6 @@ export class CourseDashboardComponent implements OnInit {
   }
 
   selectUser(user){
-    console.log(this.selection.selected)
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -89,7 +87,6 @@ export class CourseDashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log("result: ", result)
       this.getCourses();
     });
   }
@@ -104,7 +101,6 @@ export class CourseDashboardComponent implements OnInit {
       }});
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log("result: ", result)
         this.getCourses();
       });
   }
@@ -119,7 +115,6 @@ export class CourseDashboardComponent implements OnInit {
       }});
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log("result: ", result)
         this.getCourses();
       });
   }
@@ -138,7 +133,6 @@ export class CourseDashboardComponent implements OnInit {
           this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Notificação", "O curso foi excluído com sucesso.", "Ok", "", "40%");
         })
       }
-      console.log("result: ", result)
     });
   }
 

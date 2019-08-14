@@ -70,7 +70,7 @@ export class GradeNewPersonComponent implements OnInit {
         map(value => typeof value === 'string' ? value : value.name),
         map(name => name ? this._filter(name) : this.options.slice())
       );
-        console.log(this.filteredOptions)
+        
     }
   }
 
@@ -92,11 +92,9 @@ export class GradeNewPersonComponent implements OnInit {
   }
 
   getPersons() {
-    console.log("Get persons")
     this.personService.getPersons().subscribe(response =>{
       this.persons = response;
       this.options = response;  
-      console.log(this.persons)
       if(this.options != null){
         this.filteredOptions = this.myControl.valueChanges
         .pipe(
@@ -104,7 +102,7 @@ export class GradeNewPersonComponent implements OnInit {
           map(value => typeof value === 'string' ? value : value.name),
           map(name => name ? this._filter(name) : this.options.slice())
         );
-          console.log(this.filteredOptions)
+          
       }
     });
   }
@@ -120,7 +118,6 @@ export class GradeNewPersonComponent implements OnInit {
   }
   
   removePlan(index) {
-    console.log(index)
     this.payment = this.plansForm.controls.payment as FormArray;
     if(this.payment.length>0){
       this.payment.removeAt(index);
@@ -150,7 +147,6 @@ export class GradeNewPersonComponent implements OnInit {
 
     this.payment = this.plansForm.controls.payment as FormArray;
     for(var i=0; i<this.payment.length;i++){
-      console.log(i)
       this.removePlan(i)
     }
     this.plansForm = this.fb.group({
@@ -194,7 +190,6 @@ export class GradeNewPersonComponent implements OnInit {
   }
 
   showGrade(grade) {
-    console.log("Escolhida: ", grade)
   }
 
   setPrice(plan, index, form) {

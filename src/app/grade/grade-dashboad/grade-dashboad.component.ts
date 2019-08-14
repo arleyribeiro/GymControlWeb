@@ -72,7 +72,6 @@ export class GradeDashboadComponent implements OnInit {
   }
   
   applyFilter(filterValue: string) {
-    console.log(this.dataSource.filteredData)
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -88,7 +87,6 @@ export class GradeDashboadComponent implements OnInit {
   }
 
   selectUser(user){
-    console.log(this.selection.selected)
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -114,7 +112,6 @@ export class GradeDashboadComponent implements OnInit {
   }
 
   addGradeWithCourse() {
-    console.log("this.selection.selected[0]", this.selection.selected[0])
     var dialogRef = this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
       width: "60%",
       disableClose: true, 
@@ -127,13 +124,11 @@ export class GradeDashboadComponent implements OnInit {
       }});
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log("result: ", result)
         this.getGrades();
       });
   }
 
   editGrade () {
-    console.log("this.selection.selected[0]", this.selection.selected[0])
     var dialogRef = this.dialog.open(GradeFormComponent, { panelClass: 'custom-dialog-container', 
       width: "60%",
       disableClose: true, 
@@ -146,7 +141,7 @@ export class GradeDashboadComponent implements OnInit {
       }});
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log("result: ", result)
+        
         this.getGrades();
       });
   }
@@ -156,7 +151,6 @@ export class GradeDashboadComponent implements OnInit {
     this.selection.selected.forEach(element => {
       gradeIds.push(element.gradeId)
     });
-    console.log(gradeIds)
     var dialogRef = this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Excluir turma", "Após a operação a turma será excluída.", "Confirmar", "Cancelar", "25%");
     dialogRef.afterClosed().subscribe(result => {
       if(result){
@@ -165,7 +159,7 @@ export class GradeDashboadComponent implements OnInit {
           this.utilService.callDialogConfirm(this.dialog, DialogComponent, "Notificação", "A turma foi excluída com sucesso.", "Ok", "", "25%");
         })
       }
-      console.log("result: ", result)
+      
     });
     this.selection.clear();
   }
@@ -173,7 +167,7 @@ export class GradeDashboadComponent implements OnInit {
   getGrades() {
     this.selection.clear();
     this.gradeService.getGradesWithDaysWeek().subscribe((data:any) => { 
-      console.log(data)
+      
       this.grades = data;    
       this.dataSource = new MatTableDataSource<any>(data);
       this.dataSource.paginator = this.paginator;

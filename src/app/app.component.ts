@@ -17,6 +17,5 @@ export class AppComponent implements OnInit {
     this.authGuardService.refreshToken();
     this.user = this.authGuardService.getUser();  
     this.isLogged = this.authGuardService.isLoggedIn();
-    console.log(this.isLogged)
   }
 }

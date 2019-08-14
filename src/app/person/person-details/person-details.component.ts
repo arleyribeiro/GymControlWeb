@@ -36,14 +36,13 @@ export class PersonDetailsComponent implements OnInit {
     this.selection.clear();
     this.personService.getPersons().subscribe((data:any)=>{
       this.users = data;
-      console.log(data)
+      
       this.dataSource = new MatTableDataSource<any>(data);
       this.dataSource.paginator = this.paginator;
     })
   }
 
   applyFilter(filterValue: string) {
-    console.log(this.dataSource.filteredData)
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -59,7 +58,6 @@ export class PersonDetailsComponent implements OnInit {
   }
 
   selectUser(user){
-    console.log(this.selection.selected)
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -104,9 +102,7 @@ export class PersonDetailsComponent implements OnInit {
                               if (result) {
                                 this.getPersonActive();
                                 this.selection.clear();
-                                console.log(`Dialog result pzza: ${result}`); // Pizza!
                               }
-                              console.log(`Dialog result: ${result}`); // Pizza!
                             });                          
                           });
       }
@@ -133,7 +129,7 @@ export class PersonDetailsComponent implements OnInit {
 
   getGrades() {
     this.gradeService.getGradesWithDaysWeek().subscribe((data:any) => { 
-      console.log(data)
+      
       this.grades = data;    
       this.dataSource = new MatTableDataSource<any>(data);
       this.dataSource.paginator = this.paginator;

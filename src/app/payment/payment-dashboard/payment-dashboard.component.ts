@@ -48,7 +48,6 @@ export class PaymentDashboardComponent implements OnInit {
   }
 
   selectUser(user){
-    console.log(this.selection.selected)
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -112,7 +111,6 @@ export class PaymentDashboardComponent implements OnInit {
 
   AddPayment() {
     this.payments = this.selection.selected;
-    console.log(this.payments)
     this.amountToBePaid = this.payments.reduce((accumulator, element) => {
       return accumulator + element.amountToBePaid
     }, 0);

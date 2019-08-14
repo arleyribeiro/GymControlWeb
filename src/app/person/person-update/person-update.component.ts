@@ -59,14 +59,11 @@ export class PersonUpdateComponent implements OnInit {
         zip: ['', Validators.required]
       }),
     });
-    console.log(this.data);
     this.setForm(this.data.person);
   }
 
   getUser(id){
-    console.log(id)
     this.personService.getUser(id).subscribe(data=> this.person=data);
-    console.log(this.person)
   }
 
   replaceAll(data) {
@@ -77,7 +74,7 @@ export class PersonUpdateComponent implements OnInit {
     localStorage.setItem("viacep", JSON.stringify(true));
     this.personService.getCep(this.profileForm.get('address').get('zip').value).subscribe(
       (data) => {
-        console.log(data);
+        ;
         if(!data["erro"]) {
           this.profileForm.get('address').get('street').setValue(data["logradouro"]);
           this.profileForm.get('address').get('neighborhood').setValue(data["bairro"]);
@@ -86,10 +83,9 @@ export class PersonUpdateComponent implements OnInit {
           localStorage.setItem("viacep", JSON.stringify(true));
         }
         localStorage.setItem("viacep", JSON.stringify(true));
-        console.log(data);
+        ;
       }, error => {
         localStorage.setItem("viacep", JSON.stringify(true));
-        console.log(error.erros)
       }
     );
   }
@@ -118,12 +114,10 @@ export class PersonUpdateComponent implements OnInit {
 
   onSubmit() {
     let user = this.profileForm.value;
-    console.log(user)
     this.personService.updatePerson(user.personId, user).subscribe(
         (data) => {
           this.utilService.callDialogConfirm(this.dialog, DialogComponent, 'Usuário foi atualizado!', "O usuário foi atualizado com sucesso.", 'Ok',null, '40%');
         }, error => {
-          console.log(error.erros)
           this.utilService.callDialogConfirm(this.dialog, DialogComponent, 'Falha ao atualizar usuário!', "O usuário não foi atualizado.", 'Ok',null, '40%');
         });
     }
