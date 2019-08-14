@@ -73,7 +73,7 @@ export class PersonFormComponent implements OnInit {
   
 
   @ViewChild('stepper') stepper: MatStepper;
-  isLinear = false;
+  isLinear = true;
   states = [];
   gender = null;
   courses = null;
@@ -251,12 +251,8 @@ export class PersonFormComponent implements OnInit {
 
     this.payment = this.plansForm.controls.payment as FormArray;
     for(var i=0; i<this.payment.length;i++){
-      console.log(i)
       this.removePlan(i)
     }
-    this.plansForm = this.fb.group({
-      payment: this.fb.array([ this.createItem() ]),
-    })
   }
 
   addPlan() {
