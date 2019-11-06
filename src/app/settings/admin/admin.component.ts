@@ -127,7 +127,7 @@ export class AdminComponent implements OnInit {
 
   showMessage(title, content, buttonConfirm, buttonCancel){
     var dialogRef = this.dialog.open(DialogComponent, { panelClass: 'custom-dialog-container', 
-        width: "25%",
+        width: "30%",
         disableClose: true, 
         data: {
           grade: null,

@@ -84,7 +84,7 @@ export class PersonDetailsComponent implements OnInit {
 
   editUser() {
 
-    var dialogRef = this.utilService.callDialog(this.dialog, DialogComponent, "Editar usuário", "Você deseja editar esse usuário?", "Confirmar", "Cancelar", "25%", null);
+    var dialogRef = this.utilService.callDialog(this.dialog, DialogComponent, "Editar usuário", "Você deseja editar esse usuário?", "Confirmar", "Cancelar", "30%", null);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.personService
@@ -110,7 +110,7 @@ export class PersonDetailsComponent implements OnInit {
   }
 
   disableUsers(active) {
-    var dialogRef = this.utilService.callDialog(this.dialog, DialogComponent, "Remover um usuário", "Ao realizar essa operação todas as informações referentes à esse usuário serão bloqueadas.", "Confirmar", "Cancelar", "25%", null);
+    var dialogRef = this.utilService.callDialog(this.dialog, DialogComponent, "Remover um usuário", "Ao realizar essa operação todas as informações referentes à esse usuário serão bloqueadas.", "Confirmar", "Cancelar", "30%", null);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         var listUserId = [];
