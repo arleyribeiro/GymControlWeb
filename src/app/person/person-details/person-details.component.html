@@ -5,15 +5,15 @@
   </mat-card-header>
   <mat-card-content>
     <div fxLayout="col" fxLayoutAlign="start center" class="boxButtons">
-      <div fxFlex="100%">
+      <div fxFlex="91%">
         <mat-form-field fxFlex="60%">
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
           <mat-icon matTooltip="Buscar" class="mouse-cursor-pointer"  matSuffix>{{ 'search' }}</mat-icon>
         </mat-form-field>
       </div>
-      <div>
+      <div fxFlex="9%">
         <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
+            Opções <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
             <!--button mat-menu-item (click)="turnVisualization('TABLE')">
